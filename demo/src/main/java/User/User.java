@@ -2,6 +2,7 @@ package User;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.example.demo.Reviews.Review;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
