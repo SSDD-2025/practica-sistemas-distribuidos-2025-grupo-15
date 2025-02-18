@@ -8,23 +8,27 @@ import com.example.demo.Reviews.Review;
 public class Book {
     
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int ISBN;
 
     private String title;
     private String author;
     private String synopsis;
+    private double price;
 
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Review> bookReviews;
 
     // Constructor vacío
     public Book() {}
 
     // Constructor con parámetros
-    public Book(int ISBN, String title, String author, String synopsis) {
+    public Book(int ISBN, String title, String author, String synopsis, double price) {
         this.ISBN = ISBN;
         this.title = title;
         this.author = author;
         this.synopsis = synopsis;
+        this.price = price;
     }
 
     // Getters y Setters
@@ -58,6 +62,13 @@ public class Book {
 
     public void setSynopsis(String synopsis) {
         this.synopsis = synopsis;
+    }
+
+    public double getPrice() { 
+        return price; 
+    }
+    public void setPrice(double price) {
+         this.price = price; 
     }
 
     public List<Review> getBookReviews() {
