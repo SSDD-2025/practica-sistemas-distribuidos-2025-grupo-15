@@ -1,0 +1,21 @@
+<html>
+<head></head>
+<body>
+
+    <h1>Añadir Nuevo Libro</h1>
+    <form action="/addBook" method="post">
+        <p>Título:</p>
+        <input type="text" name="title" required>
+        <p>Autor:</p>
+        <input type="text" name="author" required>
+        <p>Sinopsis:</p>
+        <textarea name="synopsis" rows="5" cols="40" required></textarea>
+        <p>Precio:</p>
+        <input type="number" step="0.01" name="price" required>
+        <p>ISBN:</p>
+        <input type="number" name="ISBN" required>
+        <p><input type="submit" value="Añadir Libro"/></p>
+    </form>
+
+</body>
+</html>
