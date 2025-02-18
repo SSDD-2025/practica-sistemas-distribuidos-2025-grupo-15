@@ -16,6 +16,33 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Order {
+    private class Pair<A,B> {
+	
+        private A first;
+        private B second;
+        
+        public Pair(A first, B second) {
+            this.first = first;
+            this.second = second;
+        }
+        
+        public A getFirst() {
+            return first;
+        }
+        
+        public B getSecond() {
+            return second;
+        }
+        
+        public void setFirst(A first) {
+            this.first = first;
+        }
+        
+        public void setSecond(B second) {
+            this.second = second;
+        }
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -24,7 +51,7 @@ public class Order {
     private User orderUser;
 
     @ManyToMany
-    private List<Book> books = new ArrayList<>();
+    private List<Pair<Book, Integer>> books = new ArrayList<>();
 
     private LocalDateTime date;
     private float totalPrice;

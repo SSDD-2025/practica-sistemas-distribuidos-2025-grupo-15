@@ -1,0 +1,18 @@
+<html>
+    <head></head>
+    <body>
+        <h1>Tu Cesta</h1>
+        <ul>
+            {{#orderBooks}}
+            <li><a href="">{{title}}</a> {{amount}}</li>
+            {{/orderBooks}}
+        </ul>
+        
+
+        {{^orderBooks}}
+        <p>Aun no has añadido ningún libro a la cesta</p>
+        {{/orderBooks}}
+        <br>
+        <a href="">Volver</a>
+    </body>
+</html>
