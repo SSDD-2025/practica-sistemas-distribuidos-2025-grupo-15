@@ -1,8 +1,8 @@
 package com.example.demo.Order;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.example.demo.User.User;
 import com.example.demo.Book.Book;
@@ -16,32 +16,6 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Order {
-    private class Pair<A,B> {
-	
-        private A first;
-        private B second;
-        
-        public Pair(A first, B second) {
-            this.first = first;
-            this.second = second;
-        }
-        
-        public A getFirst() {
-            return first;
-        }
-        
-        public B getSecond() {
-            return second;
-        }
-        
-        public void setFirst(A first) {
-            this.first = first;
-        }
-        
-        public void setSecond(B second) {
-            this.second = second;
-        }
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -51,12 +25,21 @@ public class Order {
     private User orderUser;
 
     @ManyToMany
-    private List<Pair<Book, Integer>> books = new ArrayList<>();
+    private Map<Book, Integer> booksAndAmount = new ConcurrentHashMap<>();
 
     private LocalDateTime date;
-    private float totalPrice;
     private String state;
+
+    public Order(){}
     
+    public Order(User user, Map<Book,Integer> bookList, LocalDateTime date, String state){
+        super();
+        this.orderUser = user;
+        this.booksAndAmount = bookList;
+        this.date = date;
+        this.state = state;
+    }
+
     public int getId() {
         return id;
     }
@@ -69,11 +52,11 @@ public class Order {
     public void setOrderUser(User orderUser) {
         this.orderUser = orderUser;
     }
-    public List<Book> getBooks() {
-        return books;
+    public Map<Book, Integer> getBooksAndAmount() {
+        return booksAndAmount;
     }
-    public void setBooks(List<Book> books) {
-        this.books = books;
+    public void setBooksAndAmount(Map<Book, Integer> booksAndAmount) {
+        this.booksAndAmount = booksAndAmount;
     }
     public LocalDateTime getDate() {
         return date;
@@ -81,20 +64,10 @@ public class Order {
     public void setDate(LocalDateTime date) {
         this.date = date;
     }
-    public float getTotalPrice() {
-        return totalPrice;
-    }
-    public void setTotalPrice(float totalPrice) {
-        this.totalPrice = totalPrice;
-    }
     public String getState() {
         return state;
     }
     public void setState(String state) {
         this.state = state;
-    }
-    
-
-    
-    
+    }  
 }
