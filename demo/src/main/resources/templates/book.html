@@ -1,0 +1,38 @@
+<html>
+<head></head>
+<body>
+
+    <h1>{{book.title}}</h1>
+    <img src="/img/{{book.ISBN}}.jpg" alt="{{book.title}}">
+    <h3>Autor: {{book.author}}</h3>
+    <p>{{book.synopsis}}</p>
+    <h4>Precio: {{book.price}}$</h4>
+    
+    <hr>
+
+    <form action="/addToBasket" method="post">
+        <input type="hidden" name="ISBN" value="{{book.ISBN}}">
+        <input type="submit" value="Añadir a la cesta">
+    </form>
+
+    <hr>
+
+    <a href="/newReview/{{book.ISBN}}">Añadir Reseña</a>
+
+    <hr>
+
+    <h2>Reseñas</h2>
+    <ul>
+        {{#reviews}}
+            <li>
+                {{userName}}: {{content}}
+            </li>
+        {{/reviews}}
+
+        {{^reviews}}
+        <p>Aún no hay reseñas para este libro.</p>
+        {{/reviews}}
+    </ul>
+
+</body>
+</html>
