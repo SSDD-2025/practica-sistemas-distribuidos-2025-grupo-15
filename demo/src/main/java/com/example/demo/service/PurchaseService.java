@@ -23,7 +23,7 @@ public class PurchaseService {
     }
 
     public Collection<Purchase> getPurchases(User user){
-        return purchaseRepository.findAllByPurchaseUser();
+        return purchaseRepository.findAllByPurchaseUser(user);
     }
 
     public Purchase createPurchase(Purchase purchase){

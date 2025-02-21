@@ -15,7 +15,7 @@ public class Book {
     private String synopsis;
     private double price;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "reviewBook")
     private List<Review> bookReviews;
 
     // Constructor vacío
