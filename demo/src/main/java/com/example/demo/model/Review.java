@@ -1,7 +1,4 @@
-package com.example.demo.Reviews;
-
-import com.example.demo.Book.Book;
-import com.example.demo.User.User;
+package com.example.demo.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

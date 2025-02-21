@@ -1,10 +1,7 @@
-package com.example.demo.User;
+package com.example.demo.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.example.demo.Order.Order;
-import com.example.demo.Reviews.Review;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;

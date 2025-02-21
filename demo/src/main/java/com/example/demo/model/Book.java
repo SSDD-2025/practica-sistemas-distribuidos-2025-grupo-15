@@ -1,8 +1,7 @@
-package com.example.demo.Book;
+package com.example.demo.model;
 
 import jakarta.persistence.*;
 import java.util.List;
-import com.example.demo.Reviews.Review;
 
 @Entity
 public class Book {

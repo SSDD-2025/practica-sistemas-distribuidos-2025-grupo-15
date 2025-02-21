@@ -1,12 +1,14 @@
-package com.example.demo.Reviews;
+package com.example.demo.service;
 
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.Book.Book;
-import com.example.demo.User.User;
+import com.example.demo.model.Book;
+import com.example.demo.model.Review;
+import com.example.demo.model.User;
+import com.example.demo.repository.ReviewRepository;
 
 @Service
 public class ReviewService {

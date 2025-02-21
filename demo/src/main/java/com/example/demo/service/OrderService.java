@@ -1,11 +1,13 @@
-package com.example.demo.Order;
+package com.example.demo.service;
 
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.User.User;
+import com.example.demo.model.Order;
+import com.example.demo.model.User;
+import com.example.demo.repository.OrderRepository;
 
 @Service
 public class OrderService {
