@@ -3,14 +3,15 @@ package com.example.demo.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,10 +20,11 @@ public class User {
     private String userName; 
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "reviewUser")
     private List<Review> userReviews = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
+    
+    @OneToMany(mappedBy = "purchaseUser")
     private List<Purchase> userPurchases = new ArrayList<>(); 
 
     public User(){}

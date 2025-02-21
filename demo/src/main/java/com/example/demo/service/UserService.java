@@ -15,7 +15,7 @@ public class UserService {
     private UserRepository userRepository;
    
     
-    public Collection<User> getUser() {
+    public Collection<User> getUsers() {
         Iterable<User> iterable = userRepository.findAll();
         Collection<User> users = new ArrayList<>();
         iterable.forEach(users::add);
