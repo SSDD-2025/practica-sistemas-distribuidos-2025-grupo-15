@@ -21,11 +21,11 @@ public class ReviewService {
     }
 
     public Collection<Review> getReviews(User user){
-        return reviewRepository.findAllByUser(user);
+        return reviewRepository.findAllByReviewUser(user);
     }
 
     public Collection<Review> getReviews(Book book){
-        return reviewRepository.findAllByBook(book);
+        return reviewRepository.findAllByReviewBook(book);
     }
 
     public Review createReview(Review review){
