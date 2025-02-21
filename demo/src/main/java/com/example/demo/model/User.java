@@ -23,7 +23,7 @@ public class User {
     private List<Review> userReviews = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Order> userOrders = new ArrayList<>(); 
+    private List<Purchase> userPurchases = new ArrayList<>(); 
 
     public User(){}
 
@@ -65,12 +65,12 @@ public class User {
         this.userReviews = userReviews;
     }
 
-    public List<Order> getUserOrders() {
-        return userOrders;
+    public List<Purchase> getUserPurchases() {
+        return userPurchases;
     }
 
-    public void setUserOrders(List<Order> userOrders) {
-        this.userOrders = userOrders;
+    public void setUserPurchases(List<Purchase> userPurchases) {
+        this.userPurchases = userPurchases;
     }
     
 }

@@ -1,8 +1,9 @@
 package com.example.demo.model;
 
 import java.time.LocalDateTime;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.ArrayList;
+import java.util.List;
+
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,27 +13,28 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Order {
+public class Purchase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+
     @ManyToOne
-    private User orderUser;
+    private User purchaseUser;
 
     @ManyToMany
-    private Map<Book, Integer> booksAndAmount = new ConcurrentHashMap<>();
+    private List<Book> books = new ArrayList<>();
 
     private LocalDateTime date;
     private String state;
 
-    public Order(){}
+    public Purchase(){}
     
-    public Order(User user, Map<Book,Integer> bookList, LocalDateTime date, String state){
+    public Purchase(User user, List<Book> bookList, LocalDateTime date, String state){
         super();
-        this.orderUser = user;
-        this.booksAndAmount = bookList;
+        this.purchaseUser = user;
+        this.books = bookList;
         this.date = date;
         this.state = state;
     }
@@ -43,18 +45,20 @@ public class Order {
     public void setId(int id) {
         this.id = id;
     }
-    public User getOrderUser() {
-        return orderUser;
+    
+    public User getPurchaseUser() {
+        return purchaseUser;
     }
-    public void setOrderUser(User orderUser) {
-        this.orderUser = orderUser;
+    public void setPurchaseUser(User purchaseUser) {
+        this.purchaseUser = purchaseUser;
     }
-    public Map<Book, Integer> getBooksAndAmount() {
-        return booksAndAmount;
+    public List<Book> getBooks() {
+        return books;
     }
-    public void setBooksAndAmount(Map<Book, Integer> booksAndAmount) {
-        this.booksAndAmount = booksAndAmount;
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
+
     public LocalDateTime getDate() {
         return date;
     }
