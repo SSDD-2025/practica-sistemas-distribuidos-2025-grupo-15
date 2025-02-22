@@ -59,4 +59,12 @@ public class UserService {
         return false;
     }
 
+    public boolean userExists(User user1){
+        if(userRepository.existsByUserName(user1.getUserName())){
+            return true; 
+        }else{
+            return false;
+        }
+    }
+
 }
