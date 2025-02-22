@@ -34,12 +34,12 @@ public class DatabaseInitializer {
     public void init() throws IOException{
         
         /* Create some books */
-         Book book1 = new Book(847888445, "Harry Potter y la piedra filosofal", "J.K Rowling",
-         "Harry Potter nunca ha oído hablar de Hogwarts hasta que empiezan a caer cartas en el felpudo del número 4 de Privet Drive. Llevan la dirección escrita con tinta verde en un sobre de pergamino amarillento con un sello de lacre púrpura, y sus horripilantes tíos se apresuran a confiscarlas. Más tarde, el día que Harry cumple once años, Rubeus Hagrid, un hombre gigantesco cuyos ojos brillan como escarabajos negros, irrumpe con una noticia extraordinaria: Harry Potter es un mago, y le han concedido una plaza en el Colegio Hogwarts de Magia y Hechicería. ¡Está a punto de comenzar una aventura increíble!",
+         Book book1 = new Book(1, "Harry Potter y la piedra filosofal", "J.K Rowling",
+         "Harry Potter nunca ha oído hablar de Hogwarts hasta que empiezan a caer cartas en el felpudo del número 4 de Privet Drive,...",
          16.10);
 
-         Book book2 = new Book(842720212, "Los Juegos del Hambre 1", "Suzanne Collins",
-         "Cuando Katniss Everdeen, una joven de dieciséis años se presenta voluntaria para ocupar el lugar de su hermana en los juegos, lo entiende como una condena a muerte. Sin embargo, Katniss ya ha visto la muerte de cerca y la supervivencia forma parte de su naturaleza.",
+         Book book2 = new Book(2, "Los Juegos del Hambre 1", "Suzanne Collins",
+         "Cuando Katniss Everdeen, una joven de dieciséis años se presenta voluntaria para ocupar el lugar de su hermana en los juegos,...",
          18.95);
 
          bookService.createBook(book1);

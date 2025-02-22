@@ -7,7 +7,6 @@ import java.util.List;
 public class Book {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int ISBN;
 
     private String title;
