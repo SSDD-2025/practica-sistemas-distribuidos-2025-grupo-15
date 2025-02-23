@@ -1,7 +1,14 @@
 <html>
     <head></head>
     <body>
+        {{#loged}}
+        <h1>
+            {{loged}}
+        </h1>
+        {{/loged}}
+        {{^loged}}
         <h1>Usuarios</h1>
+        {{/loged}}
     <ul>
         {{#users}}
             <li>{{userName}}</li>

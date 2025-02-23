@@ -1,14 +1,32 @@
 <html>
-    <head></head>
-    <body>
-        <h1>Inicia sesión</h1>
-        <form action="" method="post">
-            <p>Nombre de usuario </p>
-            <input type="text" name="userName">
-            <p>Contraseña  </p>
-            <input type="text" name="password">
-            <p><input type="submit" value="Iniciar sesión "/></p>
-            <p><a href="">¿Has olvidado la contraseña?</a></p>
-        </form>
-    </body>
+<head>
+    <title>Iniciar sesión</title>
+</head>
+<body>
+    <h1>Iniciar sesión</h1>
+
+    {{#errorMessage}}
+        <div style="color:red;">
+            <p>{{errorMessage}}</p>
+        </div>
+    {{/errorMessage}}
+
+    <form action="/login" method="post">
+        <p>Nombre de usuario</p>
+        <input type="text" name="userName" required>
+
+        <p>Introduzca la contraseña</p>
+        <input type="password" name="password" id="password" required>
+        <input type="checkbox" id="showPassword" onclick="togglePassword()"> Mostrar contraseña
+
+        <p><input type="submit" value="Iniciar sesión" /></p>
+    </form>
+
+    <script>
+        function togglePassword() {
+            const passwordField = document.getElementById("password");
+            passwordField.type = passwordField.type === "password" ? "text" : "password";
+        }
+    </script>
+</body>
 </html>

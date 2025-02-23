@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -37,14 +38,38 @@ public class UserController {
         return "redirect:/users";      
     }
 
+    @GetMapping("/login")
+    public String login(Model model){
+        return "login";
+    }
 
+    @PostMapping("/login")
+    public String loginProcess(@RequestParam String userName, @RequestParam String password, HttpSession session, Model model) {
+        User user = userService.getUser(userName);
+        if(user == null){
+            model.addAttribute("errorMessage", "Usuario no encontrado");
+            return "login";
+        }else if(!user.getPassword().equals(password)){
+            model.addAttribute("errorMessage", "Contraseña incorrecta");
+            return "login";
+        }else{
+            session.setAttribute("userId", user.getId());
+            return "redirect:/users";
+        }
+    }
 
     @GetMapping("/users")
-    public String showUsers(Model model) {
+    public String showUsers(Model model, HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if(userId != null){
+            model.addAttribute("loged", userService.getUser(userId).getUserName());
+        }
         model.addAttribute("users", userService.getUsers());
         return "users";
     }
     
+
     
 
 }
+

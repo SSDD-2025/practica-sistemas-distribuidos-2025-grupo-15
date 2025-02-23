@@ -2,17 +2,21 @@
     <head></head>
     <body>
         <h1>Tu Cesta</h1>
-        <ul>
-            {{#orderBooks}}
-            <li><a href="">{{title}}</a> {{amount}}</li>
-            {{/orderBooks}}
-        </ul>
+        
+        <form action="/basket" method="post">
+            {{#purchaseBooks}}
+            <ul>
+                <li>{{title}} {{price}}</li>
+            </ul>
+            {{/purchaseBooks}}
+            <input type="submit" value="Comprar {{totalPrice}}"/>
+        </form>
         
 
-        {{^orderBooks}}
+        {{^purchaseBooks}}
         <p>Aun no has añadido ningún libro a la cesta</p>
-        {{/orderBooks}}
+        {{/purchaseBooks}}
         <br>
-        <a href="">Volver</a>
+        <a href="/profile">Volver</a>
     </body>
 </html>
