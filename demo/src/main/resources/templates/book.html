@@ -17,11 +17,19 @@
 
     <hr>
 
-    <a href="/newReview/{{book.ISBN}}">Añadir Reseña</a>
+    <form action="/newReview" method="post">
+        <input type="hidden" name="ISBN" value="{{book.ISBN}}">
+        <input type="submit" value="Añadir Reseña">
+    </form>
+    
 
     <hr>
 
-    <a href="">Editar</a>
+    <form action="/editBook" method="get">
+        <input type="hidden" name="ISBN" value="{{book.ISBN}}">
+        <input type="submit" value="Editar">
+    </form>
+    
 
     <form action="/deleteBook" method="post">
         <input type="hidden" name="ISBN" value="{{book.ISBN}}">
