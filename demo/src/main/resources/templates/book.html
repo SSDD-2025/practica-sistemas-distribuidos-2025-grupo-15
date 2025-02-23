@@ -21,6 +21,14 @@
 
     <hr>
 
+    <a href="">Editar</a>
+
+    <form action="/deleteBook" method="post">
+        <input type="hidden" name="ISBN" value="{{book.ISBN}}">
+        <input type="submit" value="Eliminar">
+    </form>
+    
+
     <h2>Reseñas</h2>
     <ul>
         {{#reviews}}
