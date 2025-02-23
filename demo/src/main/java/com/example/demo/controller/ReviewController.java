@@ -67,6 +67,18 @@ public class ReviewController {
         reviewService.createReview(newReview);
         return "redirect:/home";
     }
+
+    @GetMapping("/myReviews")
+    public String myReviews(HttpSession session, Model model){
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (userId != null){
+            User user = userService.getUser(userId);
+            if (user != null){
+                model.addAttribute("reviews", reviewService.getReviews(user));
+            }
+        }
+        return "myReviews";
+    }
     
     
 }

@@ -1,0 +1,18 @@
+<html>
+    <head></head>
+    <body>
+        <h1>Mis Reviews</h1>
+    <ul>
+        {{#reviews}}
+            <li>
+                <p>{{reviewBook.title}}: {{content}}</p>
+            </li>
+        {{/reviews}}
+
+        {{^reviews}}
+        <li>Aun no tienes reseñas</li>
+        {{/reviews}}
+    </ul>
+    </body>
+
+</html>
