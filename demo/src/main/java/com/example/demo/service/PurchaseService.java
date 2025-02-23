@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.model.Book;
 import com.example.demo.model.Purchase;
 import com.example.demo.model.User;
 import com.example.demo.repository.PurchaseRepository;
@@ -45,4 +46,12 @@ public class PurchaseService {
         }
         return false;
     } 
+
+    public double purchaseTotalPrice(Purchase purchase){
+        double totalPrice = 0;
+        for (Book book : purchase.getBooks()){
+            totalPrice = totalPrice + book.getPrice();
+        }
+        return totalPrice;
+    }
 }
