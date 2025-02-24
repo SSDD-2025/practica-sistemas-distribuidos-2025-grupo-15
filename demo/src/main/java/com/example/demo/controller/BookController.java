@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.model.Book;
 import com.example.demo.service.BookService;
+import com.example.demo.service.ReviewService;
 
 import jakarta.servlet.http.HttpSession;
 
-import java.util.Optional;
 
 @Controller
 public class BookController {
@@ -18,16 +18,21 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
+    @Autowired
+    private ReviewService reviewService;
+
     @GetMapping("/")
-    public String showBooks(Model model) {
+    public String showBooks(Model model, HttpSession session) {
         model.addAttribute("books", bookService.getBooks());
         return "home";
     }
 
     @GetMapping("/book/{ISBN}")
-    public String showBook(@PathVariable int ISBN, Model model) {
+    public String showBook(@PathVariable int ISBN, Model model, HttpSession session) {
         Book book = bookService.getBook(ISBN);
+        session.setAttribute("bookId", ISBN);
         model.addAttribute("book", book);
+        model.addAttribute("reviews", reviewService.getReviews(book));
         return "book";
        
     }
@@ -48,13 +53,7 @@ public class BookController {
         }
 
         model.addAttribute("books", bookService.getBooks()); 
-        return "home";
-    }
-    
-    @PostMapping("/newReview")
-    public String addReview(@RequestParam int ISBN, HttpSession session) {
-        session.setAttribute("bookId", ISBN); 
-        return "redirect:/newReview";
+        return "redirect:/";
     }
 
     @GetMapping("/editBook")
@@ -83,7 +82,7 @@ public class BookController {
         }
 
         model.addAttribute("books", bookService.getBooks()); 
-        return "home"; 
+        return "redirect:/"; 
     }
 
 }

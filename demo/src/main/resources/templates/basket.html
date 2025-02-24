@@ -8,8 +8,11 @@
             <ul>
                 <li>{{title}} {{price}}</li>
             </ul>
-            {{/purchaseBooks}}
+            
+            {{/purchaseBooks}}  
+            {{#totalPrice}}
             <input type="submit" value="Comprar {{totalPrice}}"/>
+            {{/totalPrice}}
         </form>
         
 
@@ -17,6 +20,6 @@
         <p>Aun no has añadido ningún libro a la cesta</p>
         {{/purchaseBooks}}
         <br>
-        <a href="/profile">Volver</a>
+        <a href="/">Volver</a>
     </body>
 </html>

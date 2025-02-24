@@ -17,9 +17,8 @@
 
     <hr>
 
-    <form action="/newReview" method="post">
-        <input type="hidden" name="ISBN" value="{{book.ISBN}}">
-        <input type="submit" value="Añadir Reseña">
+    <form action="/newReview" method="get">
+        <input type="submit" value="Añadir Reseña"/>
     </form>
     
 
@@ -41,7 +40,7 @@
     <ul>
         {{#reviews}}
             <li>
-                {{userName}}: {{content}}
+                {{reviewUser.userName}}: {{content}}
             </li>
         {{/reviews}}
 

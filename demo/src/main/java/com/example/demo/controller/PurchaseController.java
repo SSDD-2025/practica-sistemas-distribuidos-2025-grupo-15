@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.demo.model.Book;
 import com.example.demo.model.Purchase;
+import com.example.demo.service.BookService;
 import com.example.demo.service.PurchaseService;
+import com.example.demo.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 
@@ -21,6 +23,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class PurchaseController {
     @Autowired
     private PurchaseService purchaseService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired BookService bookService;
 
     @GetMapping("/basket")
     public String basket(HttpSession session, Model model) {
@@ -39,13 +46,35 @@ public class PurchaseController {
     @PostMapping("/basket")
     public String basketProcess(HttpSession session) {
         Integer purchaseId = (Integer) session.getAttribute("purchaseId");
-        if (purchaseId != null){
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (purchaseId != null && userId != null){
             Purchase purchase = purchaseService.getPurchase(purchaseId);
+            purchase.setPurchaseUser(userService.getUser(userId));
             purchase.setState("Pedido");
             session.setAttribute("purchaseId", null);
         }
-        return "redirect:/users";
+        return "redirect:/";
     }
+    
+    @PostMapping("/addToBasket")
+    public String getMethodName(HttpSession session, Model model) {
+        Integer purchaseId = (Integer) session.getAttribute("purchaseId");
+        Integer bookId = (Integer) session.getAttribute("bookId");
+        Book book = bookService.getBook(bookId);
+        if (purchaseId == null){
+            Purchase newPurchase = new Purchase();
+            newPurchase.addBook(book);
+            purchaseService.createPurchase(newPurchase);
+            session.setAttribute("purchaseId", newPurchase.getId());
+        }else{
+            Purchase purchase = purchaseService.getPurchase(purchaseId);
+            purchase.addBook(book);
+            purchaseService.updatePurchase(purchase);
+            
+        }
+        return "redirect:/basket";
+    }
+    
     
     
 }

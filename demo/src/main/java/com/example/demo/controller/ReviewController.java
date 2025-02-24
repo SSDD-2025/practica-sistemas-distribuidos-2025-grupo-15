@@ -63,9 +63,11 @@ public class ReviewController {
         Book book = bookService.getBook(bookId);
 
         Review newReview = new Review(user, book, content);
+        book.addReview(newReview);
 
+        bookService.updateBook(book);
         reviewService.createReview(newReview);
-        return "redirect:/home";
+        return "redirect:/";
     }
 
     @GetMapping("/myReviews")

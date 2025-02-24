@@ -48,7 +48,7 @@ public class DatabaseInitializer {
          /* Create some users */
          User user1 = new User("Paula", "password");
          User user2 = new User("Lucía", "1234");
-         User user3 = new User("Rubén", "contraseña");
+         User user3 = new User("A", "1");
 
          userService.createUser(user1);
          userService.createUser(user2);

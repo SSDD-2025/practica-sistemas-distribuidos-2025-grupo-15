@@ -35,7 +35,7 @@ public class UserController {
         }
     
         userService.createUser(user);
-        return "redirect:/users";      
+        return "redirect:/";      
     }
 
     @GetMapping("/login")
@@ -54,7 +54,7 @@ public class UserController {
             return "login";
         }else{
             session.setAttribute("userId", user.getId());
-            return "redirect:/users";
+            return "redirect:/";
         }
     }
 

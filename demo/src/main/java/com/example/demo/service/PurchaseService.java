@@ -20,7 +20,7 @@ public class PurchaseService {
     }
 
     public Purchase getPurchase(int id){
-        return purchaseRepository.findById(id).get();
+        return purchaseRepository.findById(id);
     }
 
     public Collection<Purchase> getPurchases(User user){
@@ -31,15 +31,15 @@ public class PurchaseService {
         return purchaseRepository.save(purchase);
     }
 
-    public boolean deleteReview(Purchase purchase){
+    public boolean deletePurchase(Purchase purchase){
         if (purchaseRepository.existsById(purchase.getId())){
-            purchaseRepository.delete(purchaseRepository.findById(purchase.getId()).get());
+            purchaseRepository.delete(purchaseRepository.findById(purchase.getId()));
             return true;
         }
         return false;
     }
 
-    public boolean updateReview(Purchase purchase){
+    public boolean updatePurchase(Purchase purchase){
         if (purchaseRepository.existsById(purchase.getId())){
             purchaseRepository.save(purchase);
             return true;

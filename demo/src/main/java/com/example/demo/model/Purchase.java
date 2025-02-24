@@ -70,5 +70,9 @@ public class Purchase {
     }
     public void setState(String state) {
         this.state = state;
-    }  
+    }
+
+    public void addBook(Book book){
+        this.books.add(book);
+    }
 }
