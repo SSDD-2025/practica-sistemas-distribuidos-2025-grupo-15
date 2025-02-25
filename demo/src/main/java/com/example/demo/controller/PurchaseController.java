@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.demo.model.Book;
 import com.example.demo.model.Purchase;
+import com.example.demo.model.User;
 import com.example.demo.service.BookService;
 import com.example.demo.service.PurchaseService;
 import com.example.demo.service.UserService;
@@ -78,6 +79,19 @@ public class PurchaseController {
         return "redirect:/basket";
     }
     
+    @GetMapping("/myPurchases")
+    public String myReviews(HttpSession session, Model model){
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (userId != null){
+            User user = userService.getUser(userId);
+            if (user != null){
+                model.addAttribute("purchases", purchaseService.getPurchases(user));
+            }else{
+                return "users";
+            }
+        }
+        return "myPurchases";
+    }
     
     
 }

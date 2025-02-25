@@ -1,0 +1,19 @@
+<html>
+    <head></head>
+    <body>
+        <h1>Mis Compras</h1>
+    <ul>
+        {{#purchases}}
+            <li>
+                <p>{{id}}: {{state}}</p>
+            </li>
+        {{/purchases}}
+
+        {{^purchases}}
+        <li>Aun no tienes pedidos</li>
+        {{/purchases}}
+    </ul>
+    <a href="/profile">Volver</a>
+    </body>
+
+</html>
