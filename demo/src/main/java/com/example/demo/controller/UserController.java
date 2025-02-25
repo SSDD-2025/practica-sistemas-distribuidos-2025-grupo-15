@@ -67,9 +67,19 @@ public class UserController {
         model.addAttribute("users", userService.getUsers());
         return "users";
     }
-    
 
+    @GetMapping("/profile")
+    public String profile(HttpSession session, Model model){
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (userId != null){
+            User user = userService.getUser(userId);
+            if (user != null){
+                model.addAttribute("userName",userService.getUser(userId).getUserName());
+                return "profile";
+            }
+        }
+        return "users";
+    }
     
-
 }
 
