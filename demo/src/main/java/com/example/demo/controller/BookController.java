@@ -62,7 +62,7 @@ public class BookController {
         
         if (book != null) {
             model.addAttribute("book", book);
-            return "newBook";
+            return "editBook";
         }
 
         model.addAttribute("error", "Error: El libro no existe.");
@@ -70,6 +70,19 @@ public class BookController {
         return "home"; 
     }
    
+    @PostMapping("/saveEdit")
+    public String saveEditedBook(@ModelAttribute Book book, Model model) {
+        if (bookService.getBook(book.getISBN()) != null) {
+            bookService.updateBook(book);
+            model.addAttribute("success", "El libro ha sido actualizado correctamente.");
+        } else {
+            model.addAttribute("error", "Error: No se pudo actualizar el libro.");
+        }
+
+        model.addAttribute("books", bookService.getBooks());
+        return "home"; 
+}
+
     @PostMapping("/deleteBook")
     public String deleteBook(@RequestParam int ISBN, Model model) {
         Book book = bookService.getBook(ISBN);

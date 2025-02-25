@@ -23,7 +23,7 @@ public class BookService {
     }
 
     public Book getBook(int ISBN){     
-        return bookRepository.findByISBN(ISBN);
+        return bookRepository.findById(ISBN).get();
     }
 
     public Book getBook(String title) {
