@@ -66,7 +66,6 @@ public class ReviewController {
         book.addReview(newReview);
 
         bookService.updateBook(book);
-        reviewService.createReview(newReview);
         return "redirect:/";
     }
 

@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,8 @@ public class PurchaseController {
             Purchase purchase = purchaseService.getPurchase(purchaseId);
             purchase.setPurchaseUser(userService.getUser(userId));
             purchase.setState("Pedido");
+            purchase.setDate(LocalDateTime.now());
+            purchaseService.updatePurchase(purchase);
             session.setAttribute("purchaseId", null);
         }
         return "redirect:/";
