@@ -1,9 +1,18 @@
 package com.example.demo.controller;
 
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
+
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.model.Book;
 import com.example.demo.service.BookService;
@@ -36,6 +45,24 @@ public class BookController {
         return "book";
        
     }
+
+    @GetMapping("/book/{ISBN}/image")
+    public ResponseEntity<Object> downloadImage(@PathVariable int ISBN) throws SQLException {
+        Book book = bookService.getBook(ISBN);
+        
+        if (book != null && book.getImageFile() != null) {
+            Blob image = book.getImageFile();
+            InputStreamResource file = new InputStreamResource(image.getBinaryStream());
+
+            return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
+                .contentLength(image.length())
+                .body(file);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+}
+
     
     @GetMapping("/newBook")
     public String newBookForm(Model model) {
@@ -44,15 +71,21 @@ public class BookController {
     }
 
     @PostMapping("/newBook")
-    public String createBook(@ModelAttribute Book book, Model model) {
+    public String createBook(@ModelAttribute Book book, @RequestParam("image") MultipartFile imageFile, Model model) throws IOException {
+        
         if (bookService.getBook(book.getISBN()) != null) {
             model.addAttribute("error", "Error: El libro con ese ISBN ya existe.");
-        } else {
-            bookService.createBook(book);
-            model.addAttribute("success", "El libro ha sido añadido correctamente.");
+            return "newBook";  
         }
 
-        model.addAttribute("books", bookService.getBooks()); 
+        if (!imageFile.isEmpty()) {
+            book.setImageFile(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
+        }
+
+        bookService.createBook(book);
+        model.addAttribute("success", "El libro ha sido añadido correctamente.");
+        model.addAttribute("books", bookService.getBooks());  
+
         return "redirect:/";
     }
 
@@ -71,7 +104,10 @@ public class BookController {
     }
    
     @PostMapping("/saveEdit")
-    public String saveEditedBook(@ModelAttribute Book book, Model model) {
+    public String saveEditedBook(@ModelAttribute Book book, @RequestParam("image") MultipartFile imageFile, Model model) throws IOException{
+        if (!imageFile.isEmpty()) {
+            book.setImageFile(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
+        }
         if (bookService.getBook(book.getISBN()) != null) {
             bookService.updateBook(book);
             model.addAttribute("success", "El libro ha sido actualizado correctamente.");

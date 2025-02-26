@@ -12,19 +12,12 @@
 
     <hr>
 
-    <form action="/buscar" method="get">
-        <input type="text" name="content" placeholder="Buscar por título o autor">
-        <input type="submit" value="Buscar">
-    </form>
-
-    <hr>
-
     <h2>Libros disponibles</h2>
     <ul>
         {{#books}}
         <li>
             <a href="/book/{{ISBN}}">
-                <img src="/img/{{ISBN}}.jpg" alt="{{title}}" width="">
+                <img src="/book/{{ISBN}}/image" alt="{{title}}" width="">
                 {{title}} - {{price}}$
             </a>
         </li>

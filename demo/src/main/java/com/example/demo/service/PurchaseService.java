@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,5 +54,17 @@ public class PurchaseService {
             totalPrice = totalPrice + book.getPrice();
         }
         return totalPrice;
+    }
+
+    public void quitBookFromPurchases(Book book){
+        Collection<Purchase> allPurchases = this.getPurchases();
+        for(Purchase purchase : allPurchases){
+                do{
+                    if (purchase.getBooks().contains(book)){
+                        purchase.getBooks().remove(book);
+                    }
+                }while(purchase.getBooks().contains(book));
+                
+        }
     }
 }
