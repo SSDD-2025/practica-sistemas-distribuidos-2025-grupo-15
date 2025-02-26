@@ -15,6 +15,9 @@ public class BookService {
     @Autowired
     BookRepository bookRepository;
 
+    @Autowired
+    PurchaseService purchaseService;
+
     public Collection<Book>getBooks(){
         Iterable<Book> books = bookRepository.findAll();
         Collection<Book> bookList = new ArrayList<>();
@@ -48,6 +51,8 @@ public class BookService {
 
     public boolean deleteBook(int ISBN) {
         if (bookRepository.existsById(ISBN)) {
+            Book book = this.getBook(ISBN);
+            purchaseService.quitBookFromPurchases(book);
             bookRepository.deleteById(ISBN);
             return true;
         }
