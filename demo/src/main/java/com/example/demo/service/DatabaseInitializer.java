@@ -1,10 +1,15 @@
 package com.example.demo.service;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.sql.Blob;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,14 +38,18 @@ public class DatabaseInitializer {
     @PostConstruct
     public void init() throws IOException{
         
+        /*Load images */
+        Blob image1 = loadImage("src/main/resources/img/img/Harry_Potter.jpg");
+        Blob image2 = loadImage("src/main/resources/img/img/Los_Juegos_Del_Hambre_1.jpg");
+
         /* Create some books */
          Book book1 = new Book(1, "Harry Potter y la piedra filosofal", "J.K Rowling",
          "Harry Potter nunca ha oído hablar de Hogwarts hasta que empiezan a caer cartas en el felpudo del número 4 de Privet Drive,...",
-         16.10);
+         16.10, image1);
 
          Book book2 = new Book(2, "Los Juegos del Hambre 1", "Suzanne Collins",
          "Cuando Katniss Everdeen, una joven de dieciséis años se presenta voluntaria para ocupar el lugar de su hermana en los juegos,...",
-         18.95);
+         18.95, image2);
 
          bookService.createBook(book1);
          bookService.createBook(book2);
@@ -67,6 +76,12 @@ public class DatabaseInitializer {
 
          purchaseService.createPurchase(purchase1);
          purchaseService.createPurchase(purchase2);
+    }
+
+    private Blob loadImage(String path) throws IOException {
+        InputStream img = Files.newInputStream(Paths.get(path));
+        byte[] imageBytes = img.readAllBytes();
+        return BlobProxy.generateProxy(imageBytes);
     }
 
 }

@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+
+import java.sql.Blob;
 import java.util.List;
 
 @Entity
@@ -14,22 +16,24 @@ public class Book {
     private String synopsis;
     private double price;
 
+    @Lob
+    private Blob imageFile;
+    
     @OneToMany(mappedBy = "reviewBook", cascade = CascadeType.ALL)
     private List<Review> bookReviews;
 
-    // Constructor vacío
+    
     public Book() {}
 
-    // Constructor con parámetros
-    public Book(int ISBN, String title, String author, String synopsis, double price) {
+    public Book(int ISBN, String title, String author, String synopsis, double price, Blob imageFile) {
         this.ISBN = ISBN;
         this.title = title;
         this.author = author;
         this.synopsis = synopsis;
         this.price = price;
+        this.imageFile = imageFile;
     }
 
-    // Getters y Setters
     public int getISBN() {
         return ISBN;
     }
@@ -79,6 +83,13 @@ public class Book {
 
     public void addReview(Review review){
         this.bookReviews.add(review);
+    }
+    public Blob getImageFile() {
+        return imageFile;
+    }
+
+    public void setImageFile(Blob imageFile) {
+        this.imageFile = imageFile;
     }
 }
 
