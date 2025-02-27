@@ -11,4 +11,6 @@ import com.example.demo.model.User;
 public interface UserRepository extends JpaRepository<User,Integer>  {
     boolean existsByUserName(String userName);
     User findByUserName(String userName);
+    void deleteByUserName(String userName);
+
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
@@ -81,5 +82,20 @@ public class UserController {
         return "users";
     }
     
+     @PostMapping("/profile")
+    public String deleteUser(HttpSession session){
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (userId != null) {
+            User user = userService.getUser(userId);
+            if (user != null){
+                session.setAttribute("userId", null);
+                userService.deleteUser(userId);
+            }
+        }else{
+            return "errorNoexiste";
+        }
+        return "redirect:/";
+
+    }
 }
 
