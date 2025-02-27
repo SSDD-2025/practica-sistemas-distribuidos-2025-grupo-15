@@ -95,6 +95,19 @@ public class PurchaseController {
         return "myPurchases";
     }
     
+    @GetMapping("/myPurchases")
+    public String myReviews(HttpSession session, Model model){
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (userId != null){
+            User user = userService.getUser(userId);
+            if (user != null){
+                model.addAttribute("purchases", purchaseService.getPurchases(user));
+            }else{
+                return "users";
+            }
+        }
+        return "myPurchases";
+    }
     
     
 }
