@@ -9,13 +9,15 @@ import java.util.List;
 public class Book {
     
     @Id
-    private int ISBN;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
     private String title;
     private String author;
     private String synopsis;
     private double price;
-
+    private int ISBN;
+    
     @Lob
     private Blob imageFile;
     
@@ -26,6 +28,7 @@ public class Book {
     public Book() {}
 
     public Book(int ISBN, String title, String author, String synopsis, double price, Blob imageFile) {
+        super();
         this.ISBN = ISBN;
         this.title = title;
         this.author = author;
@@ -90,6 +93,14 @@ public class Book {
 
     public void setImageFile(Blob imageFile) {
         this.imageFile = imageFile;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
 
