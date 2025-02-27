@@ -3,7 +3,7 @@
 <body>
 
     <h1>{{book.title}}</h1>
-    <img src="/book/{{book.ISBN}}/image" alt="{{book.title}}" width = "100">
+    <img src="/book/{{book.id}}/image" alt="{{book.title}}" width = "100">
     <h3>Autor: {{book.author}}</h3>
     <p>{{book.synopsis}}</p>
     <h4>Precio: {{book.price}}$</h4>
@@ -11,7 +11,7 @@
     <hr>
 
     <form action="/addToBasket" method="post">
-        <input type="hidden" name="ISBN" value="{{book.ISBN}}">
+        <input type="hidden" name="id" value="{{book.id}}">
         <input type="submit" value="Añadir a la cesta">
     </form>
 
@@ -25,13 +25,13 @@
     <hr>
 
     <form action="/editBook" method="get">
-        <input type="hidden" name="ISBN" value="{{book.ISBN}}">
+        <input type="hidden" name="id" value="{{book.id}}">
         <input type="submit" value="Editar">
     </form>
     
 
     <form action="/deleteBook" method="post">
-        <input type="hidden" name="ISBN" value="{{book.ISBN}}">
+        <input type="hidden" name="id" value="{{book.id}}">
         <input type="submit" value="Eliminar">
     </form>
     

@@ -36,19 +36,19 @@ public class BookController {
         return "home";
     }
 
-    @GetMapping("/book/{ISBN}")
-    public String showBook(@PathVariable int ISBN, Model model, HttpSession session) {
-        Book book = bookService.getBook(ISBN);
-        session.setAttribute("bookId", ISBN);
+    @GetMapping("/book/{id}")
+    public String showBook(@PathVariable int id, Model model, HttpSession session) {
+        Book book = bookService.getBook(id);
+        session.setAttribute("bookId", id);
         model.addAttribute("book", book);
         model.addAttribute("reviews", reviewService.getReviews(book));
         return "book";
        
     }
 
-    @GetMapping("/book/{ISBN}/image")
-    public ResponseEntity<Object> downloadImage(@PathVariable int ISBN) throws SQLException {
-        Book book = bookService.getBook(ISBN);
+    @GetMapping("/book/{id}/image")
+    public ResponseEntity<Object> downloadImage(@PathVariable int id) throws SQLException {
+        Book book = bookService.getBook(id);
         
         if (book != null && book.getImageFile() != null) {
             Blob image = book.getImageFile();
@@ -73,7 +73,7 @@ public class BookController {
     @PostMapping("/newBook")
     public String createBook(@ModelAttribute Book book, @RequestParam("image") MultipartFile imageFile, Model model) throws IOException {
         
-        if (bookService.getBook(book.getISBN()) != null) {
+        if (bookService.getBookByISBN(book.getISBN()) != null) {
             model.addAttribute("error", "Error: El libro con ese ISBN ya existe.");
             return "newBook";  
         }
@@ -90,8 +90,8 @@ public class BookController {
     }
 
     @GetMapping("/editBook")
-    public String editBook(@RequestParam int ISBN, Model model) {
-        Book book = bookService.getBook(ISBN);
+    public String editBook(@RequestParam int id, Model model) {
+        Book book = bookService.getBook(id);
         
         if (book != null) {
             model.addAttribute("book", book);
@@ -108,7 +108,7 @@ public class BookController {
         if (!imageFile.isEmpty()) {
             book.setImageFile(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
         }
-        if (bookService.getBook(book.getISBN()) != null) {
+        if (bookService.getBook(book.getId()) != null) {
             bookService.updateBook(book);
             model.addAttribute("success", "El libro ha sido actualizado correctamente.");
         } else {
@@ -120,13 +120,13 @@ public class BookController {
 }
 
     @PostMapping("/deleteBook")
-    public String deleteBook(@RequestParam int ISBN, Model model) {
-        Book book = bookService.getBook(ISBN);
+    public String deleteBook(@RequestParam int id, Model model) {
+        Book book = bookService.getBook(id);
         
         if (book == null) {
             model.addAttribute("error", "Error: El libro no existe.");
         } else {
-            bookService.deleteBook(ISBN);
+            bookService.deleteBook(id);
             model.addAttribute("success", "El libro ha sido eliminado correctamente.");
         }
 

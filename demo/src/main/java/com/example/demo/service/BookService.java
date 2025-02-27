@@ -25,8 +25,12 @@ public class BookService {
         return bookList;
     }
 
-    public Book getBook(int ISBN){     
+    public Book getBookByISBN(int ISBN){     
         return bookRepository.findByISBN(ISBN);
+    }
+
+    public Book getBook(int id) {
+        return bookRepository.findById(id).get();
     }
 
     public Book getBook(String title) {
@@ -42,18 +46,18 @@ public class BookService {
     }
 
     public boolean updateBook(Book book) {
-        if (bookRepository.existsById(book.getISBN())) {
+        if (bookRepository.existsById(book.getId())) {
             bookRepository.save(book);
             return true;
         }
         return false;
     }
 
-    public boolean deleteBook(int ISBN) {
-        if (bookRepository.existsById(ISBN)) {
-            Book book = this.getBook(ISBN);
+    public boolean deleteBook(int id) {
+        if (bookRepository.existsById(id)) {
+            Book book = this.getBook(id);
             purchaseService.quitBookFromPurchases(book);
-            bookRepository.deleteById(ISBN);
+            bookRepository.deleteById(id);
             return true;
         }
         return false;
