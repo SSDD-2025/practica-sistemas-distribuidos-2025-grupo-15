@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import com.example.demo.model.Book;
+import com.example.demo.model.Purchase;
 import com.example.demo.model.Review;
 import com.example.demo.model.User;
 import com.example.demo.service.BookService;
@@ -14,6 +15,7 @@ import com.example.demo.service.UserService;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -81,5 +83,14 @@ public class ReviewController {
         return "myReviews";
     }
     
+    @PostMapping("/deleteReview/{id}")
+    public String deletePurchase(@PathVariable int id ) {
+        Review review = reviewService.getReview(id);
+        if (review == null){
+            return "error";
+        }
+        reviewService.deleteReview(review);
+        return "redirect:/myReviews";
+    }
     
 }

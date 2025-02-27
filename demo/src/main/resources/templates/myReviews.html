@@ -6,6 +6,9 @@
         {{#reviews}}
             <li>
                 <p>{{reviewBook.title}}: {{content}}</p>
+                <form action="/deleteReview/{{id}}" method="post">
+                    <input type="submit" value="Eliminar"/>
+                </form>
             </li>
         {{/reviews}}
 
