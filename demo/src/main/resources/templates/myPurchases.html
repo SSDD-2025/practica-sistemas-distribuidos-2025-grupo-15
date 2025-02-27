@@ -1,0 +1,18 @@
+<html>
+    <head></head>
+    <body>
+        <h1>Mis Pedidos</h1>
+    <ul>
+        {{#purchases}}
+            <li>
+                <p>{{id}}: {{date}}</p>
+            </li>
+        {{/purchases}}
+
+        {{^purchases}}
+        <li>Aun no tienes pedidos</li>
+        {{/purchases}}
+    </ul>
+    </body>
+
+</html>

@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.demo.model.Book;
 import com.example.demo.model.Purchase;
+import com.example.demo.model.User;
 import com.example.demo.service.BookService;
 import com.example.demo.service.PurchaseService;
 import com.example.demo.service.UserService;
@@ -76,6 +78,21 @@ public class PurchaseController {
             
         }
         return "redirect:/basket";
+    }
+
+    @GetMapping("/myPurchases")
+    public String myPurchases(HttpSession session, Model model){
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (userId != null){
+            User user = userService.getUser(userId);
+            if (user != null){
+                Collection<Purchase> purchases = purchaseService.getPurchases(user);
+                if (purchases != null){
+                    model.addAttribute("purchases", purchases);
+                }
+            }
+        }
+        return "myPurchases";
     }
     
     
