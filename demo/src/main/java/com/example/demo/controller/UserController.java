@@ -69,17 +69,22 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String profile(HttpSession session, Model model){
+    public String profile(HttpSession session, Model model) {
         Integer userId = (Integer) session.getAttribute("userId");
-        if (userId != null){
-            User user = userService.getUser(userId);
-            if (user != null){
-                model.addAttribute("userName",userService.getUser(userId).getUserName());
-                return "profile";
-            }
+
+        if (userId == null) {
+            return "errorNoSesion"; 
         }
-        return "users";
+
+        User user = userService.getUser(userId);
+        if (user != null) {
+            model.addAttribute("userName", user.getUserName());
+            return "profile";
+        }
+
+        return "errorNoSesion"; 
     }
+    
     
      @PostMapping("/profile")
     public String deleteUser(HttpSession session){

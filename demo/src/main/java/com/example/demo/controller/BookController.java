@@ -61,13 +61,18 @@ public class BookController {
         } else {
             return ResponseEntity.notFound().build();
         }
-}
+    }
 
-    
     @GetMapping("/newBook")
-    public String newBookForm(Model model) {
+    public String newBookForm(HttpSession session, Model model) {
+        Integer userId = (Integer) session.getAttribute("userId");
+
+        if (userId == null) {
+            return "errorNoSesionAddBook"; 
+        }
+
         model.addAttribute("book", new Book());
-        return "newBook";
+        return "newBook"; 
     }
 
     @PostMapping("/newBook")
@@ -90,7 +95,14 @@ public class BookController {
     }
 
     @GetMapping("/editBook")
-    public String editBook(@RequestParam int id, Model model) {
+    public String editBook(@RequestParam int id, HttpSession session, Model model) {
+        Integer userId = (Integer) session.getAttribute("userId");
+
+        if (userId == null) {  
+            model.addAttribute("ISBN", id); 
+            return "errorNoSesionEditBook"; 
+        }
+
         Book book = bookService.getBook(id);
         
         if (book != null) {
@@ -102,6 +114,7 @@ public class BookController {
         model.addAttribute("books", bookService.getBooks());
         return "home"; 
     }
+
    
     @PostMapping("/saveEdit")
     public String saveEditedBook(@ModelAttribute Book book, @RequestParam("image") MultipartFile imageFile, Model model) throws IOException{
