@@ -1,17 +1,25 @@
 <html>
-    <head></head>
+    <head>
+        <link rel="stylesheet" href="/css/styles.css">
+    </head>
     <body>
         <h1>Tu Cesta</h1>
         
         <form action="/basket" method="post">
             {{#purchaseBooks}}
             <ul>
-                <li>{{title}} {{price}}</li>
+                <li>
+                    <a href="/book/{{id}}">
+                        <img src="/book/{{id}}/image" alt="{{title}}" width="">
+                        {{title}}
+                        <hr>
+                        {{price}}$
+                    </a>
+                </li>
             </ul>
-            
             {{/purchaseBooks}}  
             {{#totalPrice}}
-            <input type="submit" value="Comprar {{totalPrice}}"/>
+            <input type="submit" value="Comprar {{totalPrice}} $"/>
             {{/totalPrice}}
         </form>
         
