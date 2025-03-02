@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import com.example.demo.model.Book;
-import com.example.demo.model.Purchase;
 import com.example.demo.model.Review;
 import com.example.demo.model.User;
 import com.example.demo.service.BookService;
@@ -84,7 +83,7 @@ public class ReviewController {
     }
     
     @PostMapping("/deleteReview/{id}")
-    public String deletePurchase(@PathVariable int id ) {
+    public String deleteReview(@PathVariable int id ) {
         Review review = reviewService.getReview(id);
         if (review == null){
             return "error";
