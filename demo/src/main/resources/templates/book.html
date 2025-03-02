@@ -1,5 +1,7 @@
 <html>
-<head></head>
+<head>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
 <body>
 
     <h1>{{book.title}}</h1>
@@ -24,6 +26,22 @@
 
     <hr>
 
+    <h2>Reseñas</h2>
+    <ul>
+        {{#reviews}}
+            <li>
+                <p class="username">{{reviewUser.userName}}</p>
+                <p class="comment">{{content}}</p>
+            </li>
+        {{/reviews}}
+
+        {{^reviews}}
+        <p>Aún no hay reseñas para este libro.</p>
+        {{/reviews}}
+    </ul>
+
+    <hr>
+
     <form action="/editBook" method="get">
         <input type="hidden" name="id" value="{{book.id}}">
         <input type="submit" value="Editar">
@@ -34,20 +52,6 @@
         <input type="hidden" name="id" value="{{book.id}}">
         <input type="submit" value="Eliminar">
     </form>
-    
-
-    <h2>Reseñas</h2>
-    <ul>
-        {{#reviews}}
-            <li>
-                {{reviewUser.userName}}: {{content}}
-            </li>
-        {{/reviews}}
-
-        {{^reviews}}
-        <p>Aún no hay reseñas para este libro.</p>
-        {{/reviews}}
-    </ul>
 
 </body>
 </html>

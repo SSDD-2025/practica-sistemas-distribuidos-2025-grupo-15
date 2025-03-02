@@ -39,8 +39,8 @@ public class DatabaseInitializer {
     public void init() throws IOException{
         
         /*Load images */
-        Blob image1 = loadImage("practica-sistemas-distribuidos-2025-grupo-15\\demo\\src\\main\\resources\\static\\Harry_Potter_img.jpg");
-        Blob image2 = loadImage("practica-sistemas-distribuidos-2025-grupo-15\\demo\\src\\main\\resources\\static\\Los_Juegos_Del_Hambre_1.jpg");
+        Blob image1 = loadImage("demo\\src\\main\\resources\\static\\Harry_Potter_img.jpg");
+        Blob image2 = loadImage("demo\\src\\main\\resources\\static\\Los_Juegos_Del_Hambre_1.jpg");
 
         /* Create some books */
          Book book1 = new Book(1, "Harry Potter y la piedra filosofal", "J.K Rowling",

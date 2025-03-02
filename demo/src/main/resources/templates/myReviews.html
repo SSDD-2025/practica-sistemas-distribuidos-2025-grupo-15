@@ -1,11 +1,14 @@
 <html>
-    <head></head>
+    <head>
+        <link rel="stylesheet" href="/css/styles.css">
+    </head>
     <body>
         <h1>Mis Reviews</h1>
     <ul>
         {{#reviews}}
             <li>
-                <p>{{reviewBook.title}}: {{content}}</p>
+                <p class="username">{{reviewUser.userName}}</p>
+                <p class="comment">{{content}}</p>
                 <form action="/deleteReview/{{id}}" method="post">
                     <input type="submit" value="Eliminar"/>
                 </form>

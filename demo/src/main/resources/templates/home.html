@@ -1,6 +1,7 @@
 <html>
 <head>
     <title>Inicio - Librería</title>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
     <h1>Bienvenido a la Librería</h1>
@@ -18,7 +19,9 @@
         <li>
             <a href="/book/{{id}}">
                 <img src="/book/{{id}}/image" alt="{{title}}" width="">
-                {{title}} - {{price}}$
+                {{title}}
+                <hr>
+                {{price}}$
             </a>
         </li>
         {{/books}}

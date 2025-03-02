@@ -1,4 +1,4 @@
-# BookShelf
+# BookHive
 ## Integrantes del grupo
 | Nombre                  | Correo                            | Usuario GitHub |
 |-------------------------|-----------------------------------|----------------|
