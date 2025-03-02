@@ -38,7 +38,8 @@ public class ReviewController {
         Integer bookId = (Integer) session.getAttribute("bookId");
 
         if (userId == null){
-            return "error";
+            model.addAttribute("ISBN", bookId); 
+            return "errorNoSessionAddReview";
         }
         if (bookId == null){
             return "error";

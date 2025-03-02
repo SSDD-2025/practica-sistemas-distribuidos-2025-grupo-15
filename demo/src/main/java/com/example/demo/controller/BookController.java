@@ -133,9 +133,14 @@ public class BookController {
 }
 
     @PostMapping("/deleteBook")
-    public String deleteBook(@RequestParam int id, Model model) {
+    public String deleteBook(@RequestParam int id, HttpSession session, Model model) {
+        Integer userId = (Integer) session.getAttribute("userId");
         Book book = bookService.getBook(id);
-        
+
+        if (userId == null) {
+            model.addAttribute("ISBN", id); 
+            return "errorNoSessionDeleteBook"; 
+        }
         if (book == null) {
             model.addAttribute("error", "Error: El libro no existe.");
         } else {

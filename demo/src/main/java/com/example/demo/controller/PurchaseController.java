@@ -19,6 +19,7 @@ import com.example.demo.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 
@@ -37,6 +38,7 @@ public class PurchaseController {
     @GetMapping("/basket")
     public String basket(HttpSession session, Model model) {
         Integer purchaseId = (Integer) session.getAttribute("purchaseId");
+        
         if (purchaseId != null){
             List<Book> books = purchaseService.getPurchase(purchaseId).getBooks();
             model.addAttribute("purchaseBooks", books);
@@ -49,9 +51,13 @@ public class PurchaseController {
     }
 
     @PostMapping("/basket")
-    public String basketProcess(HttpSession session) {
+    public String basketProcess(HttpSession session, Model model) {
         Integer purchaseId = (Integer) session.getAttribute("purchaseId");
         Integer userId = (Integer) session.getAttribute("userId");
+
+        if (userId == null) {  
+            return "redirect:/noLogged"; 
+        }
         if (purchaseId != null && userId != null){
             Purchase purchase = purchaseService.getPurchase(purchaseId);
             purchase.setPurchaseUser(userService.getUser(userId));
@@ -61,6 +67,11 @@ public class PurchaseController {
             session.setAttribute("purchaseId", null);
         }
         return "redirect:/";
+    }
+
+    @GetMapping("/noLogged")
+    public String getNoLogged() {
+        return "errorNoSessionBuy";
     }
     
     @PostMapping("/addToBasket")
