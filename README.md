@@ -80,7 +80,23 @@ Todo lo relacionado con la entidad User, es decir, la propia entidad User, UserC
     - UserRepository: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/repository/UserRepository.java
     - UserService: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/service/UserService.java
     - createAccount.html: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/resources/templates/createAccount.html
-* **Lucía Galán Galán**
+### **Lucía Galán Galán**
+Todo lo relacionado con la entidad Book, es decir, la propia entidad Book, BookController, BookRepository y BookService. En cuanto a los templates, la realización de book.html, editBook.html, home.html, newBook.html, errorNoSessionAddBook.html, errorNoSession.html y errorNoSessionEditbook.html. También, la gestión de imágenes para la entidad Libro.
+
+* Principales commits: 
+
+    - Entidad Book y BookRepository : https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/e8b3d0b1244d7b02529031adc16537f9aa10e301
+    - Book Service: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/bc7e807ebdade0f90ef8b0e70516e6fd4f73200f
+    - Book Controller: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/cf21beccbc391751e9bbeb25ab20eb0fec119f94
+    - Book Images: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/0dd096a5fabd3ee64be956907032b2fa9e0a100f
+    - Add errorNoSession pages: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/a692b81bfdd69f338c5cdd538baf247104bdc49a
+
+* Ficheros importantes: 
+    - BookController: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/controller/BookController.java
+    - Book: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/model/Book.java
+    - BookRepository: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/repository/BookRepository.java
+    - BookService: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/service/BookService.java
+    - home.html: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/resources/templates/home.html
 * **Rubén Camacho Rodriguez**
 
 
