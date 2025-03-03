@@ -22,9 +22,12 @@
     <p>ISBN:</p>
     <input type="number" name="ISBN" value="{{book.ISBN}}" readonly>
     
-    <p>Imagen:</p>
+    <p>Imagen actual:</p>
+    <img src="/book/{{book.ISBN}}/image" alt="Imagen actual" width="150">
+
+    <p>Subir nueva imagen:</p>
     <input type="file" name="image" accept="image/*">
-    
+
     <p><input type="submit" value="Guardar Cambios"/></p>
 </form>
 

@@ -117,21 +117,21 @@ public class BookController {
 
    
     @PostMapping("/saveEdit")
-    public String saveEditedBook(@ModelAttribute Book book, @RequestParam("image") MultipartFile imageFile, Model model) throws IOException{
-        if (!imageFile.isEmpty()) {
-            book.setImageFile(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
-        }
-        if (bookService.getBook(book.getId()) != null) {
-            bookService.updateBook(book);
-            model.addAttribute("success", "El libro ha sido actualizado correctamente.");
-        } else {
-            model.addAttribute("error", "Error: No se pudo actualizar el libro.");
-        }
+    public String saveEditedBook(@ModelAttribute Book book, @RequestParam(value = "image", required = false) MultipartFile imageFile, Model model) throws IOException{
+        Book existingBook = bookService.getBook(book.getId());
 
+        if (imageFile != null && !imageFile.isEmpty()) {
+            book.setImageFile(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
+        } else {
+            book.setImageFile(existingBook.getImageFile());
+        }
+        bookService.updateBook(book);
+        model.addAttribute("success", "El libro ha sido actualizado correctamente.");
         model.addAttribute("books", bookService.getBooks());
         return "home"; 
-}
+    }
 
+    
     @PostMapping("/deleteBook")
     public String deleteBook(@RequestParam int id, HttpSession session, Model model) {
         Integer userId = (Integer) session.getAttribute("userId");
