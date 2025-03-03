@@ -5,6 +5,8 @@
 <body>
 
 <form action="/saveEdit" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="{{book.id}}">
+    
     <p>Título:</p>
     <input type="text" name="title" value="{{book.title}}" required>
     

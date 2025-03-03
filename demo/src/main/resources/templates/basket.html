@@ -5,29 +5,34 @@
     <body>
         <h1>Tu Cesta</h1>
         
-        <form action="/basket" method="post">
-            {{#purchaseBooks}}
+        
+            
             <ul>
+                {{#purchaseBooks}}
                 <li>
                     <a href="/book/{{id}}">
                         <img src="/book/{{id}}/image" alt="{{title}}" width="">
                         {{title}}
                         <hr>
-                        {{price}}$
+                        {{price}} $
                     </a>
                 </li>
+                {{/purchaseBooks}}
+
+                {{^purchaseBooks}}
+                <p>Aun no has añadido ningún libro a la cesta</p>
+                {{/purchaseBooks}} 
             </ul>
-            {{/purchaseBooks}}  
+            
+        <form action="/basket" method="post">
             {{#totalPrice}}
             <input type="submit" value="Comprar {{totalPrice}} $"/>
             {{/totalPrice}}
+
         </form>
         
 
-        {{^purchaseBooks}}
-        <p>Aun no has añadido ningún libro a la cesta</p>
-        {{/purchaseBooks}}
-        <br>
-        <a href="/">Volver</a>
+        
+        <a href="/" class="return">Volver</a>
     </body>
 </html>

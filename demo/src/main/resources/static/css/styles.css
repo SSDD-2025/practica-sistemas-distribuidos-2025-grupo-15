@@ -1,20 +1,13 @@
-/* General body styles */
+/* Body */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #FFF0A8;
     color: #333;
     margin: 0;
     padding: 0;
-    line-height: 1.6;
 }
 
-/* Container for all content */
-.container {
-    width: 80%;
-    margin: 0 auto;
-}
-
-/* Header styles */
+/* Header */
 h1, h2, h3, h4 {
     text-align: center;
     color: #2a2a72;
@@ -28,18 +21,11 @@ a {
     padding: 8px 16px;
     margin: 10px;
     border-radius: 4px;
-    transition: background-color 0.3s ease;
 }
 
 a:hover {
     background-color: #5e6b8d;
     color: white;
-}
-
-/* Navigation links */
-a[href="/profile"], a[href="/basket"], a[href="/login"], a[href="/createAccount"], a[href="/newBook"] {
-    display: inline-block;
-    margin: 10px;
 }
 
 /* Horizontal line */
@@ -49,9 +35,8 @@ hr {
     margin-top: 20px;
 }
 
-/* Book listing styles */
+/* Listing*/
 ul {
-    list-style-type: none;
     padding: 0;
     margin-top: 20px;
     display: flex;
@@ -59,10 +44,10 @@ ul {
     justify-content: center;
 }
 
-/* Individual book list item */
+/* Individual list item */
 li {
     background-color: white;
-    border: 1px solid #ddd;
+    border: 1px solid white;
     border-radius: 8px;
     margin: 10px;
     padding: 15px;
@@ -71,32 +56,23 @@ li {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
-    flex-direction: column;  /* Arrange elements in a column */
-    justify-content: space-between;  /* Distribute the content */
-    height: 320px; /* Increase the height of the card to fit */
-}
-
-/* Style for the price */
-li .price {
-    margin-top: 10px; /* Ensures the price has a small top margin */
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #2a2a72;
+    flex-direction: column;
+    justify-content: start;
+    height: 320px;
 }
 
 /* Book image */
 img {
-    width: 150px;  /* Fixed width for the image */
-    height: 200px; /* Fixed height for the image */
-    object-fit: cover;  /* Ensures the image is cropped to fit without distortion */
+    width: 150px;
+    height: 200px;
+    object-fit: cover;
     border-radius: 4px;
     margin-bottom: 10px;
-    display: block;          /* Removes internal margins of the container */
-    margin-left: auto;       /* Automatic left margin */
-    margin-right: auto;      /* Automatic right margin */
+    display: block;
+    margin-left: auto; 
+    margin-right: auto;
 }
 
-/* Hover effect for books */
 li:hover {
     transform: translateY(-5px);
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
@@ -127,6 +103,43 @@ a[href="/newBook"]:hover {
     background-color: #5e6b8d;
 }
 
+.return {
+    display: block;
+    text-align: center;
+    background-color: #2a2a72;
+    color: white;
+    padding: 12px;
+    margin-top: 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    width: 200px;
+    margin: 20px auto;
+}
+
+.return:hover {
+    background-color: #5e6b8d;
+}
+
+.deleteAccount {
+    display: block;
+    text-align: center;
+    background-color: #ee4848;
+    color: rgb(0, 0, 0);
+    padding: 12px;
+    margin-top: 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    width: 200px;
+    margin: 20px auto;
+}
+
+.home-button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 24px;
+}
+
 /* Footer */
 footer {
     text-align: center;
@@ -140,19 +153,19 @@ footer p {
     margin: 0;
 }
 
-/* Container for the form */
+/* Form */
 form {
     width: 100%;
-    max-width: 400px;  /* Maximum width for the form */
-    margin: 0 auto;    /* Center the form */
+    max-width: 400px; 
+    margin: 0 auto;    
     padding: 20px;
-    text-align: center; /* Center the elements inside the form */
+    text-align: center;
 }
 
-/* Style for the text fields (username and password) */
+/* Text fields (username and password) */
 input[type="text"], input[type="password"] {
     width: 100%;
-    max-width: 100%;  /* Ensure it doesn't stretch beyond its container */
+    max-width: 100%;  
     padding: 12px;
     margin: 10px 0;
     border: 1px solid #ddd;
@@ -164,43 +177,104 @@ input[type="text"], input[type="password"] {
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Style for when the input receives focus */
+/* Input focus */
 input[type="text"]:focus, input[type="password"]:focus {
     border-color: #2a2a72;
     box-shadow: 0 0 5px rgba(42, 42, 114, 0.5);
     outline: none;
 }
 
-/* Style for the login button */
+/* Submit */
 input[type="submit"] {
     width: 100%;
-    max-width: 400px;  /* Maximum width for the button */
+    max-width: 400px; 
     padding: 12px;
-    background-color: #2a2a72;  /* Background color of the button */
-    color: white;  /* Text color */
+    background-color: #2a2a72; 
+    color: white;
     border: none;
-    border-radius: 5px;  /* Rounded corners */
+    border-radius: 5px; 
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin-top: 20px;
 }
 
-/* Hover effect for the button */
 input[type="submit"]:hover {
-    background-color: #5e6b8d;  /* Color change on mouseover */
+    background-color: #5e6b8d; 
 }
 
-/* Optional: center the button on the form */
 form p {
     text-align: center;
 }
 
 .username {
     font-weight: bold;
-    margin-bottom: 5px; /* Adjust the space between the name and the comment */
+    margin-bottom: 5px; 
 }
 
 .comment {
     font-style: italic;
+}
+
+li form {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
+}
+
+.deletereview {
+    width: 100%;
+    padding: 10px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.deleteReview:hover {
+    background-color: #cc0000;
+}
+
+textarea {
+    width: 100%;
+    max-width: 100%;  
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1em;
+    background-color: #fff;
+    color: #333;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+input[type="number"] {
+    width: 50%;
+    max-width: 100%;  
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1em;
+    background-color: #fff;
+    color: #333;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; 
+    text-align: center;
+}
+
+
+input[type="file"] {
+    border: 2px solid #ccc;
+    padding: 8px;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    cursor: pointer;
 }

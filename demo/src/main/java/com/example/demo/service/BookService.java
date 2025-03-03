@@ -30,7 +30,7 @@ public class BookService {
     }
 
     public Book getBook(int id) {
-        return bookRepository.findById(id).get();
+        return bookRepository.findById(id);
     }
 
     public Book getBook(String title) {
