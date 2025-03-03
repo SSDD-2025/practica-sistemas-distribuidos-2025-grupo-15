@@ -7,7 +7,9 @@
         <ul>
             {{#purchases}}
                 <li>
-                    <p>{{id}}: {{date}}</p>
+                    <p>Id del pedido: {{id}}</p>
+                    <p>Fecha del pedido: {{date}}</p>
+                    <p>Estado: {{state}}</p>
                     <form action="/deletePurchase/{{id}}" method="post">
                         <input type="submit" value="Eliminar"/>
                     </form>
