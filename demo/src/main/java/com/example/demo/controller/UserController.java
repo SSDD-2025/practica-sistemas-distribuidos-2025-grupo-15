@@ -95,11 +95,8 @@ public class UserController {
                 session.setAttribute("userId", null);
                 userService.deleteUser(userId);
             }
-        }else{
-            return "errorNoexiste";
         }
         return "redirect:/";
-
     }
 }
 
