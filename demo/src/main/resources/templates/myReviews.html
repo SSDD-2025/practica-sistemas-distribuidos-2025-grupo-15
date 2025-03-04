@@ -1,26 +1,24 @@
 <html>
-<head>
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
+  <head>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
     <h1>Mis Reviews</h1>
 
     <ul>
-        {{#reviews}}
-        <li>
-            <p class="username">{{reviewUser.userName}}</p>
-            <p class="comment">{{content}}</p>
-            <form action="/deleteReview/{{id}}" method="post">
-                <input type="submit" value="Eliminar" class="deleteReview"/>
-            </form>
-        </li>
-        {{/reviews}}
-
-        {{^reviews}}
-            <p>Aún no tienes reseñas</p>
-        {{/reviews}}
+      {{#reviews}}
+      <li>
+        <p class="username">{{reviewUser.userName}}</p>
+        <p class="comment">{{content}}</p>
+        <form action="/deleteReview/{{id}}" method="post">
+          <input type="submit" value="Eliminar" class="deleteReview" />
+        </form>
+      </li>
+      {{/reviews}} {{^reviews}}
+      <p>Aún no tienes reseñas</p>
+      {{/reviews}}
     </ul>
 
     <a href="/profile" class="return">Volver</a>
-</body>
+  </body>
 </html>

@@ -1,38 +1,34 @@
 <html>
-<head>
+  <head>
     <title>Inicio - Librería</title>
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
     <h1>Bienvenido a BookHive</h1>
 
-    <a href="/profile">Ir al perfil</a> 
+    <a href="/profile">Ir al perfil</a>
     <a href="/basket">Ver cesta</a>
-    <a href="/login">Iniciar Sesión</a> 
+    <a href="/login">Iniciar Sesión</a>
     <a href="/createAccount">Registrarse</a>
 
-    <hr>
+    <hr />
 
     <h2>Libros disponibles</h2>
     <ul>
-        {{#books}}
-        <li>
-            <a href="/book/{{id}}">
-                <img src="/book/{{id}}/image" alt="{{title}}" width="">
-                {{title}}
-                <hr>
-                {{price}} $
-            </a>
-        </li>
-        {{/books}}
-
-        {{^books}}
-        <p>No hay libros disponibles en este momento.</p>
-        {{/books}}
+      {{#books}}
+      <li>
+        <a href="/book/{{id}}">
+          <img src="/book/{{id}}/image" alt="{{title}}" width="" />
+          {{title}}
+          <hr />
+          {{price}} $
+        </a>
+      </li>
+      {{/books}} {{^books}}
+      <p>No hay libros disponibles en este momento.</p>
+      {{/books}}
     </ul>
 
     <a href="/newBook">Añadir nuevo libro</a>
-
-
-</body>
+  </body>
 </html>

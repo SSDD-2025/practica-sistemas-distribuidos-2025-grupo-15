@@ -14,16 +14,14 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
-
 @Controller
 public class UserController {
 
     @Autowired
-    private UserService userService; 
+    private UserService userService;
 
     @GetMapping("/createAccount")
-    public String createAccount(Model model){
+    public String createAccount(Model model) {
         return "createAccount";
     }
 
@@ -31,28 +29,29 @@ public class UserController {
     public String createAccountProcess(@ModelAttribute User user, Model model) {
         if (userService.userExists(user)) {
             model.addAttribute("errorMessage", "El nombre de usuario ya está registrado.");
-            return "createAccount";  
+            return "createAccount";
         }
-    
+
         userService.createUser(user);
-        return "redirect:/";      
+        return "redirect:/";
     }
 
     @GetMapping("/login")
-    public String login(Model model){
+    public String login(Model model) {
         return "login";
     }
 
     @PostMapping("/login")
-    public String loginProcess(@RequestParam String userName, @RequestParam String password, HttpSession session, Model model) {
+    public String loginProcess(@RequestParam String userName, @RequestParam String password, HttpSession session,
+            Model model) {
         User user = userService.getUser(userName);
-        if(user == null){
+        if (user == null) {
             model.addAttribute("errorMessage", "Usuario no encontrado");
             return "login";
-        }else if(!user.getPassword().equals(password)){
+        } else if (!user.getPassword().equals(password)) {
             model.addAttribute("errorMessage", "Contraseña incorrecta");
             return "login";
-        }else{
+        } else {
             session.setAttribute("userId", user.getId());
             return "redirect:/";
         }
@@ -61,7 +60,7 @@ public class UserController {
     @GetMapping("/users")
     public String showUsers(Model model, HttpSession session) {
         Integer userId = (Integer) session.getAttribute("userId");
-        if(userId != null){
+        if (userId != null) {
             model.addAttribute("loged", userService.getUser(userId).getUserName());
         }
         model.addAttribute("users", userService.getUsers());
@@ -73,7 +72,7 @@ public class UserController {
         Integer userId = (Integer) session.getAttribute("userId");
 
         if (userId == null) {
-            return "errorNoSesion"; 
+            return "errorNoSesion";
         }
 
         User user = userService.getUser(userId);
@@ -82,16 +81,15 @@ public class UserController {
             return "profile";
         }
 
-        return "errorNoSesion"; 
+        return "errorNoSesion";
     }
-    
-    
-     @PostMapping("/profile")
-    public String deleteUser(HttpSession session){
+
+    @PostMapping("/profile")
+    public String deleteUser(HttpSession session) {
         Integer userId = (Integer) session.getAttribute("userId");
         if (userId != null) {
             User user = userService.getUser(userId);
-            if (user != null){
+            if (user != null) {
                 session.setAttribute("userId", null);
                 userService.deleteUser(userId);
             }
@@ -99,4 +97,3 @@ public class UserController {
         return "redirect:/";
     }
 }
-

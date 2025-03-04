@@ -9,7 +9,7 @@ import jakarta.persistence.ManyToOne;
 @Entity
 public class Review {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)    
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @ManyToOne
@@ -20,9 +20,10 @@ public class Review {
 
     private String content;
 
-    public Review(){}
+    public Review() {
+    }
 
-    public Review(User reviewUser, Book reviewBook, String content){
+    public Review(User reviewUser, Book reviewBook, String content) {
         super();
         this.reviewUser = reviewUser;
         this.reviewBook = reviewBook;
@@ -61,5 +62,4 @@ public class Review {
         this.content = content;
     }
 
-    
 }

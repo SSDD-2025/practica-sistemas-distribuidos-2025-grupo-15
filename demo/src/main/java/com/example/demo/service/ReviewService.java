@@ -14,34 +14,33 @@ import com.example.demo.repository.ReviewRepository;
 public class ReviewService {
     @Autowired
     ReviewRepository reviewRepository;
-    
 
-    public Review getReview(int id){
+    public Review getReview(int id) {
         return reviewRepository.findById(id).get();
     }
 
-    public Collection<Review> getReviews(User user){
+    public Collection<Review> getReviews(User user) {
         return reviewRepository.findAllByReviewUser(user);
     }
 
-    public Collection<Review> getReviews(Book book){
+    public Collection<Review> getReviews(Book book) {
         return reviewRepository.findAllByReviewBook(book);
     }
 
-    public Review createReview(Review review){
+    public Review createReview(Review review) {
         return reviewRepository.save(review);
     }
 
-    public boolean deleteReview(Review review){
-        if (reviewRepository.existsById(review.getId())){
+    public boolean deleteReview(Review review) {
+        if (reviewRepository.existsById(review.getId())) {
             reviewRepository.delete(reviewRepository.findById(review.getId()).get());
             return true;
         }
         return false;
     }
 
-    public boolean updateReview(Review review){
-        if (reviewRepository.existsById(review.getId())){
+    public boolean updateReview(Review review) {
+        if (reviewRepository.existsById(review.getId())) {
             reviewRepository.save(review);
             return true;
         }

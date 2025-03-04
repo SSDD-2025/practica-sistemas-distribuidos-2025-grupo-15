@@ -1,22 +1,28 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-        <link rel="stylesheet" href="/css/styles.css">
-    </head>
-    <body>
-        <a href="/">
-            <button class="home-button">
-                <i class="fa-solid fa-home"></i>
-            </button>
-        </a>
-        <h1>Perfil</h1>
-        <!--<img src="/img/{{userName}}.jpg" alt="{{userName}}">-->
-        <h2>UserName: {{userName}}</h2>
-            <p><a href="/myPurchases">Mis pedidos</a></p>
-            <p><a href="/myReviews">Mis reseñas</a></p>
-        <form action="/profile" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar tu cuenta?');">
-            <button type="submit" class="deleteAccount">Eliminar cuenta</button>
-        </form>
-        
-    </body>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <a href="/">
+      <button class="home-button">
+        <i class="fa-solid fa-home"></i>
+      </button>
+    </a>
+    <h1>Perfil</h1>
+    <!--<img src="/img/{{userName}}.jpg" alt="{{userName}}">-->
+    <h2>UserName: {{userName}}</h2>
+    <p><a href="/myPurchases">Mis pedidos</a></p>
+    <p><a href="/myReviews">Mis reseñas</a></p>
+    <form
+      action="/profile"
+      method="post"
+      onsubmit="return confirm('¿Estás seguro de que deseas eliminar tu cuenta?');"
+    >
+      <button type="submit" class="deleteAccount">Eliminar cuenta</button>
+    </form>
+  </body>
 </html>

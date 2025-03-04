@@ -3,7 +3,7 @@
 | Nombre                  | Correo                            | Usuario GitHub |
 |-------------------------|-----------------------------------|----------------|
 | Paula Fernández Pérez   | p.fernandezp.2022@alumnos.urjc.es | Paulaferpe               |
-| Lucía Galán Galán       | l.galang.2019@alumnos.urjc.  es     |    Luciagalan38            |
+| Lucía Galán Galán       | l.galang.2019@alumnos.urjc.es     |    Luciagalan38            |
 | Rubén Camacho Rodríguez | r.camacho.2022@alumnos.urjc.es    | RubenCamach0   |
 
 ## Entidades
@@ -102,8 +102,46 @@ Todo lo relacionado con la entidad Book, es decir, la propia entidad Book, BookC
     - BookRepository: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/repository/BookRepository.java
     - BookService: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/service/BookService.java
     - home.html: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/resources/templates/home.html
-* **Rubén Camacho Rodriguez**
+### **Rubén Camacho Rodríguez**
+Todo lo relacionado con las entidades Review y Purchase, es decir, las entidades Review y Purchase, ReviewRepository y PurchaseRepository, ReviewService y PurchaseService, ReviewController y PurchaseController. En cuanto a los templates, la realización basket.html, myPurchases.html, myReviews.html y newReview.html.
 
+* Principales commits:
+    - Entity Order + Order Repository: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/673b591424dd73104840ed3bd9b7c0581bb7d27c
+    -ReviewService: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/3add2861773aeb5a83f853e5d82a1763e2745bd0
+    -Change Order to Purchase: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/4a6cae40c236d3f438e0d211f23f4af0491ad953
+    -Basket Controller: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/32f82d79e94651ac0e8f0b0500a3d95eebd28d2b
+    -MyReviews Controller: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/29b086df2e2ab95310b3d4d21dc8a80fe83d0805
 
+* Ficheros importantes:
+    - PurchaseController: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/controller/PurchaseController.java
+    - ReviewController: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/controller/ReviewController.java
+    - PurchaseService: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/service/PurchaseService.java
+    - ReviewService: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/service/ReviewService.java
+    - basket.html: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/resources/templates/basket.html
 
+### Commits grupales
+Algunos de los commits se realizaban tras revisiones en grupo. Estos commits principalmente son el estilo (CSS), la base de datos (SQL) y otras revisiones que se hacían para corregir diferentes errores.
 
+Algunos ejemplos son:
+
+* CSS: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/2068802d70c002ab4c36150ba1acfd47f4d230d7
+* SQL (la contraseña que sale en este commit cambia posteriormente): https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/8fbea468d24dc3a18d6e194b51623f12d3135334
+* Revisión en grupo: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/8fbea468d24dc3a18d6e194b51623f12d3135334
+
+## Instrucciones de ejecución
+1. Descargar el repositorio y descomprimirlo en una carpeta.
+2. Descargar MySQL Configurator y MySQL Worckbench.
+3. En MySQL Configurator poner Usuario: root, Password: grupo15SQL y el puerto predeterminado (3306).
+4. En MySQL Worckbench añadir una conexión con el usuario y password previamente introducidos.
+5. Crear un esquema llamado bookshop en la conexión anterior.
+6. Ejecutar la aplicación.
+7. Ir a http://localhost:8080/
+### Versiones utilizadas
+* Java Version: 21
+* MySQL Connector: 8.0.33
+* Maven Version: 4.0.0
+* SpringBoot: 3.4.3
+* Entorno de desarrollo: Visual Studio Code y MySQL Workbench (8.0)
+* Extensions VS:
+    - Spring Boot Extension Pack
+    - Maven for Java

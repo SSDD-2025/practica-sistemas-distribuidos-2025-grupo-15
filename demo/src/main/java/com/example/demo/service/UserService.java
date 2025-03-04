@@ -13,8 +13,7 @@ import com.example.demo.repository.UserRepository;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
-   
-    
+
     public Collection<User> getUsers() {
         Iterable<User> iterable = userRepository.findAll();
         Collection<User> users = new ArrayList<>();
@@ -22,7 +21,6 @@ public class UserService {
         return users;
     }
 
-    
     public User getUser(int id) {
         if (userRepository.existsById(id)) {
             return userRepository.findById(id).get();
@@ -50,7 +48,6 @@ public class UserService {
         return null;
     }
 
-    
     public boolean deleteUser(int id) {
         if (userRepository.existsById(id)) {
             userRepository.delete(userRepository.findById(id).get());
@@ -59,10 +56,10 @@ public class UserService {
         return false;
     }
 
-    public boolean userExists(User user1){
-        if(userRepository.existsByUserName(user1.getUserName())){
-            return true; 
-        }else{
+    public boolean userExists(User user1) {
+        if (userRepository.existsByUserName(user1.getUserName())) {
+            return true;
+        } else {
             return false;
         }
     }

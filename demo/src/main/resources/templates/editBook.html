@@ -1,35 +1,41 @@
 <html>
-<head>
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
+  <head>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <form action="/saveEdit" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="id" value="{{book.id}}" />
 
-<form action="/saveEdit" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="id" value="{{book.id}}">
-    
-    <p>Título:</p>
-    <input type="text" name="title" value="{{book.title}}" required>
-    
-    <p>Autor:</p>
-    <input type="text" name="author" value="{{book.author}}" required>
-    
-    <p>Sinopsis:</p>
-    <textarea name="synopsis" rows="5" cols="40" required>{{book.synopsis}}</textarea>
-    
-    <p>Precio:</p>
-    <input type="number" step="0.01" name="price" value="{{book.price}}" required>
-    
-    <p>ISBN:</p>
-    <input type="number" name="ISBN" value="{{book.ISBN}}" readonly>
-    
-    <p>Imagen actual:</p>
-    <img src="/book/{{book.ISBN}}/image" alt="Imagen actual" width="150">
+      <p>Título:</p>
+      <input type="text" name="title" value="{{book.title}}" required />
 
-    <p>Subir nueva imagen:</p>
-    <input type="file" name="image" accept="image/*">
+      <p>Autor:</p>
+      <input type="text" name="author" value="{{book.author}}" required />
 
-    <p><input type="submit" value="Guardar Cambios"/></p>
-</form>
+      <p>Sinopsis:</p>
+      <textarea name="synopsis" rows="5" cols="40" required>
+{{book.synopsis}}</textarea
+      >
 
-</body>
+      <p>Precio:</p>
+      <input
+        type="number"
+        step="0.01"
+        name="price"
+        value="{{book.price}}"
+        required
+      />
+
+      <p>ISBN:</p>
+      <input type="number" name="ISBN" value="{{book.ISBN}}" readonly />
+
+      <p>Imagen actual:</p>
+      <img src="/book/{{book.ISBN}}/image" alt="Imagen actual" width="150" />
+
+      <p>Subir nueva imagen:</p>
+      <input type="file" name="image" accept="image/*" />
+
+      <p><input type="submit" value="Guardar Cambios" /></p>
+    </form>
+  </body>
 </html>

@@ -1,280 +1,283 @@
 /* Body */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #FFF0A8;
-    color: #333;
-    margin: 0;
-    padding: 0;
+  font-family: "Arial", sans-serif;
+  background-color: #fff0a8;
+  color: #333;
+  margin: 0;
+  padding: 0;
 }
 
 /* Header */
-h1, h2, h3, h4 {
-    text-align: center;
-    color: #2a2a72;
-    margin-top: 20px;
+h1,
+h2,
+h3,
+h4 {
+  text-align: center;
+  color: #2a2a72;
+  margin-top: 20px;
 }
 
 /* Styling for links */
 a {
-    color: #2a2a72;
-    text-decoration: none;
-    padding: 8px 16px;
-    margin: 10px;
-    border-radius: 4px;
+  color: #2a2a72;
+  text-decoration: none;
+  padding: 8px 16px;
+  margin: 10px;
+  border-radius: 4px;
 }
 
 a:hover {
-    background-color: #5e6b8d;
-    color: white;
+  background-color: #5e6b8d;
+  color: white;
 }
 
 /* Horizontal line */
 hr {
-    border: 0;
-    border-top: 2px solid #e1e1e1;
-    margin-top: 20px;
+  border: 0;
+  border-top: 2px solid #e1e1e1;
+  margin-top: 20px;
 }
 
 /* Listing*/
 ul {
-    padding: 0;
-    margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+  padding: 0;
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 /* Individual list item */
 li {
-    background-color: white;
-    border: 1px solid white;
-    border-radius: 8px;
-    margin: 10px;
-    padding: 15px;
-    width: 200px;
-    text-align: center;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    height: 320px;
+  background-color: white;
+  border: 1px solid white;
+  border-radius: 8px;
+  margin: 10px;
+  padding: 15px;
+  width: 200px;
+  text-align: center;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  height: 320px;
 }
 
 /* Book image */
 img {
-    width: 150px;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 4px;
-    margin-bottom: 10px;
-    display: block;
-    margin-left: auto; 
-    margin-right: auto;
+  width: 150px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 li:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* Message for no books available */
 p {
-    text-align: center;
-    font-size: 1.2em;
-    color: #000000;
+  text-align: center;
+  font-size: 1.2em;
+  color: #000000;
 }
 
 /* Button for adding a new book */
 a[href="/newBook"] {
-    display: block;
-    text-align: center;
-    background-color: #2a2a72;
-    color: white;
-    padding: 12px;
-    margin-top: 20px;
-    border-radius: 5px;
-    font-weight: bold;
-    width: 200px;
-    margin: 20px auto;
+  display: block;
+  text-align: center;
+  background-color: #2a2a72;
+  color: white;
+  padding: 12px;
+  margin-top: 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  width: 200px;
+  margin: 20px auto;
 }
 
 a[href="/newBook"]:hover {
-    background-color: #5e6b8d;
+  background-color: #5e6b8d;
 }
 
 .return {
-    display: block;
-    text-align: center;
-    background-color: #2a2a72;
-    color: white;
-    padding: 12px;
-    margin-top: 20px;
-    border-radius: 5px;
-    font-weight: bold;
-    width: 200px;
-    margin: 20px auto;
+  display: block;
+  text-align: center;
+  background-color: #2a2a72;
+  color: white;
+  padding: 12px;
+  margin-top: 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  width: 200px;
+  margin: 20px auto;
 }
 
 .return:hover {
-    background-color: #5e6b8d;
+  background-color: #5e6b8d;
 }
 
 .deleteAccount {
-    display: block;
-    text-align: center;
-    background-color: #ee4848;
-    color: rgb(0, 0, 0);
-    padding: 12px;
-    margin-top: 20px;
-    border-radius: 5px;
-    font-weight: bold;
-    width: 200px;
-    margin: 20px auto;
+  display: block;
+  text-align: center;
+  background-color: #ee4848;
+  color: rgb(0, 0, 0);
+  padding: 12px;
+  margin-top: 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  width: 200px;
+  margin: 20px auto;
 }
 
 .home-button {
-    border: none;
-    background: none;
-    cursor: pointer;
-    font-size: 24px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 24px;
 }
 
 /* Footer */
 footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #333;
-    color: white;
-    margin-top: 40px;
+  text-align: center;
+  padding: 20px;
+  background-color: #333;
+  color: white;
+  margin-top: 40px;
 }
 
 footer p {
-    margin: 0;
+  margin: 0;
 }
 
 /* Form */
 form {
-    width: 100%;
-    max-width: 400px; 
-    margin: 0 auto;    
-    padding: 20px;
-    text-align: center;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
 }
 
 /* Text fields (username and password) */
-input[type="text"], input[type="password"] {
-    width: 100%;
-    max-width: 100%;  
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 1em;
-    background-color: #fff;
-    color: #333;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  max-width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1em;
+  background-color: #fff;
+  color: #333;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Input focus */
-input[type="text"]:focus, input[type="password"]:focus {
-    border-color: #2a2a72;
-    box-shadow: 0 0 5px rgba(42, 42, 114, 0.5);
-    outline: none;
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-color: #2a2a72;
+  box-shadow: 0 0 5px rgba(42, 42, 114, 0.5);
+  outline: none;
 }
 
 /* Submit */
 input[type="submit"] {
-    width: 100%;
-    max-width: 400px; 
-    padding: 12px;
-    background-color: #2a2a72; 
-    color: white;
-    border: none;
-    border-radius: 5px; 
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 20px;
+  width: 100%;
+  max-width: 400px;
+  padding: 12px;
+  background-color: #2a2a72;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
 }
 
 input[type="submit"]:hover {
-    background-color: #5e6b8d; 
+  background-color: #5e6b8d;
 }
 
 form p {
-    text-align: center;
+  text-align: center;
 }
 
 .username {
-    font-weight: bold;
-    margin-bottom: 5px; 
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
 .comment {
-    font-style: italic;
+  font-style: italic;
 }
 
 li form {
-    width: 50%;
-    display: flex;
-    justify-content: center;
-    margin-top: auto;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
 }
 
 .deletereview {
-    width: 100%;
-    padding: 10px;
-    background-color: #ff4d4d;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  width: 100%;
+  padding: 10px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .deleteReview:hover {
-    background-color: #cc0000;
+  background-color: #cc0000;
 }
 
 textarea {
-    width: 100%;
-    max-width: 100%;  
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 1em;
-    background-color: #fff;
-    color: #333;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  max-width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1em;
+  background-color: #fff;
+  color: #333;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
-
 
 input[type="number"] {
-    width: 50%;
-    max-width: 100%;  
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 1em;
-    background-color: #fff;
-    color: #333;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease; 
-    text-align: center;
+  width: 50%;
+  max-width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1em;
+  background-color: #fff;
+  color: #333;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
 }
 
-
 input[type="file"] {
-    border: 2px solid #ccc;
-    padding: 8px;
-    border-radius: 5px;
-    background-color: #f8f8f8;
-    font-size: 16px;
-    cursor: pointer;
+  border: 2px solid #ccc;
+  padding: 8px;
+  border-radius: 5px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  cursor: pointer;
 }

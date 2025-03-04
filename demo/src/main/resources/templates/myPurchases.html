@@ -1,26 +1,24 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="/css/styles.css">
-    </head>
-    <body>
-        <h1>Mis Pedidos</h1>
-        <ul>
-            {{#purchases}}
-                <li>
-                    <p>Id del pedido: {{id}}</p>
-                    <p>Fecha del pedido: {{date}}</p>
-                    <p>Estado: {{state}}</p>
-                    <form action="/deletePurchase/{{id}}" method="post">
-                        <input type="submit" value="Eliminar"/>
-                    </form>
-                </li>
-            {{/purchases}}
+  <head>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <h1>Mis Pedidos</h1>
+    <ul>
+      {{#purchases}}
+      <li>
+        <p>Id del pedido: {{id}}</p>
+        <p>Fecha del pedido: {{date}}</p>
+        <p>Estado: {{state}}</p>
+        <form action="/deletePurchase/{{id}}" method="post">
+          <input type="submit" value="Eliminar" />
+        </form>
+      </li>
+      {{/purchases}} {{^purchases}}
+      <p>Aun no tienes pedidos</p>
+      {{/purchases}}
+    </ul>
 
-            {{^purchases}}
-                <p>Aun no tienes pedidos</p>
-            {{/purchases}}
-        </ul>
-
-        <a href="/profile" class="return">Volver</a>
-    </body>
+    <a href="/profile" class="return">Volver</a>
+  </body>
 </html>

@@ -1,25 +1,19 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="/css/styles.css">
-    </head>
-    <body>
-        {{#loged}}
-        <h1>
-            {{loged}}
-        </h1>
-        {{/loged}}
-        {{^loged}}
-        <h1>Usuarios</h1>
-        {{/loged}}
+  <head>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    {{#loged}}
+    <h1>{{loged}}</h1>
+    {{/loged}} {{^loged}}
+    <h1>Usuarios</h1>
+    {{/loged}}
     <ul>
-        {{#users}}
-            <li>{{userName}}</li>
-        {{/users}}
-
-        {{^users}}
-        <li>Sin Usuarios</li>
-        {{/users}}
+      {{#users}}
+      <li>{{userName}}</li>
+      {{/users}} {{^users}}
+      <li>Sin Usuarios</li>
+      {{/users}}
     </ul>
-    </body>
-
+  </body>
 </html>

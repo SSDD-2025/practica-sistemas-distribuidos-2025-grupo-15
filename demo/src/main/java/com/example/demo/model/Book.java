@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 public class Book {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -17,15 +17,15 @@ public class Book {
     private String synopsis;
     private double price;
     private int ISBN;
-    
+
     @Lob
     private Blob imageFile;
-    
+
     @OneToMany(mappedBy = "reviewBook", cascade = CascadeType.ALL)
     private List<Review> bookReviews;
 
-    
-    public Book() {}
+    public Book() {
+    }
 
     public Book(int ISBN, String title, String author, String synopsis, double price, Blob imageFile) {
         super();
@@ -69,11 +69,12 @@ public class Book {
         this.synopsis = synopsis;
     }
 
-    public double getPrice() { 
-        return price; 
+    public double getPrice() {
+        return price;
     }
+
     public void setPrice(double price) {
-         this.price = price; 
+        this.price = price;
     }
 
     public List<Review> getBookReviews() {
@@ -84,9 +85,10 @@ public class Book {
         this.bookReviews = bookReviews;
     }
 
-    public void addReview(Review review){
+    public void addReview(Review review) {
         this.bookReviews.add(review);
     }
+
     public Blob getImageFile() {
         return imageFile;
     }
@@ -103,4 +105,3 @@ public class Book {
         this.id = id;
     }
 }
-

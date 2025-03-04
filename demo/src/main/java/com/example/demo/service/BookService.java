@@ -18,14 +18,14 @@ public class BookService {
     @Autowired
     PurchaseService purchaseService;
 
-    public Collection<Book>getBooks(){
+    public Collection<Book> getBooks() {
         Iterable<Book> books = bookRepository.findAll();
         Collection<Book> bookList = new ArrayList<>();
         books.forEach(bookList::add);
         return bookList;
     }
 
-    public Book getBookByISBN(int ISBN){     
+    public Book getBookByISBN(int ISBN) {
         return bookRepository.findByISBN(ISBN);
     }
 
@@ -63,4 +63,3 @@ public class BookService {
         return false;
     }
 }
-

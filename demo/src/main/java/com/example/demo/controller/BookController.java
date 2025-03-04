@@ -20,7 +20,6 @@ import com.example.demo.service.ReviewService;
 
 import jakarta.servlet.http.HttpSession;
 
-
 @Controller
 public class BookController {
 
@@ -43,21 +42,21 @@ public class BookController {
         model.addAttribute("book", book);
         model.addAttribute("reviews", reviewService.getReviews(book));
         return "book";
-       
+
     }
 
     @GetMapping("/book/{id}/image")
     public ResponseEntity<Object> downloadImage(@PathVariable int id) throws SQLException {
         Book book = bookService.getBook(id);
-        
+
         if (book != null && book.getImageFile() != null) {
             Blob image = book.getImageFile();
             InputStreamResource file = new InputStreamResource(image.getBinaryStream());
 
             return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
-                .contentLength(image.length())
-                .body(file);
+                    .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
+                    .contentLength(image.length())
+                    .body(file);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -68,19 +67,20 @@ public class BookController {
         Integer userId = (Integer) session.getAttribute("userId");
 
         if (userId == null) {
-            return "errorNoSesionAddBook"; 
+            return "errorNoSesionAddBook";
         }
 
         model.addAttribute("book", new Book());
-        return "newBook"; 
+        return "newBook";
     }
 
     @PostMapping("/newBook")
-    public String createBook(@ModelAttribute Book book, @RequestParam("image") MultipartFile imageFile, Model model) throws IOException {
-        
+    public String createBook(@ModelAttribute Book book, @RequestParam("image") MultipartFile imageFile, Model model)
+            throws IOException {
+
         if (bookService.getBookByISBN(book.getISBN()) != null) {
             model.addAttribute("error", "Error: El libro con ese ISBN ya existe.");
-            return "newBook";  
+            return "newBook";
         }
 
         if (!imageFile.isEmpty()) {
@@ -89,7 +89,7 @@ public class BookController {
 
         bookService.createBook(book);
         model.addAttribute("success", "El libro ha sido añadido correctamente.");
-        model.addAttribute("books", bookService.getBooks());  
+        model.addAttribute("books", bookService.getBooks());
 
         return "redirect:/";
     }
@@ -98,13 +98,13 @@ public class BookController {
     public String editBook(@RequestParam int id, HttpSession session, Model model) {
         Integer userId = (Integer) session.getAttribute("userId");
 
-        if (userId == null) {  
-            model.addAttribute("ISBN", id); 
-            return "errorNoSesionEditBook"; 
+        if (userId == null) {
+            model.addAttribute("ISBN", id);
+            return "errorNoSesionEditBook";
         }
 
         Book book = bookService.getBook(id);
-        
+
         if (book != null) {
             model.addAttribute("book", book);
             return "editBook";
@@ -112,12 +112,12 @@ public class BookController {
 
         model.addAttribute("error", "Error: El libro no existe.");
         model.addAttribute("books", bookService.getBooks());
-        return "home"; 
+        return "home";
     }
 
-   
     @PostMapping("/saveEdit")
-    public String saveEditedBook(@ModelAttribute Book book, @RequestParam(value = "image", required = false) MultipartFile imageFile, Model model) throws IOException{
+    public String saveEditedBook(@ModelAttribute Book book,
+            @RequestParam(value = "image", required = false) MultipartFile imageFile, Model model) throws IOException {
         Book existingBook = bookService.getBook(book.getId());
 
         if (imageFile != null && !imageFile.isEmpty()) {
@@ -128,18 +128,17 @@ public class BookController {
         bookService.updateBook(book);
         model.addAttribute("success", "El libro ha sido actualizado correctamente.");
         model.addAttribute("books", bookService.getBooks());
-        return "home"; 
+        return "home";
     }
 
-    
     @PostMapping("/deleteBook")
     public String deleteBook(@RequestParam int id, HttpSession session, Model model) {
         Integer userId = (Integer) session.getAttribute("userId");
         Book book = bookService.getBook(id);
 
         if (userId == null) {
-            model.addAttribute("ISBN", id); 
-            return "errorNoSessionDeleteBook"; 
+            model.addAttribute("ISBN", id);
+            return "errorNoSessionDeleteBook";
         }
         if (book == null) {
             model.addAttribute("error", "Error: El libro no existe.");
@@ -148,9 +147,8 @@ public class BookController {
             model.addAttribute("success", "El libro ha sido eliminado correctamente.");
         }
 
-        model.addAttribute("books", bookService.getBooks()); 
-        return "redirect:/"; 
+        model.addAttribute("books", bookService.getBooks());
+        return "redirect:/";
     }
 
 }
-

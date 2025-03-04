@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 
-
-
 @Controller
 public class ReviewController {
     @Autowired
@@ -36,11 +34,11 @@ public class ReviewController {
         Integer userId = (Integer) session.getAttribute("userId");
         Integer bookId = (Integer) session.getAttribute("bookId");
 
-        if (userId == null){
-            model.addAttribute("ISBN", bookId); 
+        if (userId == null) {
+            model.addAttribute("ISBN", bookId);
             return "errorNoSessionAddReview";
         }
-        if (bookId == null){
+        if (bookId == null) {
             return "error";
         }
 
@@ -54,10 +52,10 @@ public class ReviewController {
         Integer userId = (Integer) session.getAttribute("userId");
         Integer bookId = (Integer) session.getAttribute("bookId");
 
-        if (userId == null){
+        if (userId == null) {
             return "redirect:/home";
         }
-        if (bookId == null){
+        if (bookId == null) {
             return "redirect:/home";
         }
 
@@ -72,25 +70,25 @@ public class ReviewController {
     }
 
     @GetMapping("/myReviews")
-    public String myReviews(HttpSession session, Model model){
+    public String myReviews(HttpSession session, Model model) {
         Integer userId = (Integer) session.getAttribute("userId");
-        if (userId != null){
+        if (userId != null) {
             User user = userService.getUser(userId);
-            if (user != null){
+            if (user != null) {
                 model.addAttribute("reviews", reviewService.getReviews(user));
             }
         }
         return "myReviews";
     }
-    
+
     @PostMapping("/deleteReview/{id}")
-    public String deleteReview(@PathVariable int id ) {
+    public String deleteReview(@PathVariable int id) {
         Review review = reviewService.getReview(id);
-        if (review == null){
+        if (review == null) {
             return "error";
         }
         reviewService.deleteReview(review);
         return "redirect:/myReviews";
     }
-    
+
 }

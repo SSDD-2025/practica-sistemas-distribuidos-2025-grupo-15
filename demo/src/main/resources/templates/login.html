@@ -1,33 +1,35 @@
 <html>
-<head>
+  <head>
     <title>Iniciar sesión</title>
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
     <h1>Iniciar sesión</h1>
 
     {{#errorMessage}}
-        <div style="color:red;">
-            <p>{{errorMessage}}</p>
-        </div>
+    <div style="color: red">
+      <p>{{errorMessage}}</p>
+    </div>
     {{/errorMessage}}
 
     <form action="/login" method="post">
-        <p>Nombre de usuario</p>
-        <input type="text" name="userName" required>
+      <p>Nombre de usuario</p>
+      <input type="text" name="userName" required />
 
-        <p>Introduzca la contraseña</p>
-        <input type="password" name="password" id="password" required>
-        <input type="checkbox" id="showPassword" onclick="togglePassword()"> Mostrar contraseña
+      <p>Introduzca la contraseña</p>
+      <input type="password" name="password" id="password" required />
+      <input type="checkbox" id="showPassword" onclick="togglePassword()" />
+      Mostrar contraseña
 
-        <p><input type="submit" value="Iniciar sesión" /></p>
+      <p><input type="submit" value="Iniciar sesión" /></p>
     </form>
 
     <script>
-        function togglePassword() {
-            const passwordField = document.getElementById("password");
-            passwordField.type = passwordField.type === "password" ? "text" : "password";
-        }
+      function togglePassword() {
+        const passwordField = document.getElementById("password");
+        passwordField.type =
+          passwordField.type === "password" ? "text" : "password";
+      }
     </script>
-</body>
+  </body>
 </html>

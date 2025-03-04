@@ -18,22 +18,22 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    private String userName; 
+    private String userName;
     private String password;
 
     @OneToMany(mappedBy = "reviewUser", cascade = CascadeType.ALL)
     private List<Review> userReviews = new ArrayList<>();
 
-    
     @OneToMany(mappedBy = "purchaseUser", cascade = CascadeType.ALL)
-    private List<Purchase> userPurchases = new ArrayList<>(); 
+    private List<Purchase> userPurchases = new ArrayList<>();
 
-    public User(){}
+    public User() {
+    }
 
-    public User(String userName, String password){
+    public User(String userName, String password) {
         super();
         this.userName = userName;
-        this.password = password; 
+        this.password = password;
     }
 
     public int getId() {
@@ -75,5 +75,5 @@ public class User {
     public void setUserPurchases(List<Purchase> userPurchases) {
         this.userPurchases = userPurchases;
     }
-    
+
 }

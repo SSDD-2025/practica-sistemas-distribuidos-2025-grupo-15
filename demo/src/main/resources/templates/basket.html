@@ -1,38 +1,31 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="/css/styles.css">
-    </head>
-    <body>
-        <h1>Tu Cesta</h1>
-        
-        
-            
-            <ul>
-                {{#purchaseBooks}}
-                <li>
-                    <a href="/book/{{id}}">
-                        <img src="/book/{{id}}/image" alt="{{title}}" width="">
-                        {{title}}
-                        <hr>
-                        {{price}} $
-                    </a>
-                </li>
-                {{/purchaseBooks}}
+  <head>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <h1>Tu Cesta</h1>
 
-                {{^purchaseBooks}}
-                <p>Aun no has añadido ningún libro a la cesta</p>
-                {{/purchaseBooks}} 
-            </ul>
-            
-        <form action="/basket" method="post">
-            {{#totalPrice}}
-            <input type="submit" value="Comprar {{totalPrice}} $"/>
-            {{/totalPrice}}
+    <ul>
+      {{#purchaseBooks}}
+      <li>
+        <a href="/book/{{id}}">
+          <img src="/book/{{id}}/image" alt="{{title}}" width="" />
+          {{title}}
+          <hr />
+          {{price}} $
+        </a>
+      </li>
+      {{/purchaseBooks}} {{^purchaseBooks}}
+      <p>Aun no has añadido ningún libro a la cesta</p>
+      {{/purchaseBooks}}
+    </ul>
 
-        </form>
-        
+    <form action="/basket" method="post">
+      {{#totalPrice}}
+      <input type="submit" value="Comprar {{totalPrice}} $" />
+      {{/totalPrice}}
+    </form>
 
-        
-        <a href="/" class="return">Volver</a>
-    </body>
+    <a href="/" class="return">Volver</a>
+  </body>
 </html>

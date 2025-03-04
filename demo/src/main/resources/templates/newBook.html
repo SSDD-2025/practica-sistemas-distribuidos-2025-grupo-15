@@ -1,25 +1,23 @@
 <html>
-<head>
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
-
+  <head>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
     <h1>Añadir Nuevo Libro</h1>
     <form action="/newBook" method="post" enctype="multipart/form-data">
-        <p>Título:</p>
-        <input type="text" name="title" required>
-        <p>Autor:</p>
-        <input type="text" name="author" required>
-        <p>Sinopsis:</p>
-        <textarea name="synopsis" rows="5" cols="40" required></textarea>
-        <p>Precio:</p>
-        <input type="number" step="0.01" name="price" required>
-        <p>ISBN:</p>
-        <input type="number" name="ISBN" required>
-        <p>Imagen:</p>
-        <input type="file" name="image" accept="image/*">
-        <p><input type="submit" value="Añadir Libro"/></p>
+      <p>Título:</p>
+      <input type="text" name="title" required />
+      <p>Autor:</p>
+      <input type="text" name="author" required />
+      <p>Sinopsis:</p>
+      <textarea name="synopsis" rows="5" cols="40" required></textarea>
+      <p>Precio:</p>
+      <input type="number" step="0.01" name="price" required />
+      <p>ISBN:</p>
+      <input type="number" name="ISBN" required />
+      <p>Imagen:</p>
+      <input type="file" name="image" accept="image/*" />
+      <p><input type="submit" value="Añadir Libro" /></p>
     </form>
-
-</body>
+  </body>
 </html>

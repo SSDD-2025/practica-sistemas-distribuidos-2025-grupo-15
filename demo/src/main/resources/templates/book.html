@@ -1,58 +1,52 @@
 <html>
-<head>
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
-
+  <head>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
     <h1>{{book.title}}</h1>
-    <img src="/book/{{book.id}}/image" alt="{{book.title}}" width = "100">
+    <img src="/book/{{book.id}}/image" alt="{{book.title}}" width="100" />
     <h3>Autor: {{book.author}}</h3>
     <p>{{book.synopsis}}</p>
     <h4>Precio: {{book.price}}$</h4>
-    
-    <hr>
+
+    <hr />
 
     <form action="/addToBasket" method="post">
-        <input type="hidden" name="id" value="{{book.id}}">
-        <input type="submit" value="Añadir a la cesta">
+      <input type="hidden" name="id" value="{{book.id}}" />
+      <input type="submit" value="Añadir a la cesta" />
     </form>
 
-    <hr>
+    <hr />
 
     <form action="/newReview" method="get">
-        <input type="submit" value="Añadir Reseña"/>
+      <input type="submit" value="Añadir Reseña" />
     </form>
-    
 
-    <hr>
+    <hr />
 
     <h2>Reseñas</h2>
     <ul>
-        {{#reviews}}
-            <li>
-                <p class="username">{{reviewUser.userName}}</p>
-                <hr>
-                <p class="comment">{{content}}</p>
-            </li>
-        {{/reviews}}
-
-        {{^reviews}}
-        <p>Aún no hay reseñas para este libro.</p>
-        {{/reviews}}
+      {{#reviews}}
+      <li>
+        <p class="username">{{reviewUser.userName}}</p>
+        <hr />
+        <p class="comment">{{content}}</p>
+      </li>
+      {{/reviews}} {{^reviews}}
+      <p>Aún no hay reseñas para este libro.</p>
+      {{/reviews}}
     </ul>
 
-    <hr>
+    <hr />
 
     <form action="/editBook" method="get">
-        <input type="hidden" name="id" value="{{book.id}}">
-        <input type="submit" value="Editar">
+      <input type="hidden" name="id" value="{{book.id}}" />
+      <input type="submit" value="Editar" />
     </form>
-    
 
     <form action="/deleteBook" method="post">
-        <input type="hidden" name="id" value="{{book.id}}">
-        <input type="submit" value="Eliminar">
+      <input type="hidden" name="id" value="{{book.id}}" />
+      <input type="submit" value="Eliminar" />
     </form>
-
-</body>
+  </body>
 </html>
