@@ -47,6 +47,9 @@ Desde esta pantalla podrás crear y añadir un libro nuevo a la aplicación prop
 ### Pantalla Editar libro 
 ![](EditBook.png)
 En esta pantalla podrás editar la información sobre el libro seleccionado. 
+### Pantalla nueva reseña
+![](newReview.png)
+En esta pantalla podrás realizar una reseña sobre el libro que has seleccionado, la cual quedará guardada.
 ### Pantalla de la cesta
 ![](basket.png)
 En esta pantalla podrás ver los libros que tienes en tu cesta, con el precio de cada uno y el precio total, además podrás comprar dichos libros o volver hacia la pantalla de inicio para seguir comprando. 
