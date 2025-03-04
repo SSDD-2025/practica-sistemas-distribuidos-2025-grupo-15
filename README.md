@@ -62,6 +62,8 @@ En esta pantalla podrás ver y eliminar tus reseñas.
 ### Pantalla de mis pedidos 
 ![](myPurchases.png)
 En esta pantalla podrás ver y eliminar tus pedidos. 
+### Diagrama de navegación 
+![](diagramaFlujo.png)
 ## Instrucciones de ejecución 
 ## Diagrama con las entidades de la base de datos 
 ![](DIAGRAMA.png)
