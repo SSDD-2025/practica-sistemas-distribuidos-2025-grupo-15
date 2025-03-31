@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.model.Book;
@@ -36,6 +37,9 @@ public class DatabaseInitializer {
     @Autowired
     private UserService userService;
 
+        @Autowired
+        PasswordEncoder passwordEncoder;
+
     @PostConstruct
     public void init() throws IOException {
 
@@ -56,9 +60,9 @@ public class DatabaseInitializer {
         bookService.createBook(book2);
 
         /* Create some users */
-        User user1 = new User("Paula", "password", new ArrayList<>(Arrays.asList("USER", "ADMIN")));
-        User user2 = new User("Lucía", "1234", new ArrayList<>(Arrays.asList("USER")));
-        User user3 = new User("A", "1", new ArrayList<>(Arrays.asList("USER")));
+        User user1 = new User("Paula", passwordEncoder.encode("password"), new ArrayList<>(Arrays.asList("USER", "ADMIN")));
+        User user2 = new User("Lucía", passwordEncoder.encode("1234"), new ArrayList<>(Arrays.asList("USER")));
+        User user3 = new User("A", passwordEncoder.encode("1"), new ArrayList<>(Arrays.asList("USER")));
 
         userService.createUser(user1);
         userService.createUser(user2);

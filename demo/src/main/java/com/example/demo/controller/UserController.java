@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -68,14 +69,14 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String profile(HttpSession session, Model model) {
-        Integer userId = (Integer) session.getAttribute("userId");
+    public String profile(HttpServletRequest request, Model model) {
+        String name = request.getUserPrincipal().getName();
 
-        if (userId == null) {
+        /*if (userId == null) {
             return "errorNoSesion";
-        }
+        }*/
 
-        User user = userService.getUser(userId);
+        User user = userService.getUser(name);
         if (user != null) {
             model.addAttribute("userName", user.getUserName());
             return "profile";
