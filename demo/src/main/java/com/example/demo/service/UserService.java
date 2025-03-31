@@ -30,7 +30,7 @@ public class UserService {
 
     public User getUser(String userName) {
         if (userRepository.existsByUserName(userName)) {
-            return userRepository.findByUserName(userName);
+            return userRepository.findByUserName(userName).get();
         }
         return null;
     }

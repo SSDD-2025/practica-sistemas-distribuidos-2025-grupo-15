@@ -42,13 +42,13 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String loginProcess(@RequestParam String userName, @RequestParam String password, HttpSession session,
+    public String loginProcess(@RequestParam String username, @RequestParam String password, HttpSession session,
             Model model) {
-        User user = userService.getUser(userName);
+        User user = userService.getUser(username);
         if (user == null) {
             model.addAttribute("errorMessage", "Usuario no encontrado");
             return "login";
-        } else if (!user.getPassword().equals(password)) {
+        } else if (!user.getEncodedPassword().equals(password)) {
             model.addAttribute("errorMessage", "Contraseña incorrecta");
             return "login";
         } else {

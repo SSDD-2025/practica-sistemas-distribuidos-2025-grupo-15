@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.sql.Blob;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.hibernate.engine.jdbc.BlobProxy;
@@ -55,9 +56,9 @@ public class DatabaseInitializer {
         bookService.createBook(book2);
 
         /* Create some users */
-        User user1 = new User("Paula", "password");
-        User user2 = new User("Lucía", "1234");
-        User user3 = new User("A", "1");
+        User user1 = new User("Paula", "password", new ArrayList<>(Arrays.asList("USER", "ADMIN")));
+        User user2 = new User("Lucía", "1234", new ArrayList<>(Arrays.asList("USER")));
+        User user3 = new User("A", "1", new ArrayList<>(Arrays.asList("USER")));
 
         userService.createUser(user1);
         userService.createUser(user2);
