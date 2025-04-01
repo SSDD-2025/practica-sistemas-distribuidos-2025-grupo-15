@@ -37,7 +37,17 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authenticationProvider(authenticationProvider());
-        http.authorizeHttpRequests(authorize -> authorize.requestMatchers("/").permitAll().anyRequest().permitAll())
+        http.authorizeHttpRequests(
+                authorize -> authorize
+                //PUBLIC
+                .requestMatchers("/").permitAll()
+                .requestMatchers("/css/styles.css").permitAll()
+                .requestMatchers("/book/image/**").permitAll()
+                .requestMatchers("/book/**").permitAll()
+                .requestMatchers("/basket").permitAll()
+                .requestMatchers("/createAccount").permitAll()
+                .requestMatchers("/addToBasket").permitAll()
+                .anyRequest().authenticated())
                 .formLogin(formLogin -> formLogin.loginPage("/login").failureUrl("/errorNoSesion")
                         .defaultSuccessUrl("/").permitAll())
                 .logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/").permitAll());

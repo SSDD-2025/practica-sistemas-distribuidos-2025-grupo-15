@@ -71,7 +71,7 @@ public class BookController {
 
     }
 
-    @GetMapping("/book/{id}/image")
+    @GetMapping("book/image/{id}")
     public ResponseEntity<Object> downloadImage(@PathVariable int id) throws SQLException {
         Book book = bookService.getBook(id);
 
@@ -89,10 +89,11 @@ public class BookController {
     }
 
     @GetMapping("/newBook")
-    public String newBookForm(HttpSession session, Model model) {
-        Integer userId = (Integer) session.getAttribute("userId");
+    public String newBookForm(HttpServletRequest request, Model model) {
+        String name = request.getUserPrincipal().getName();
+        User user = userService.getUser(name);
 
-        if (userId == null) {
+        if (user == null) {
             return "errorNoSesionAddBook";
         }
 
