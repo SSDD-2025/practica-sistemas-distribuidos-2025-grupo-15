@@ -1,10 +1,13 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
@@ -21,18 +24,22 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @GetMapping("/createAccount")
     public String createAccount(Model model) {
         return "createAccount";
     }
 
     @PostMapping("/createAccount")
-    public String createAccountProcess(@ModelAttribute User user, Model model) {
-        if (userService.userExists(user)) {
+    public String createAccountProcess(@RequestParam String userName,  @RequestParam String password, Model model) {
+        if (userService.getUser(userName) != null) {
             model.addAttribute("errorMessage", "El nombre de usuario ya está registrado.");
             return "createAccount";
         }
 
+        User user = new User(userName, passwordEncoder.encode(password), new ArrayList<>(Arrays.asList("USER")));
         userService.createUser(user);
         return "redirect:/";
     }
@@ -43,7 +50,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String loginProcess(@RequestParam String username, @RequestParam String password, HttpSession session,
+    public String loginProcess(@RequestParam String username, @RequestParam String password,
             Model model) {
         User user = userService.getUser(username);
         if (user == null) {
@@ -53,7 +60,6 @@ public class UserController {
             model.addAttribute("errorMessage", "Contraseña incorrecta");
             return "login";
         } else {
-            session.setAttribute("userId", user.getId());
             return "redirect:/";
         }
     }
@@ -72,10 +78,6 @@ public class UserController {
     public String profile(HttpServletRequest request, Model model) {
         String name = request.getUserPrincipal().getName();
 
-        /*if (userId == null) {
-            return "errorNoSesion";
-        }*/
-
         User user = userService.getUser(name);
         if (user != null) {
             model.addAttribute("userName", user.getUserName());
@@ -86,14 +88,11 @@ public class UserController {
     }
 
     @PostMapping("/profile")
-    public String deleteUser(HttpSession session) {
-        Integer userId = (Integer) session.getAttribute("userId");
-        if (userId != null) {
-            User user = userService.getUser(userId);
-            if (user != null) {
-                session.setAttribute("userId", null);
-                userService.deleteUser(userId);
-            }
+    public String deleteUser(HttpServletRequest request) {
+        String name = request.getUserPrincipal().getName();
+        User user = userService.getUser(name);
+        if (user != null) {
+            userService.deleteUser(user.getId());
         }
         return "redirect:/";
     }

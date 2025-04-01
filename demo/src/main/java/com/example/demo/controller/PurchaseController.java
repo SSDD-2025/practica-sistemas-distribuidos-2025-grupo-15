@@ -17,6 +17,7 @@ import com.example.demo.service.BookService;
 import com.example.demo.service.PurchaseService;
 import com.example.demo.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -47,16 +48,17 @@ public class PurchaseController {
     }
 
     @PostMapping("/basket")
-    public String basketProcess(HttpSession session, Model model) {
+    public String basketProcess(HttpSession session, Model model, HttpServletRequest request) {
         Integer purchaseId = (Integer) session.getAttribute("purchaseId");
-        Integer userId = (Integer) session.getAttribute("userId");
+        String name = request.getUserPrincipal().getName();
+        User user = userService.getUser(name);
 
-        if (userId == null) {
+        if (user == null) {
             return "redirect:/noLogged";
         }
-        if (purchaseId != null && userId != null) {
+        if (purchaseId != null && user != null) {
             Purchase purchase = purchaseService.getPurchase(purchaseId);
-            purchase.setPurchaseUser(userService.getUser(userId));
+            purchase.setPurchaseUser(user);
             purchase.setState("Pedido");
             purchase.setDate(LocalDateTime.now());
             purchaseService.updatePurchase(purchase);
@@ -90,17 +92,16 @@ public class PurchaseController {
     }
 
     @GetMapping("/myPurchases")
-    public String myPurchases(HttpSession session, Model model) {
-        Integer userId = (Integer) session.getAttribute("userId");
-        if (userId != null) {
-            User user = userService.getUser(userId);
-            if (user != null) {
-                Collection<Purchase> purchases = purchaseService.getPurchases(user);
-                if (purchases != null) {
-                    model.addAttribute("purchases", purchases);
-                }
+    public String myPurchases(HttpServletRequest request, Model model) {
+        String name = request.getUserPrincipal().getName();
+        User user = userService.getUser(name);
+        if (user != null) {
+            Collection<Purchase> purchases = purchaseService.getPurchases(user);
+            if (purchases != null) {
+                model.addAttribute("purchases", purchases);
             }
         }
+        
         return "myPurchases";
     }
 

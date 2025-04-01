@@ -11,6 +11,7 @@ import com.example.demo.service.BookService;
 import com.example.demo.service.ReviewService;
 import com.example.demo.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,11 +31,12 @@ public class ReviewController {
     private BookService bookService;
 
     @GetMapping("/newReview")
-    public String newReview(HttpSession session, Model model) {
-        Integer userId = (Integer) session.getAttribute("userId");
+    public String newReview(HttpSession session, Model model, HttpServletRequest request) {
+        String name = request.getUserPrincipal().getName();
+        User user = userService.getUser(name);
         Integer bookId = (Integer) session.getAttribute("bookId");
 
-        if (userId == null) {
+        if (user == null) {
             model.addAttribute("ISBN", bookId);
             return "errorNoSessionAddReview";
         }
@@ -42,24 +44,24 @@ public class ReviewController {
             return "error";
         }
 
-        model.addAttribute("userName", userService.getUser(userId).getUserName());
+        model.addAttribute("userName", name);
         model.addAttribute("title", bookService.getBook(bookId).getTitle());
         return "newReview";
     }
 
     @PostMapping("/newReview")
-    public String newReviewProcess(@RequestParam String content, HttpSession session, Model model) {
-        Integer userId = (Integer) session.getAttribute("userId");
+    public String newReviewProcess(@RequestParam String content, HttpSession session, Model model, HttpServletRequest request) {
+        String name = request.getUserPrincipal().getName();
+        User user = userService.getUser(name);
         Integer bookId = (Integer) session.getAttribute("bookId");
 
-        if (userId == null) {
+        if (user == null) {
             return "redirect:/home";
         }
         if (bookId == null) {
             return "redirect:/home";
         }
-
-        User user = userService.getUser(userId);
+        
         Book book = bookService.getBook(bookId);
 
         Review newReview = new Review(user, book, content);
@@ -70,14 +72,14 @@ public class ReviewController {
     }
 
     @GetMapping("/myReviews")
-    public String myReviews(HttpSession session, Model model) {
-        Integer userId = (Integer) session.getAttribute("userId");
-        if (userId != null) {
-            User user = userService.getUser(userId);
-            if (user != null) {
-                model.addAttribute("reviews", reviewService.getReviews(user));
-            }
+    public String myReviews(HttpServletRequest request, Model model) {
+        String name = request.getUserPrincipal().getName();
+        User user = userService.getUser(name);
+        
+        if (user != null) {
+            model.addAttribute("reviews", reviewService.getReviews(user));
         }
+    
         return "myReviews";
     }
 

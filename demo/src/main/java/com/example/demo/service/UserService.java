@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,10 +30,12 @@ public class UserService {
     }
 
     public User getUser(String userName) {
-        if (userRepository.existsByUserName(userName)) {
-            return userRepository.findByUserName(userName).get();
+        Optional<User> user = userRepository.findByUserName(userName);
+        if (user.isPresent()){
+            return user.get();
+        } else{
+            return null;
         }
-        return null;
     }
 
     public User createUser(User user) {

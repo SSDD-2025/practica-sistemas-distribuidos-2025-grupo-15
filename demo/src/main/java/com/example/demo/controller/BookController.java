@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.sql.Blob;
 import java.sql.SQLException;
 
@@ -15,9 +16,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.model.Book;
+import com.example.demo.model.User;
 import com.example.demo.service.BookService;
 import com.example.demo.service.ReviewService;
+import com.example.demo.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -29,18 +33,40 @@ public class BookController {
     @Autowired
     private ReviewService reviewService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/")
-    public String showBooks(Model model, HttpSession session) {
+    public String showBooks(Model model, HttpServletRequest request) {
+        Principal req = request.getUserPrincipal();
+        User user = null;
+        if (req != null){
+            user = userService.getUser(req.getName());
+        }
         model.addAttribute("books", bookService.getBooks());
+        if(user != null){
+            model.addAttribute("admin", request.isUserInRole("ADMIN"));
+        }
+        
         return "home";
     }
 
     @GetMapping("/book/{id}")
-    public String showBook(@PathVariable int id, Model model, HttpSession session) {
+    public String showBook(@PathVariable int id, Model model, HttpSession session, HttpServletRequest request) {
+        Principal req = request.getUserPrincipal();
+        User user = null;
+        if (req != null){
+            user = userService.getUser(req.getName());
+        }
+        
         Book book = bookService.getBook(id);
         session.setAttribute("bookId", id);
         model.addAttribute("book", book);
         model.addAttribute("reviews", reviewService.getReviews(book));
+        if(user != null){
+            model.addAttribute("admin", request.isUserInRole("ADMIN"));
+        }
+
         return "book";
 
     }
@@ -95,10 +121,11 @@ public class BookController {
     }
 
     @GetMapping("/editBook")
-    public String editBook(@RequestParam int id, HttpSession session, Model model) {
-        Integer userId = (Integer) session.getAttribute("userId");
+    public String editBook(@RequestParam int id, HttpServletRequest request, Model model) {
+        String name = request.getUserPrincipal().getName();
+        User user = userService.getUser(name);
 
-        if (userId == null) {
+        if (user == null) {
             model.addAttribute("ISBN", id);
             return "errorNoSesionEditBook";
         }
@@ -132,11 +159,12 @@ public class BookController {
     }
 
     @PostMapping("/deleteBook")
-    public String deleteBook(@RequestParam int id, HttpSession session, Model model) {
-        Integer userId = (Integer) session.getAttribute("userId");
+    public String deleteBook(@RequestParam int id, HttpServletRequest request, Model model) {
+        String name = request.getUserPrincipal().getName();
+        User user = userService.getUser(name);
         Book book = bookService.getBook(id);
 
-        if (userId == null) {
+        if (user == null) {
             model.addAttribute("ISBN", id);
             return "errorNoSessionDeleteBook";
         }
