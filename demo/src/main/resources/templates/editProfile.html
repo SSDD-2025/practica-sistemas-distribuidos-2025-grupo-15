@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <h2>Editar Perfil</h2>
+
+    <form action="/saveEditProfile" method="post">
+        <p>Nombre de usuario:</p>
+        <input type="text" name="userName" required />
+      
+        <p>Contraseña:</p>
+        <input type="password" name="password" />
+
+        <input type="hidden" name="_csrf" value="{{token}}"/>
+      
+        <p><input type="submit" value="Guardar Cambios" /></p>
+    </form>
+  </body>
+</html>

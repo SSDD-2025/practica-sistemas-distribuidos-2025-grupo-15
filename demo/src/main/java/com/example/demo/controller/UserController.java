@@ -96,4 +96,45 @@ public class UserController {
         }
         return "redirect:/";
     }
+
+    @GetMapping("/editProfile")
+    public String editProfile(HttpServletRequest request, Model model) {
+        String currentUsername = request.getUserPrincipal().getName();
+        User user = userService.getUser(currentUsername);
+
+        if (user != null) {
+            return "editProfile";
+        }
+        return "home";
+    }
+
+    @PostMapping("/saveEditProfile")
+    public String saveEditedProfile(HttpServletRequest request, @RequestParam String userName, 
+                                    @RequestParam(required = false) String password, 
+                                    Model model) {
+        String currentUsername = request.getUserPrincipal().getName();
+        User user = userService.getUser(currentUsername);
+
+        if (user != null) {
+            // Solo verificar si el nombre de usuario ha cambiado
+            if (!user.getUserName().equals(userName)) {
+                if (userService.getUser(userName) != null) {
+                    model.addAttribute("error", "El nombre de usuario ya está en uso.");
+                    model.addAttribute("userName", user.getUserName());  // Mantener el nombre actual en el formulario
+                    return "editProfile";
+                }
+                user.setUserName(userName); // Actualizar solo si cambia
+            }
+
+            // Actualizar la contraseña si se ingresó una nueva
+            if (password != null && !password.isBlank()) {
+                user.setEncodedPassword(passwordEncoder.encode(password));
+            }
+
+            // Guardar cambios en la base de datos
+            userService.updateUser(user);
+        }
+
+        return "redirect:/profile"; 
+    }
 }

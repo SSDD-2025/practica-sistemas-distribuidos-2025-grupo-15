@@ -25,6 +25,13 @@
       <input type="hidden" name="_csrf" value="{{token}}"/>
       <button type="submit" class="deleteAccount">Eliminar cuenta</button>
     </form>
+
+  </form>
+  <form action="/editProfile" method="get">
+      <input type="submit" value="Editar Perfil" />
+      <input type="hidden" name="_csrf" value="{{token}}"/>
+  </form>
+
     <form action="/logout" method="post">
       <input type="hidden" name="_csrf" value="{{token}}"/>
       <input type="submit" value="Sign Out" />
