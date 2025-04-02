@@ -11,6 +11,7 @@
         <p class="username">{{reviewUser.userName}}</p>
         <p class="comment">{{content}}</p>
         <form action="/deleteReview/{{id}}" method="post">
+          <input type="hidden" name="_csrf" value="{{token}}"/>
           <input type="submit" value="Eliminar" class="deleteReview" />
         </form>
       </li>

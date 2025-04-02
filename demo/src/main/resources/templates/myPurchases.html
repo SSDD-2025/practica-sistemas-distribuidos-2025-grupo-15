@@ -11,6 +11,7 @@
         <p>Fecha del pedido: {{date}}</p>
         <p>Estado: {{state}}</p>
         <form action="/deletePurchase/{{id}}" method="post">
+          <input type="hidden" name="_csrf" value="{{token}}"/>
           <input type="submit" value="Eliminar" />
         </form>
       </li>

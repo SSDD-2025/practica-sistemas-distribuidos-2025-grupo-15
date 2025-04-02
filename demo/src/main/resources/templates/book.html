@@ -19,6 +19,7 @@
     <hr />
 
     <form action="/newReview" method="get">
+      <input type="hidden" name="_csrf" value="{{token}}"/>
       <input type="submit" value="Añadir Reseña" />
     </form>
 
@@ -41,11 +42,13 @@
     {{#admin}}
     <form action="/editBook" method="get">
       <input type="hidden" name="id" value="{{book.id}}" />
+      <input type="hidden" name="_csrf" value="{{token}}"/>
       <input type="submit" value="Editar" />
     </form>
 
     <form action="/deleteBook" method="post">
       <input type="hidden" name="id" value="{{book.id}}" />
+      <input type="hidden" name="_csrf" value="{{token}}"/>
       <input type="submit" value="Eliminar" />
     </form>
     {{/admin}}

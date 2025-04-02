@@ -9,6 +9,7 @@
       <p>Libro: {{title}}</p>
       <p>Comentario:</p>
       <textarea name="content" rows="5" cols="40"></textarea>
+      <input type="hidden" name="_csrf" value="{{token}}"/>
       <p><input type="submit" value="Publicar" /></p>
     </form>
   </body>

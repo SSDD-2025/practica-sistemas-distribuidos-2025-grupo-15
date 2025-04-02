@@ -17,6 +17,7 @@
       <input type="number" name="ISBN" required />
       <p>Imagen:</p>
       <input type="file" name="image" accept="image/*" />
+      <input type="hidden" name="_csrf" value="{{token}}"/>
       <p><input type="submit" value="Añadir Libro" /></p>
     </form>
   </body>

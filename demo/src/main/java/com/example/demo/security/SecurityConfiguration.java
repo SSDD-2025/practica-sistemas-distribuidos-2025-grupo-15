@@ -10,8 +10,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.example.demo.service.RepositoryUserDetailsService;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
@@ -47,11 +45,15 @@ public class SecurityConfiguration {
                 .requestMatchers("/basket").permitAll()
                 .requestMatchers("/createAccount").permitAll()
                 .requestMatchers("/addToBasket").permitAll()
+                //ADMIN
+                .requestMatchers("/newBook").hasRole("ADMIN")
+                .requestMatchers("/editBook").hasRole("ADMIN")
+                .requestMatchers("/users").hasRole("ADMIN")
+                //OTHERS
                 .anyRequest().authenticated())
                 .formLogin(formLogin -> formLogin.loginPage("/login").failureUrl("/errorNoSesion")
                         .defaultSuccessUrl("/").permitAll())
                 .logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/").permitAll());
-        http.csrf(csrf -> csrf.disable());
         return http.build();
     }
 }
