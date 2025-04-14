@@ -1,10 +1,13 @@
 package com.example.demo.service;
 
 import java.util.Collection;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.PurchaseDTO;
+import com.example.demo.dto.PurchaseMapper;
 import com.example.demo.model.Book;
 import com.example.demo.model.Purchase;
 import com.example.demo.model.User;
@@ -15,36 +18,42 @@ public class PurchaseService {
     @Autowired
     PurchaseRepository purchaseRepository;
 
-    public Collection<Purchase> getPurchases() {
-        return purchaseRepository.findAll();
+    @Autowired
+    PurchaseMapper purchaseMapper;
+
+    public Collection<PurchaseDTO> getPurchases() {
+        return toDTOs(purchaseRepository.findAll());
     }
 
-    public Purchase getPurchase(int id) {
-        return purchaseRepository.findById(id);
+    public PurchaseDTO getPurchase(int id) {
+        return toDTO(purchaseRepository.findById(id).orElseThrow());
     }
 
-    public Collection<Purchase> getPurchases(User user) {
-        return purchaseRepository.findAllByPurchaseUser(user);
+    public Collection<PurchaseDTO> getPurchases(User user) {
+        return toDTOs(purchaseRepository.findAllByPurchaseUser(user));
     }
 
-    public Purchase createPurchase(Purchase purchase) {
-        return purchaseRepository.save(purchase);
+    public PurchaseDTO createPurchase(PurchaseDTO purchaseDTO) {
+        Purchase purchase = toDomain(purchaseDTO);
+        purchaseRepository.save(purchase);
+        return toDTO(purchase);
     }
 
-    public boolean deletePurchase(Purchase purchase) {
-        if (purchaseRepository.existsById(purchase.getId())) {
-            purchaseRepository.delete(purchaseRepository.findById(purchase.getId()));
-            return true;
+    public PurchaseDTO deletePurchase(int id) {
+        Purchase purchase = purchaseRepository.findById(id).orElseThrow();
+        purchaseRepository.deleteById(id);
+        return toDTO(purchase);
+    }
+
+    public PurchaseDTO updatePurchase(int id, PurchaseDTO purchaseDTO) {
+        if (purchaseRepository.existsById(id)) {
+            Purchase updatePurchase = toDomain(purchaseDTO);
+            updatePurchase.setId(id);
+            purchaseRepository.save(updatePurchase);
+            return toDTO(updatePurchase);
+        } else {
+            throw new NoSuchElementException();
         }
-        return false;
-    }
-
-    public boolean updatePurchase(Purchase purchase) {
-        if (purchaseRepository.existsById(purchase.getId())) {
-            purchaseRepository.save(purchase);
-            return true;
-        }
-        return false;
     }
 
     public double purchaseTotalPrice(Purchase purchase) {
@@ -56,14 +65,26 @@ public class PurchaseService {
     }
 
     public void quitBookFromPurchases(Book book) {
-        Collection<Purchase> allPurchases = this.getPurchases();
-        for (Purchase purchase : allPurchases) {
+        Collection<PurchaseDTO> allPurchases = this.getPurchases();
+        for (PurchaseDTO purchase : allPurchases) {
             do {
-                if (purchase.getBooks().contains(book)) {
-                    purchase.getBooks().remove(book);
+                if (toDomain(purchase).getBooks().contains(book)) {
+                    toDomain(purchase).getBooks().remove(book);
                 }
-            } while (purchase.getBooks().contains(book));
+            } while (toDomain(purchase).getBooks().contains(book));
 
         }
+    }
+
+    private PurchaseDTO toDTO(Purchase purchase) {
+        return purchaseMapper.toDTO(purchase);
+    }
+
+    private Purchase toDomain(PurchaseDTO purchaseDTO) {
+        return purchaseMapper.toDomain(purchaseDTO);
+    }
+
+    private Collection<PurchaseDTO> toDTOs(Collection<Purchase> purchases) {
+        return purchaseMapper.toDTOs(purchases);
     }
 }
