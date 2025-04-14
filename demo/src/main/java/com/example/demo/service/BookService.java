@@ -3,11 +3,16 @@ package com.example.demo.service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.BookDTO;
+import com.example.demo.dto.BookMapper;
+import com.example.demo.dto.UserDTO;
 import com.example.demo.model.Book;
+import com.example.demo.model.User;
 import com.example.demo.repository.BookRepository;
 
 @Service
@@ -18,48 +23,63 @@ public class BookService {
     @Autowired
     PurchaseService purchaseService;
 
-    public Collection<Book> getBooks() {
-        Iterable<Book> books = bookRepository.findAll();
-        Collection<Book> bookList = new ArrayList<>();
-        books.forEach(bookList::add);
-        return bookList;
+    @Autowired
+    BookMapper bookMapper;
+
+    public Collection<BookDTO> getBooks() {
+        return toDTOs(bookRepository.findAll());
     }
 
-    public Book getBookByISBN(int ISBN) {
-        return bookRepository.findByISBN(ISBN);
+    public BookDTO getBookByISBN(int ISBN) {
+        return toDTO(bookRepository.findByISBN(ISBN).orElseThrow());
     }
 
-    public Book getBook(int id) {
-        return bookRepository.findById(id);
+    public BookDTO getBook(int id) {
+        return toDTO(bookRepository.findByISBN(id).orElseThrow());
     }
 
-    public Book getBook(String title) {
-        return bookRepository.findByTitle(title);
+    public BookDTO getBook(String title) {
+        return toDTO(bookRepository.findByTitle(title).orElseThrow());
     }
 
-    public List<Book> getBooks(String author) {
-        return bookRepository.findByAuthor(author);
+    public Collection<BookDTO> getBooks(String author) {
+        return toDTOs(bookRepository.findByAuthor(author));
     }
 
-    public Book createBook(Book book) {
-        return bookRepository.save(book);
+    public BookDTO createBook(BookDTO bookDTO) {
+        Book book = toDomain(bookDTO);
+        bookRepository.save(book);
+        return toDTO(book);
     }
 
-    public boolean updateBook(Book book) {
-        if (bookRepository.existsById(book.getId())) {
-            bookRepository.save(book);
-            return true;
+    public BookDTO updateBook(int id, BookDTO bookDTO) {
+        if (bookRepository.existsById(id)){
+            Book updateBook = toDomain(bookDTO);
+            updateBook.setId(id);
+            bookRepository.save(updateBook);
+            return toDTO(updateBook);
         }
-        return false;
+        else{
+            throw new NoSuchElementException();
+        }
     }
 
-    public boolean deleteBook(int id) {
-        if (bookRepository.existsById(id)) {
-            Book book = this.getBook(id);
-            purchaseService.quitBookFromPurchases(book);
-            bookRepository.deleteById(id);
-            return true;
-        }
-        return false;
+    public BookDTO deleteBook(int id) {
+        Book book = bookRepository.findById(id).orElseThrow();
+        purchaseService.quitBookFromPurchases(book);
+        bookRepository.deleteById(id);
+        return toDTO(book);
+    }
+
+    private BookDTO toDTO(Book book){
+        return bookMapper.toDTO(book);
+    }
+
+    private Book toDomain(BookDTO bookDTO){
+        return bookMapper.toDomain(bookDTO);
+    }
+
+    private Collection<BookDTO> toDTOs(Collection<Book> books){
+        return bookMapper.toDTOs(books);
     }
 }
