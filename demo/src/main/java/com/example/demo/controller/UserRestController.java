@@ -8,7 +8,6 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.dto.UserDTO;
-import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
