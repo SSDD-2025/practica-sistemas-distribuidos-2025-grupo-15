@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.demo.dto.BookMapper;
 import com.example.demo.dto.PurchaseMapper;
+import com.example.demo.dto.ReviewMapper;
 import com.example.demo.dto.UserMapper;
 import com.example.demo.model.Book;
 import com.example.demo.model.Purchase;
@@ -48,6 +49,9 @@ public class DatabaseInitializer {
 
         @Autowired
         private PurchaseMapper purchaseMapper;
+
+        @Autowired
+        private ReviewMapper reviewMapper;
 
         @Autowired
         PasswordEncoder passwordEncoder;
@@ -86,8 +90,8 @@ public class DatabaseInitializer {
                                 "Esta muy bien y súper interesante se lo recomiendo a la gente que le gusta la Fantasia y el misterio");
                 Review review2 = new Review(user3, book1, "Es un libro");
 
-                reviewService.createReview(review1);
-                reviewService.createReview(review2);
+                reviewService.createReview(reviewMapper.toDTO(review1));
+                reviewService.createReview(reviewMapper.toDTO(review2));
 
                 /* Create some purchases */
                 Purchase purchase1 = new Purchase(user1, new ArrayList<Book>(List.of(book1, book2)),
