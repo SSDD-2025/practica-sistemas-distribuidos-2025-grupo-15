@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.example.demo.dto.UserDTO;
+import com.example.demo.dto.UserMapper;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 
@@ -27,6 +29,9 @@ public class UserController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @Autowired
+    UserMapper userMapper;
+
     @GetMapping("/createAccount")
     public String createAccount(Model model) {
         return "createAccount";
@@ -40,7 +45,7 @@ public class UserController {
         }
 
         User user = new User(userName, passwordEncoder.encode(password), new ArrayList<>(Arrays.asList("USER")));
-        userService.createUser(user);
+        userService.createUser(userMapper.toDTO(user));
         return "redirect:/";
     }
 
@@ -52,11 +57,11 @@ public class UserController {
     @PostMapping("/login")
     public String loginProcess(@RequestParam String username, @RequestParam String password,
             Model model) {
-        User user = userService.getUser(username);
-        if (user == null) {
+        UserDTO userDTO = userService.getUser(username);
+        if (userDTO == null) {
             model.addAttribute("errorMessage", "Usuario no encontrado");
             return "login";
-        } else if (!user.getEncodedPassword().equals(password)) {
+        } else if (!userDTO.encondedPassword().equals(password)) {
             model.addAttribute("errorMessage", "Contraseña incorrecta");
             return "login";
         } else {
@@ -68,7 +73,7 @@ public class UserController {
     public String showUsers(Model model, HttpSession session) {
         Integer userId = (Integer) session.getAttribute("userId");
         if (userId != null) {
-            model.addAttribute("loged", userService.getUser(userId).getUserName());
+            model.addAttribute("loged", userService.getUser(userId).userName());
         }
         model.addAttribute("users", userService.getUsers());
         return "users";
@@ -78,9 +83,9 @@ public class UserController {
     public String profile(HttpServletRequest request, Model model) {
         String name = request.getUserPrincipal().getName();
 
-        User user = userService.getUser(name);
-        if (user != null) {
-            model.addAttribute("userName", user.getUserName());
+        UserDTO userDTO = userService.getUser(name);
+        if (userDTO != null) {
+            model.addAttribute("userName", userDTO.userName());
             return "profile";
         }
 
@@ -90,9 +95,9 @@ public class UserController {
     @PostMapping("/profile")
     public String deleteUser(HttpServletRequest request) {
         String name = request.getUserPrincipal().getName();
-        User user = userService.getUser(name);
-        if (user != null) {
-            userService.deleteUser(user.getId());
+        UserDTO userDTO = userService.getUser(name);
+        if (userDTO != null) {
+            userService.deleteUser(userDTO.id());
         }
         return "redirect:/";
     }
@@ -100,9 +105,9 @@ public class UserController {
     @GetMapping("/editProfile")
     public String editProfile(HttpServletRequest request, Model model) {
         String currentUsername = request.getUserPrincipal().getName();
-        User user = userService.getUser(currentUsername);
+        UserDTO userDTO = userService.getUser(currentUsername);
 
-        if (user != null) {
+        if (userDTO != null) {
             return "editProfile";
         }
         return "home";
@@ -113,26 +118,27 @@ public class UserController {
                                     @RequestParam(required = false) String password, 
                                     Model model) {
         String currentUsername = request.getUserPrincipal().getName();
-        User user = userService.getUser(currentUsername);
+        UserDTO userDTO = userService.getUser(currentUsername);
+        User user = userMapper.toDomain(userDTO);
 
-        if (user != null) {
-            // Solo verificar si el nombre de usuario ha cambiado
-            if (!user.getUserName().equals(userName)) {
+        if (userDTO != null) {
+            if (!userDTO.userName().equals(userName)) {
                 if (userService.getUser(userName) != null) {
                     model.addAttribute("error", "El nombre de usuario ya está en uso.");
-                    model.addAttribute("userName", user.getUserName());  // Mantener el nombre actual en el formulario
+                    model.addAttribute("userName", userDTO.userName()); 
                     return "editProfile";
                 }
-                user.setUserName(userName); // Actualizar solo si cambia
+                user.setUserName(userName); 
             }
 
-            // Actualizar la contraseña si se ingresó una nueva
+           
             if (password != null && !password.isBlank()) {
                 user.setEncodedPassword(passwordEncoder.encode(password));
             }
 
-            // Guardar cambios en la base de datos
-            userService.updateUser(user);
+            userDTO = userMapper.toDTO(user);
+            userService.updateUser(userDTO.id(), userDTO);
+
         }
 
         return "redirect:/profile"; 
