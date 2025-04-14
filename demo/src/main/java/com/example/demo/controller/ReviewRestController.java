@@ -1,11 +1,11 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.BookDTO;
-
+import com.example.demo.dto.BookMapper;
 import com.example.demo.dto.ReviewDTO;
 import com.example.demo.dto.ReviewMapper;
 import com.example.demo.dto.UserDTO;
-
+import com.example.demo.dto.UserMapper;
 import com.example.demo.model.Review;
 
 import com.example.demo.repository.ReviewRepository;
@@ -43,6 +43,12 @@ public class ReviewRestController {
     @Autowired
     private ReviewMapper reviewMapper;
 
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private BookMapper bookMapper;
+
 
     @GetMapping("/")
     public Collection<ReviewDTO> getAllReviews() {
@@ -79,7 +85,7 @@ public class ReviewRestController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-        Review review = new Review(userDTO, bookDTO, reviewDTO.content());
+        Review review = new Review(userMapper.toDomain(userDTO), bookMapper.toDomain(bookDTO), reviewDTO.content());
         ReviewDTO newReviewDTO = reviewMapper.toDTO(review);
         reviewRepository.save(review);
 
