@@ -2,11 +2,14 @@ package com.example.demo.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.UserDTO;
+import com.example.demo.dto.UserMapper;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 
@@ -15,48 +18,43 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public Collection<User> getUsers() {
-        Iterable<User> iterable = userRepository.findAll();
-        Collection<User> users = new ArrayList<>();
-        iterable.forEach(users::add);
-        return users;
+    @Autowired
+    private UserMapper userMapper;
+
+    public Collection<UserDTO> getUsers() {
+        return toDTOs(userRepository.findAll());
     }
 
-    public User getUser(int id) {
-        if (userRepository.existsById(id)) {
-            return userRepository.findById(id).get();
-        }
-        return null;
+    public UserDTO getUser(int id) {
+        return toDTO(userRepository.findById(id).orElseThrow());
     }
 
-    public User getUser(String userName) {
-        Optional<User> user = userRepository.findByUserName(userName);
-        if (user.isPresent()){
-            return user.get();
-        } else{
-            return null;
-        }
+    public UserDTO getUser(String userName) {
+        return toDTO(userRepository.findByUserName(userName).orElseThrow());
     }
 
-    public User createUser(User user) {
+    public UserDTO createUser(UserDTO userDTO) {
+        User user = toDomain(userDTO);
         userRepository.save(user);
-        return user;
+        return toDTO(user);
     }
 
-    public User updateUser(User user) {
-        if (userRepository.existsById(user.getId())) {
-            userRepository.save(user);
-            return user;
+    public UserDTO updateUser(int id, UserDTO userDTO) {
+        if (userRepository.existsById(id)){
+            User updateUser = toDomain(userDTO);
+            updateUser.setId(id);
+            userRepository.save(updateUser);
+            return toDTO(updateUser);
         }
-        return null;
+        else{
+            throw new NoSuchElementException();
+        }
     }
 
-    public boolean deleteUser(int id) {
-        if (userRepository.existsById(id)) {
-            userRepository.delete(userRepository.findById(id).get());
-            return true;
-        }
-        return false;
+    public UserDTO deleteUser(int id) {
+        User user = userRepository.findById(id).orElseThrow();
+        userRepository.deleteById(id);
+        return toDTO(user);
     }
 
     public boolean userExists(User user1) {
@@ -65,6 +63,18 @@ public class UserService {
         } else {
             return false;
         }
+    }
+
+    private UserDTO toDTO(User user){
+        return userMapper.toDTO(user);
+    }
+
+    private User toDomain(UserDTO userDTO){
+        return userMapper.toDomain(userDTO);
+    }
+
+    private Collection<UserDTO> toDTOs(Collection<User> users){
+        return userMapper.toDTOs(users);
     }
 
 }

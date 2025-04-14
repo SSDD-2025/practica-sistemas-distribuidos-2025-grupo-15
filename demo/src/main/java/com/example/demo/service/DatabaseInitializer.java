@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.dto.UserMapper;
 import com.example.demo.model.Book;
 import com.example.demo.model.Purchase;
 import com.example.demo.model.Review;
@@ -36,6 +37,9 @@ public class DatabaseInitializer {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserMapper userMapper;
 
         @Autowired
         PasswordEncoder passwordEncoder;
@@ -64,9 +68,9 @@ public class DatabaseInitializer {
         User user2 = new User("Lucía", passwordEncoder.encode("1234"), new ArrayList<>(Arrays.asList("USER")));
         User user3 = new User("A", passwordEncoder.encode("1"), new ArrayList<>(Arrays.asList("USER")));
 
-        userService.createUser(user1);
-        userService.createUser(user2);
-        userService.createUser(user3);
+        userService.createUser(userMapper.toDTO(user1));
+        userService.createUser(userMapper.toDTO(user2));
+        userService.createUser(userMapper.toDTO(user3));
 
         /* Create some reviews */
         Review review1 = new Review(user1, book1,
