@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.example.demo.dto.BookMapper;
 import com.example.demo.model.Book;
 import com.example.demo.model.Purchase;
 import com.example.demo.model.User;
@@ -31,6 +32,10 @@ public class PurchaseController {
 
     @Autowired
     BookService bookService;
+
+    @Autowired
+    private BookMapper bookMapper;
+
 
     @GetMapping("/basket")
     public String basket(HttpSession session, Model model) {

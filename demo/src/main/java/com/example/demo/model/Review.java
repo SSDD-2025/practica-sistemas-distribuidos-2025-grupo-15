@@ -1,5 +1,8 @@
 package com.example.demo.model;
 
+import com.example.demo.dto.BookDTO;
+import com.example.demo.dto.UserDTO;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,10 +26,10 @@ public class Review {
     public Review() {
     }
 
-    public Review(User reviewUser, Book reviewBook, String content) {
+    public Review(UserDTO user, BookDTO book, String content) {
         super();
-        this.reviewUser = reviewUser;
-        this.reviewBook = reviewBook;
+        this.reviewUser = user;
+        this.reviewBook = book;
         this.content = content;
     }
 

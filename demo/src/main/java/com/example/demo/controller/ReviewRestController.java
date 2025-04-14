@@ -1,6 +1,11 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.BookDTO;
+import com.example.demo.dto.BookMapper;
 import com.example.demo.dto.ReviewDTO;
+import com.example.demo.dto.ReviewMapper;
+import com.example.demo.dto.UserDTO;
+import com.example.demo.dto.UserMapper;
 import com.example.demo.model.Book;
 import com.example.demo.model.Review;
 import com.example.demo.model.User;
@@ -36,16 +41,26 @@ public class ReviewRestController {
     @Autowired
     private BookService bookService;
 
+    @Autowired
+    private ReviewMapper reviewMapper;
+
+    @Autowired
+    private UserMapper usserMapper;
+
+    @Autowired
+    private BookMapper bookMapper;
+
+
     @GetMapping("/")
     public Collection<ReviewDTO> getAllReviews() {
         return reviewRepository.findAll().stream()
-                .map(this::toDTO)
+                .map(reviewMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/user/{username}")
     public Collection<ReviewDTO> getReviewsByUser(@PathVariable String username) {
-        User user = userService.getUser(username);
+        UserDTO user = userService.getUser(username);
         if (user == null) {
             throw new NoSuchElementException("User not found");
         }
@@ -56,9 +71,9 @@ public class ReviewRestController {
 
     @GetMapping("/review/{id}")
     public ResponseEntity<ReviewDTO> getReview(@PathVariable int id) {
-        Review review = reviewService.getReview(id);
+        ReviewDTO review = reviewService.getReview(id);
         if (review != null) {
-            return ResponseEntity.ok(toDTO(review));
+            return ResponseEntity.ok(review);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -66,8 +81,8 @@ public class ReviewRestController {
 
     @PostMapping("/")
     public ResponseEntity<ReviewDTO> createReview(@RequestBody ReviewDTO dto) {
-        User user = userService.getUser(dto.reviewUser().getUserName());
-        Book book = bookService.getBook(dto.reviewBook().getId());
+        UserDTO user = userService.getUser(dto.reviewUser().getUserName());
+        BookDTO book = bookService.getBook(dto.reviewBook().getId());
 
         if (user == null || book == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -82,12 +97,12 @@ public class ReviewRestController {
 
     @DeleteMapping("/review/{id}")
     public ResponseEntity<Void> deleteReview(@PathVariable int id) {
-        Review review = reviewService.getReview(id);
+        ReviewDTO review = reviewService.getReview(id);
         if (review == null) {
             return ResponseEntity.notFound().build();
         }
 
-        reviewService.deleteReview(review);
+        reviewService.deleteReview(review.getId());
         return ResponseEntity.noContent().build();
     }
 

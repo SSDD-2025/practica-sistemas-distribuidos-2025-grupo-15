@@ -34,6 +34,7 @@ public class BookRestController {
 
     @Autowired
     private BookService bookService;
+    
 
     @GetMapping("/")
     public Collection<BookDTO> getBooks() {
@@ -44,7 +45,7 @@ public class BookRestController {
 
     @GetMapping("/book/{id}")
     public ResponseEntity<BookDTO> getBook(@PathVariable int id) {
-        Book book = bookService.getBook(id);
+        BookDTO book = bookService.getBook(id);
         if (book != null) {
             return ResponseEntity.ok(toDTO(book));
         } else {

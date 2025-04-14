@@ -4,6 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
+import com.example.demo.dto.BookDTO;
+import com.example.demo.dto.BookMapper;
+import com.example.demo.dto.ReviewDTO;
+import com.example.demo.dto.ReviewMapper;
+import com.example.demo.dto.UserDTO;
+import com.example.demo.dto.UserMapper;
 import com.example.demo.model.Book;
 import com.example.demo.model.Review;
 import com.example.demo.model.User;
@@ -30,54 +36,68 @@ public class ReviewController {
     @Autowired
     private BookService bookService;
 
+    @Autowired
+    private BookMapper bookMapper;
+
+    @Autowired 
+    private ReviewMapper reviewMapper;
+
+    @Autowired
+    private UserMapper userMapper;
+
+
+
     @GetMapping("/newReview")
     public String newReview(HttpSession session, Model model, HttpServletRequest request) {
         String name = request.getUserPrincipal().getName();
-        User user = userService.getUser(name);
+        UserDTO userDTO = userService.getUser(name);
         Integer bookId = (Integer) session.getAttribute("bookId");
 
-        if (user == null) {
+        if (userDTO == null) {
             model.addAttribute("ISBN", bookId);
             return "errorNoSessionAddReview";
         }
         if (bookId == null) {
             return "error";
         }
+        BookDTO bookDTO = bookService.getBook(bookId);
+        Book book = bookMapper.toDomain(bookDTO);
 
         model.addAttribute("userName", name);
-        model.addAttribute("title", bookService.getBook(bookId).getTitle());
+        model.addAttribute("title", book.getTitle());
         return "newReview";
     }
 
     @PostMapping("/newReview")
     public String newReviewProcess(@RequestParam String content, HttpSession session, Model model, HttpServletRequest request) {
         String name = request.getUserPrincipal().getName();
-        User user = userService.getUser(name);
+        UserDTO userDTO = userService.getUser(name);
         Integer bookId = (Integer) session.getAttribute("bookId");
 
-        if (user == null) {
+        if (userDTO == null) {
             return "redirect:/home";
         }
         if (bookId == null) {
             return "redirect:/home";
         }
         
-        Book book = bookService.getBook(bookId);
-
-        Review newReview = new Review(user, book, content);
+        BookDTO bookDTO = bookService.getBook(bookId);
+        Book book = bookMapper.toDomain(bookDTO);
+        Review newReview = new Review(userDTO, bookDTO, content);
+        ReviewDTO reviewDTO = reviewMapper.toDTO(newReview);
         book.addReview(newReview);
 
-        bookService.updateBook(book);
+        bookService.updateBook(bookId, bookDTO);
         return "redirect:/";
     }
 
     @GetMapping("/myReviews")
     public String myReviews(HttpServletRequest request, Model model) {
         String name = request.getUserPrincipal().getName();
-        User user = userService.getUser(name);
+        UserDTO userDTO = userService.getUser(name);
         
-        if (user != null) {
-            model.addAttribute("reviews", reviewService.getReviews(user));
+        if (userDTO != null) {
+            model.addAttribute("reviews", reviewService.getReviews(userDTO));
         }
     
         return "myReviews";
@@ -85,11 +105,11 @@ public class ReviewController {
 
     @PostMapping("/deleteReview/{id}")
     public String deleteReview(@PathVariable int id) {
-        Review review = reviewService.getReview(id);
-        if (review == null) {
+        ReviewDTO reviewDTO = reviewService.getReview(id);
+        if (reviewDTO == null) {
             return "error";
         }
-        reviewService.deleteReview(review);
+        reviewService.deleteReview(id);
         return "redirect:/myReviews";
     }
 
