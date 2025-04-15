@@ -5,7 +5,7 @@ import java.util.List;
 
 
 public record BookDTO(
-        int id,
+        Integer  id,
         String title,
         String author,
         String synopsis,

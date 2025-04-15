@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import com.example.demo.dto.BookDTO;
 import com.example.demo.dto.BookMapper;
 import com.example.demo.dto.ReviewDTO;
+import com.example.demo.dto.ReviewMapper;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.dto.UserMapper;
 import com.example.demo.model.Book;
@@ -40,6 +41,9 @@ public class ReviewController {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private ReviewMapper reviewMapper;
 
 
     @GetMapping("/newReview")
@@ -83,6 +87,7 @@ public class ReviewController {
         book.addReview(newReview);
 
         bookService.updateBook(bookId, bookDTO);
+        reviewService.createReview(reviewMapper.toDTO(newReview));
         return "redirect:/";
     }
 

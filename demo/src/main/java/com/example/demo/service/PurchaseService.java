@@ -70,15 +70,16 @@ public class PurchaseService {
 
     public void quitBookFromPurchases(Book book) {
         Collection<PurchaseDTO> allPurchases = this.getPurchases();
-        for (PurchaseDTO purchase : allPurchases) {
-            do {
-                if (toDomain(purchase).getBooks().contains(book)) {
-                    toDomain(purchase).getBooks().remove(book);
-                }
-            } while (toDomain(purchase).getBooks().contains(book));
-
+    
+        for (PurchaseDTO purchaseDTO : allPurchases) {
+            Purchase purchase = toDomain(purchaseDTO); 
+            while (purchase.getBooks().contains(book)) {
+                purchase.getBooks().remove(book);
+            }
+            purchaseRepository.save(purchase); 
         }
     }
+    
 
     private PurchaseDTO toDTO(Purchase purchase) {
         return purchaseMapper.toDTO(purchase);

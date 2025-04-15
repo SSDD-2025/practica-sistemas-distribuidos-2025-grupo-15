@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.NoSuchElementException;
 
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.dto.BookDTO;
 import com.example.demo.dto.BookMapper;
@@ -112,24 +114,31 @@ public class BookController {
     }
 
     @PostMapping("/newBook")
-    public String createBook(@ModelAttribute BookDTO bookDTO, @RequestParam("image") MultipartFile imageFile, Model model)
-            throws IOException {
+public String createBook(@ModelAttribute BookDTO bookDTO,
+                            @RequestParam("image") MultipartFile imageFile,
+                            Model model) throws IOException {
 
-        if (bookService.getBookByISBN(bookDTO.ISBN()) != null) {
-            model.addAttribute("error", "Error: El libro con ese ISBN ya existe.");
-            return "newBook";
-        }
-
-        if (!imageFile.isEmpty()) {
-            bookMapper.toDomain(bookDTO).setImageFile(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
-        }
-
-        bookService.createBook(bookDTO);
-        model.addAttribute("success", "El libro ha sido añadido correctamente.");
-        model.addAttribute("books", bookService.getBooks());
-
-        return "redirect:/";
+    if (bookService.getBookByISBN(bookDTO.ISBN()) != null) {
+        model.addAttribute("error", "Error: El libro con ese ISBN ya existe.");
+        return "newBook";
     }
+
+    // Mapea a dominio para insertar imagen
+    Book book = bookMapper.toDomain(bookDTO);
+
+    if (!imageFile.isEmpty()) {
+        book.setImageFile(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
+    }
+
+    // Guarda libro con imagen incluida
+    bookService.createBook(bookMapper.toDTO(book));  // Puedes usar directamente aquí o bookService.createBook(bookDTO)
+
+    model.addAttribute("success", "El libro ha sido añadido correctamente.");
+    model.addAttribute("books", bookService.getBooks());
+
+    return "redirect:/";
+}
+
 
     @GetMapping("/editBook")
     public String editBook(@RequestParam int id, HttpServletRequest request, Model model) {
@@ -170,24 +179,31 @@ public class BookController {
     }
 
     @PostMapping("/deleteBook")
-    public String deleteBook(@RequestParam int id, HttpServletRequest request, Model model) {
-        String name = request.getUserPrincipal().getName();
-        UserDTO userDTO = userService.getUser(name);
-        BookDTO bookDTO = bookService.getBook(id);
+public String deleteBook(@RequestParam int id,
+                         HttpServletRequest request,
+                         RedirectAttributes redirectAttributes) {
+    System.out.println("Intentando eliminar libro con ID: " + id);
 
-        if (userDTO == null) {
-            model.addAttribute("ISBN", id);
-            return "errorNoSessionDeleteBook";
-        }
-        if (bookDTO == null) {
-            model.addAttribute("error", "Error: El libro no existe.");
-        } else {
-            bookService.deleteBook(id);
-            model.addAttribute("success", "El libro ha sido eliminado correctamente.");
-        }
+    String name = request.getUserPrincipal().getName();
+    System.out.println("Usuario autenticado: " + name);
 
-        model.addAttribute("books", bookService.getBooks());
-        return "redirect:/";
+    UserDTO userDTO = userService.getUser(name);
+
+    if (userDTO == null) {
+        redirectAttributes.addFlashAttribute("error", "Error: No tienes sesión activa.");
+        return "redirect:/errorNoSessionDeleteBook";
     }
+
+    try {
+        bookService.deleteBook(id);
+        redirectAttributes.addFlashAttribute("success", "Libro eliminado correctamente.");
+    } catch (NoSuchElementException e) {
+        System.out.println("No se encontró el libro con ID: " + id);
+        redirectAttributes.addFlashAttribute("error", "Error: El libro no existe.");
+    }
+
+    return "redirect:/";
+}
+
 
 }

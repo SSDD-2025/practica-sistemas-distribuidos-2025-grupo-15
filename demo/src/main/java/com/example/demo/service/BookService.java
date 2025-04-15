@@ -27,11 +27,11 @@ public class BookService {
     }
 
     public BookDTO getBookByISBN(int ISBN) {
-        return toDTO(bookRepository.findByISBN(ISBN).orElseThrow());
+        return toDTO(bookRepository.findByISBN(ISBN).orElse(null));
     }
 
     public BookDTO getBook(int id) {
-        return toDTO(bookRepository.findByISBN(id).orElseThrow());
+        return toDTO(bookRepository.findById(id).orElseThrow());
     }
 
     public BookDTO getBook(String title) {
@@ -61,11 +61,18 @@ public class BookService {
     }
 
     public BookDTO deleteBook(int id) {
+        System.out.println("Buscando libro con ID: " + id);
         Book book = bookRepository.findById(id).orElseThrow();
+    
+        System.out.println("Quitando libro de compras");
         purchaseService.quitBookFromPurchases(book);
+    
+        System.out.println("Eliminando libro del repositorio");
         bookRepository.deleteById(id);
+    
         return toDTO(book);
     }
+    
 
     private BookDTO toDTO(Book book){
         return bookMapper.toDTO(book);

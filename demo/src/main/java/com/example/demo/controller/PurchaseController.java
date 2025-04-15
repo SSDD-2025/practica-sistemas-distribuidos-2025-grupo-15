@@ -92,27 +92,42 @@ public class PurchaseController {
     }
 
     @PostMapping("/addToBasket")
-    public String getMethodName(HttpSession session, Model model) {
+public String addToBasket(HttpSession session, Model model) {
+    try {
         Integer purchaseId = (Integer) session.getAttribute("purchaseId");
         Integer bookId = (Integer) session.getAttribute("bookId");
+
+        if (bookId == null) {
+            model.addAttribute("error", "No se encontró el ID del libro en la sesión.");
+            return "error"; // O tu vista de error personalizada
+        }
+
         BookDTO bookDTO = bookService.getBook(bookId);
+        Book book = bookMapper.toDomain(bookDTO);
+
         if (purchaseId == null) {
             Purchase newPurchase = new Purchase();
-            Book book = bookMapper.toDomain(bookDTO);
             newPurchase.addBook(book);
 
-            purchaseService.createPurchase(purchaseMapper.toDTO(newPurchase));
-            session.setAttribute("purchaseId", newPurchase.getId());
+            PurchaseDTO savedPurchase = purchaseService.createPurchase(purchaseMapper.toDTO(newPurchase));
+            session.setAttribute("purchaseId", savedPurchase.id());
         } else {
             PurchaseDTO purchaseDTO = purchaseService.getPurchase(purchaseId);
-            Book book = bookMapper.toDomain(bookDTO);
             Purchase purchase = purchaseMapper.toDomain(purchaseDTO);
             purchase.addBook(book);
-            purchaseService.updatePurchase(purchase.getId(), purchaseDTO);
 
+            purchaseService.updatePurchase(purchase.getId(), purchaseMapper.toDTO(purchase));
         }
+
         return "redirect:/basket";
+
+    } catch (Exception e) {
+        model.addAttribute("error", "Error al añadir el libro a la cesta: " + e.getMessage());
+        e.printStackTrace(); // Puedes loguearlo también con un logger
+        return "error"; // Vista de error general
     }
+}
+
 
     @GetMapping("/myPurchases")
     public String myPurchases(HttpServletRequest request, Model model) {
