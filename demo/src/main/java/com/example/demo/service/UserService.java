@@ -24,11 +24,11 @@ public class UserService {
     }
 
     public UserDTO getUser(int id) {
-        return toDTO(userRepository.findById(id).orElseThrow());
+        return toDTO(userRepository.findById(id).orElse(null));
     }
 
     public UserDTO getUser(String userName) {
-        return toDTO(userRepository.findByUserName(userName).orElseThrow());
+        return toDTO(userRepository.findByUserName(userName).orElse(null));
     }
 
     public UserDTO createUser(UserDTO userDTO) {

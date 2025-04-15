@@ -18,11 +18,12 @@
     <p><a href="/myPurchases">Mis pedidos</a></p>
     <p><a href="/myReviews">Mis reseñas</a></p>
     <form
-      action="/profile"
-      method="post"
-      onsubmit="return confirm('¿Estás seguro de que deseas eliminar tu cuenta?');"
+    id="deleteForm" 
+    action="/profile" 
+    method="post" onsubmit="return confirmDelete();">
     >
       <input type="hidden" name="_csrf" value="{{token}}"/>
+      <input type="hidden" name="_method" value="DELETE" />
       <button type="submit" class="deleteAccount">Eliminar cuenta</button>
     </form>
 
@@ -36,5 +37,11 @@
       <input type="hidden" name="_csrf" value="{{token}}"/>
       <input type="submit" value="Sign Out" />
     </form>
+
+    <script>
+      function confirmDelete() {
+        return confirm('¿Estás seguro de que deseas eliminar tu cuenta?');
+      }
+    </script>
   </body>
 </html>
