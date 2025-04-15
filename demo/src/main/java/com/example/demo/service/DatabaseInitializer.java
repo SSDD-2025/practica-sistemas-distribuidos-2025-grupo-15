@@ -15,14 +15,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.example.demo.dto.BookMapper;
-import com.example.demo.dto.PurchaseMapper;
-import com.example.demo.dto.ReviewMapper;
-import com.example.demo.dto.UserMapper;
+
 import com.example.demo.model.Book;
 import com.example.demo.model.Purchase;
 import com.example.demo.model.Review;
 import com.example.demo.model.User;
+import com.example.demo.repository.BookRepository;
+import com.example.demo.repository.PurchaseRepository;
+import com.example.demo.repository.ReviewRepository;
+import com.example.demo.repository.UserRepository;
 
 import jakarta.annotation.PostConstruct;
 
@@ -30,28 +31,16 @@ import jakarta.annotation.PostConstruct;
 public class DatabaseInitializer {
 
         @Autowired
-        private BookService bookService;
+        private BookRepository bookRepository;
 
         @Autowired
-        private PurchaseService purchaseService;
+        private PurchaseRepository purchaseRepository;
 
         @Autowired
-        private ReviewService reviewService;
+        private ReviewRepository reviewRepository;
 
         @Autowired
-        private UserService userService;
-
-        @Autowired
-        private UserMapper userMapper;
-
-        @Autowired
-        private BookMapper bookMapper;
-
-        @Autowired
-        private PurchaseMapper purchaseMapper;
-
-        @Autowired
-        private ReviewMapper reviewMapper;
+        private UserRepository userRepository;
 
         @Autowired
         PasswordEncoder passwordEncoder;
@@ -72,8 +61,8 @@ public class DatabaseInitializer {
                                 "Cuando Katniss Everdeen, una joven de dieciséis años se presenta voluntaria para ocupar el lugar de su hermana en los juegos,...",
                                 18.95, image2);
 
-                bookService.createBook(bookMapper.toDTO(book1));
-                bookService.createBook(bookMapper.toDTO(book2));
+                bookRepository.save(book1);
+                bookRepository.save(book2);
 
                 /* Create some users */
                 User user1 = new User("Paula", passwordEncoder.encode("password"),
@@ -81,17 +70,17 @@ public class DatabaseInitializer {
                 User user2 = new User("Lucía", passwordEncoder.encode("1234"), new ArrayList<>(Arrays.asList("USER")));
                 User user3 = new User("A", passwordEncoder.encode("1"), new ArrayList<>(Arrays.asList("USER")));
 
-                userService.createUser(userMapper.toDTO(user1));
-                userService.createUser(userMapper.toDTO(user2));
-                userService.createUser(userMapper.toDTO(user3));
+                userRepository.save(user1);
+                userRepository.save(user2);
+                userRepository.save(user3);
 
                 /* Create some reviews */
                 Review review1 = new Review(user1, book1,
                                 "Esta muy bien y súper interesante se lo recomiendo a la gente que le gusta la Fantasia y el misterio");
                 Review review2 = new Review(user3, book1, "Es un libro");
 
-                reviewService.createReview(reviewMapper.toDTO(review1));
-                reviewService.createReview(reviewMapper.toDTO(review2));
+                reviewRepository.save(review1);
+                reviewRepository.save(review2);
 
                 /* Create some purchases */
                 Purchase purchase1 = new Purchase(user1, new ArrayList<Book>(List.of(book1, book2)),
@@ -99,8 +88,8 @@ public class DatabaseInitializer {
                 Purchase purchase2 = new Purchase(user2, new ArrayList<Book>(List.of(book1)),
                                 LocalDateTime.of(2025, 1, 23, 7, 35, 0), "Enviado");
 
-                purchaseService.createPurchase(purchaseMapper.toDTO(purchase1));
-                purchaseService.createPurchase(purchaseMapper.toDTO(purchase2));
+                purchaseRepository.save(purchase1);
+                purchaseRepository.save(purchase2);
         }
 
         private Blob loadImage(String path) throws IOException {

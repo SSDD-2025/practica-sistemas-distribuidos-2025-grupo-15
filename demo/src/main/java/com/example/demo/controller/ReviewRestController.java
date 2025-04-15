@@ -100,7 +100,7 @@ public class ReviewRestController {
             return ResponseEntity.notFound().build();
         }
 
-        reviewService.deleteReview(reviewDTO.getId());
+        reviewService.deleteReview(reviewDTO.id());
         return ResponseEntity.noContent().build();
     }
 
