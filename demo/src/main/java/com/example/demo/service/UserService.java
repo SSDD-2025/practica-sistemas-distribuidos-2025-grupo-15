@@ -31,8 +31,9 @@ public class UserService {
         return toDTO(userRepository.findByUserName(userName).orElse(null));
     }
 
-    public UserDTO createUser(UserDTO userDTO) {
+    public UserDTO createUser(UserDTO userDTO, String password) {
         User user = toDomain(userDTO);
+        user.setEncodedPassword(password);
         userRepository.save(user);
         return toDTO(user);
     }

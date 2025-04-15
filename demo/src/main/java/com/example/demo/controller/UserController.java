@@ -44,8 +44,9 @@ public class UserController {
             return "createAccount";
         }
 
-        User user = new User(userName, passwordEncoder.encode(password), new ArrayList<>(Arrays.asList("USER")));
-        userService.createUser(userMapper.toDTO(user));
+        String encodedPassword = passwordEncoder.encode(password);
+        User user = new User(userName, encodedPassword, new ArrayList<>(Arrays.asList("USER")));
+        userService.createUser(userMapper.toDTO(user), encodedPassword);
         return "redirect:/";
     }
 
