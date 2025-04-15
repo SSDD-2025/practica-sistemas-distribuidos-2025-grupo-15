@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.PurchaseDTO;
 import com.example.demo.dto.PurchaseMapper;
+import com.example.demo.dto.UserDTO;
+import com.example.demo.dto.UserMapper;
 import com.example.demo.model.Book;
 import com.example.demo.model.Purchase;
 import com.example.demo.model.User;
@@ -21,6 +23,9 @@ public class PurchaseService {
     @Autowired
     PurchaseMapper purchaseMapper;
 
+    @Autowired 
+    UserMapper userMapper; 
+
     public Collection<PurchaseDTO> getPurchases() {
         return toDTOs(purchaseRepository.findAll());
     }
@@ -29,8 +34,8 @@ public class PurchaseService {
         return toDTO(purchaseRepository.findById(id).orElseThrow());
     }
 
-    public Collection<PurchaseDTO> getPurchases(User user) {
-        return toDTOs(purchaseRepository.findAllByPurchaseUser(user));
+    public Collection<PurchaseDTO> getPurchases(UserDTO user) {
+        return toDTOs(purchaseRepository.findAllByPurchaseUser(userMapper.toDomain(user)));
     }
 
     public PurchaseDTO createPurchase(PurchaseDTO purchaseDTO) {
@@ -56,9 +61,9 @@ public class PurchaseService {
         }
     }
 
-    public double purchaseTotalPrice(Purchase purchase) {
+    public double purchaseTotalPrice(PurchaseDTO purchase) {
         double totalPrice = 0;
-        for (Book book : purchase.getBooks()) {
+        for (Book book : toDomain(purchase).getBooks()) {
             totalPrice = totalPrice + book.getPrice();
         }
         return totalPrice;
