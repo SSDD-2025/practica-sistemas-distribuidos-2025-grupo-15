@@ -121,6 +121,7 @@ public class UserController {
         String currentUsername = request.getUserPrincipal().getName();
         UserDTO userDTO = userService.getUser(currentUsername);
         User user = userMapper.toDomain(userDTO);
+        String encodedPassword = user.getEncodedPassword();
 
         if (userDTO != null) {
             if (!userDTO.userName().equals(userName)) {
@@ -134,11 +135,12 @@ public class UserController {
 
            
             if (password != null && !password.isBlank()) {
-                user.setEncodedPassword(passwordEncoder.encode(password));
+                encodedPassword = passwordEncoder.encode(password);
+                user.setEncodedPassword(encodedPassword);
             }
 
             userDTO = userMapper.toDTO(user);
-            userService.updateUser(userDTO.id(), userDTO);
+            userService.updateUser(userDTO.id(), userDTO, encodedPassword);
 
         }
 

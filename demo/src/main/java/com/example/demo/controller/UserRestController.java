@@ -43,7 +43,8 @@ public class UserRestController {
     // Actualizar un usuario por ID
     @PutMapping("/{id}")
     public UserDTO updateUser(@PathVariable int id, @RequestBody UserDTO updatedUserDTO) {
-        return userService.updateUser(id, updatedUserDTO);
+      // CAMBIAR NULL POR ALGO
+        return userService.updateUser(id, updatedUserDTO, null);
     }
 
     // Eliminar un usuario por ID

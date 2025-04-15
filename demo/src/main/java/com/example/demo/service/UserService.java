@@ -38,10 +38,11 @@ public class UserService {
         return toDTO(user);
     }
 
-    public UserDTO updateUser(int id, UserDTO userDTO) {
+    public UserDTO updateUser(int id, UserDTO userDTO, String password) {
         if (userRepository.existsById(id)){
             User updateUser = toDomain(userDTO);
             updateUser.setId(id);
+            updateUser.setEncodedPassword(password);
             userRepository.save(updateUser);
             return toDTO(updateUser);
         }
