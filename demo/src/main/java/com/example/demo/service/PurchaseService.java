@@ -12,7 +12,6 @@ import com.example.demo.dto.UserDTO;
 import com.example.demo.dto.UserMapper;
 import com.example.demo.model.Book;
 import com.example.demo.model.Purchase;
-import com.example.demo.model.User;
 import com.example.demo.repository.PurchaseRepository;
 
 @Service
