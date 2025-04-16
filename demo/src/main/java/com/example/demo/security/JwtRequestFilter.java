@@ -25,7 +25,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
 
         final String authorizationHeader = request.getHeader("Authorization");
 
@@ -34,10 +34,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             jwt = authorizationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
+            username = jwtUtil.extractUsername(jwt);  // Extrae el nombre de usuario del token JWT
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            // Si no hay autenticación en el contexto
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
             if (jwtUtil.validateToken(jwt, userDetails.getUsername())) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
@@ -47,6 +48,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             }
         }
 
-        chain.doFilter(request, response);
+        chain.doFilter(request, response);  // Continuar el filtro
     }
+
 }

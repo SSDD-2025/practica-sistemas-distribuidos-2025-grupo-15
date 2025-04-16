@@ -31,11 +31,11 @@ public class BookService {
     }
 
     public BookDTO getBook(int id) {
-        return toDTO(bookRepository.findById(id).orElseThrow());
+        return toDTO(bookRepository.findById(id).orElse(null));
     }
 
     public BookDTO getBook(String title) {
-        return toDTO(bookRepository.findByTitle(title).orElseThrow());
+        return toDTO(bookRepository.findByTitle(title).orElse(null));
     }
 
     public Collection<BookDTO> getBooks(String author) {
@@ -62,7 +62,7 @@ public class BookService {
 
     public BookDTO deleteBook(int id) {
         System.out.println("Buscando libro con ID: " + id);
-        Book book = bookRepository.findById(id).orElseThrow();
+        Book book = bookRepository.findById(id).orElse(null);
     
         System.out.println("Quitando libro de compras");
         purchaseService.quitBookFromPurchases(book);
