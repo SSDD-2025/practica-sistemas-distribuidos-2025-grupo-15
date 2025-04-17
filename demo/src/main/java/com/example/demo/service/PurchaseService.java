@@ -12,12 +12,17 @@ import com.example.demo.dto.UserDTO;
 import com.example.demo.dto.UserMapper;
 import com.example.demo.model.Book;
 import com.example.demo.model.Purchase;
+import com.example.demo.model.User;
 import com.example.demo.repository.PurchaseRepository;
+import com.example.demo.repository.UserRepository;
 
 @Service
 public class PurchaseService {
     @Autowired
     PurchaseRepository purchaseRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     PurchaseMapper purchaseMapper;
@@ -39,6 +44,21 @@ public class PurchaseService {
 
     public PurchaseDTO createPurchase(PurchaseDTO purchaseDTO) {
         Purchase purchase = toDomain(purchaseDTO);
+        purchaseRepository.save(purchase);
+        return toDTO(purchase);
+    }
+
+    public PurchaseDTO createPurchase(PurchaseDTO purchaseDTO, Integer userID) {
+        Purchase purchase = toDomain(purchaseDTO);
+        if(userID == null) {
+            purchase.setPurchaseUser(null);
+        }
+        else{
+            User user = userRepository.findById(userID).orElseThrow();
+            purchase.setPurchaseUser(user);
+        }
+        
+        
         purchaseRepository.save(purchase);
         return toDTO(purchase);
     }

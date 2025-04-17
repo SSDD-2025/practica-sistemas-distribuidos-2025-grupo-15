@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -94,7 +95,7 @@ public class PurchaseController {
     }
 
     @PostMapping("/addToBasket")
-public String addToBasket(HttpSession session, Model model) {
+public String addToBasket(HttpSession session, Model model, HttpServletRequest request) {
     try {
         Integer purchaseId = (Integer) session.getAttribute("purchaseId");
         Integer bookId = (Integer) session.getAttribute("bookId");
@@ -107,11 +108,23 @@ public String addToBasket(HttpSession session, Model model) {
         BookDTO bookDTO = bookService.getBook(bookId);
         Book book = bookMapper.toDomain(bookDTO);
 
+        Principal principal = request.getUserPrincipal();
+        Integer userId;
+
+        if(principal == null) {
+            userId = null;
+        }
+        else {
+            String name = principal.getName();
+            UserDTO user = userService.getUser(name);
+            userId = user.id();
+        }
+
         if (purchaseId == null) {
             Purchase newPurchase = new Purchase();
             newPurchase.addBook(book);
 
-            PurchaseDTO savedPurchase = purchaseService.createPurchase(purchaseMapper.toDTO(newPurchase));
+            PurchaseDTO savedPurchase = purchaseService.createPurchase(purchaseMapper.toDTO(newPurchase), userId);
             session.setAttribute("purchaseId", savedPurchase.id());
         } else {
             PurchaseDTO purchaseDTO = purchaseService.getPurchase(purchaseId);
