@@ -53,7 +53,9 @@ public class PurchaseController {
         Integer purchaseId = (Integer) session.getAttribute("purchaseId");
 
         if (purchaseId != null) {
-            List<Book> books = purchaseService.getPurchase(purchaseId).books();
+            PurchaseDTO purchaseDTO = purchaseService.getPurchase(purchaseId);
+            Purchase purchase = purchaseMapper.toDomain(purchaseDTO);
+            List<Book> books = purchase.getBooks();
             model.addAttribute("purchaseBooks", books);
             if (!books.isEmpty()) {
                 double purchaseTotalPrice = purchaseService.purchaseTotalPrice(purchaseService.getPurchase(purchaseId));

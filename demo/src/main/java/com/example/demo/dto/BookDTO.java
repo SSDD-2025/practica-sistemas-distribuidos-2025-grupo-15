@@ -11,7 +11,6 @@ public record BookDTO(
         String synopsis,
         double price,
         int ISBN,
-        Blob imageFile,
-        List<ReviewDTO> bookReviews) {
+        Blob imageFile) {
 
 }

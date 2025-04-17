@@ -78,14 +78,15 @@ public class ReviewRestController {
 
     @PostMapping("/")
     public ResponseEntity<ReviewDTO> createReview(@RequestBody ReviewDTO reviewDTO) {
-        UserDTO userDTO = userService.getUser(reviewDTO.reviewUser().getUserName());
-        BookDTO bookDTO = bookService.getBook(reviewDTO.reviewBook().getId());
+        Review review = reviewMapper.toDomain(reviewDTO);
+        UserDTO userDTO = userService.getUser(review.getReviewUser().getUserName());
+        BookDTO bookDTO = bookService.getBook(review.getReviewBook().getId());
 
         if (userDTO == null || bookDTO == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-        Review review = new Review(userMapper.toDomain(userDTO), bookMapper.toDomain(bookDTO), reviewDTO.content());
+        review = new Review(userMapper.toDomain(userDTO), bookMapper.toDomain(bookDTO), reviewDTO.content());
         ReviewDTO newReviewDTO = reviewMapper.toDTO(review);
         reviewRepository.save(review);
 
