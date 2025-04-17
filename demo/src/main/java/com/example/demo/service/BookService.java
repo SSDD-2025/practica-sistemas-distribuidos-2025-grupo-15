@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.dto.BookDTO;
 import com.example.demo.dto.BookMapper;
 import com.example.demo.model.Book;
+import com.example.demo.model.Review;
 import com.example.demo.repository.BookRepository;
 
 @Service
@@ -71,6 +73,16 @@ public class BookService {
         bookRepository.deleteById(id);
     
         return toDTO(book);
+    }
+
+
+    public Book getDomainBook(int bookId) {
+        return bookRepository.findById(bookId).orElseThrow();
+    }
+
+    public List<Review> getBookReviews(int id) {
+        Book book = bookRepository.findById(id).orElseThrow();
+        return book.getBookReviews();
     }
     
 

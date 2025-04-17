@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -79,7 +81,7 @@ public class ReviewController {
         if (bookId == null) {
             return "redirect:/home";
         }
-        
+        /* 
         BookDTO bookDTO = bookService.getBook(bookId);
         Book book = bookMapper.toDomain(bookDTO);
         User user = userMapper.toDomain(userDTO);
@@ -87,6 +89,16 @@ public class ReviewController {
         book.addReview(newReview);
 
         bookService.updateBook(bookId, bookDTO);
+        reviewService.createReview(reviewMapper.toDTO(newReview));
+        */
+
+        List<Review> bookReviews = bookService.getBookReviews(bookId);
+        User user = userService.getDomainUser(name);
+        Book book = bookService.getDomainBook(bookId);
+        Review newReview = new Review(user, book, content);
+        bookReviews.add(newReview);
+        book.setBookReviews(bookReviews);
+        bookService.updateBook(bookId, bookMapper.toDTO(book));
         reviewService.createReview(reviewMapper.toDTO(newReview));
         return "redirect:/";
     }
