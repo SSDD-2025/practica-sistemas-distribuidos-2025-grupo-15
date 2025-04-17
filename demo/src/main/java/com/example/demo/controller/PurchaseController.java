@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -53,12 +54,10 @@ public class PurchaseController {
         Integer purchaseId = (Integer) session.getAttribute("purchaseId");
 
         if (purchaseId != null) {
-            PurchaseDTO purchaseDTO = purchaseService.getPurchase(purchaseId);
-            Purchase purchase = purchaseMapper.toDomain(purchaseDTO);
-            List<Book> books = purchase.getBooks();
-            model.addAttribute("purchaseBooks", books);
+            List<Book> books = purchaseService.getBooksFromPurchase(purchaseId);
+            model.addAttribute("purchaseBooks", books); 
             if (!books.isEmpty()) {
-                double purchaseTotalPrice = purchaseService.purchaseTotalPrice(purchaseService.getPurchase(purchaseId));
+                double purchaseTotalPrice = purchaseService.purchaseTotalPrice(books);
                 model.addAttribute("totalPrice", purchaseTotalPrice);
             }
         }
@@ -66,27 +65,34 @@ public class PurchaseController {
     }
 
     @PostMapping("/basket")
-    public String basketProcess(HttpSession session, Model model, HttpServletRequest request) {
-        Integer purchaseId = (Integer) session.getAttribute("purchaseId");
-        String name = request.getUserPrincipal().getName();
-        UserDTO userDTO = userService.getUser(name);
-
-        if (userDTO == null) {
-            return "redirect:/noLogged";
-        }
-        if (purchaseId != null && userDTO != null) {
-            PurchaseDTO purchaseDTO = purchaseService.getPurchase(purchaseId);
-            Purchase purchase = purchaseMapper.toDomain(purchaseDTO);
-            User user = userMapper.toDomain(userDTO);
-            purchase.setPurchaseUser(user);
-            purchase.setState("Pedido");
-            purchase.setDate(LocalDateTime.now());
-            purchaseDTO = purchaseMapper.toDTO(purchase);
-            purchaseService.updatePurchase(purchaseDTO.id(), purchaseDTO);
-            session.setAttribute("purchaseId", null);
-        }
-        return "redirect:/";
+public String basketProcess(HttpSession session, Model model, HttpServletRequest request) {
+    Principal principal = request.getUserPrincipal();
+    if (principal == null) {
+        return "redirect:/noLogged";
     }
+
+    String name = principal.getName();
+    UserDTO userDTO = userService.getUser(name);
+
+    if (userDTO == null) {
+        return "redirect:/noLogged";
+    }
+
+    Integer purchaseId = (Integer) session.getAttribute("purchaseId");
+    if (purchaseId != null) {
+        PurchaseDTO purchaseDTO = purchaseService.getPurchase(purchaseId);
+        Purchase purchase = purchaseMapper.toDomain(purchaseDTO);
+        purchase.setState("Pedido");
+        purchase.setDate(LocalDateTime.now());
+        List<Book> books = purchaseService.getBooksFromPurchase(purchaseId);
+        purchaseDTO = purchaseMapper.toDTO(purchase);
+        purchaseService.updatePurchase(purchaseDTO.id(), purchaseDTO, books, userDTO.id());
+        session.setAttribute("purchaseId", null);
+    }
+
+    return "redirect:/";
+}
+
 
     @GetMapping("/noLogged")
     public String getNoLogged() {
@@ -109,16 +115,16 @@ public String addToBasket(HttpSession session, Model model, HttpServletRequest r
 
         if (purchaseId == null) {
             Purchase newPurchase = new Purchase();
-            newPurchase.addBook(book);
 
-            PurchaseDTO savedPurchase = purchaseService.createPurchase(purchaseMapper.toDTO(newPurchase));
+            PurchaseDTO savedPurchase = purchaseService.createPurchase(purchaseMapper.toDTO(newPurchase), List.of(book));
             session.setAttribute("purchaseId", savedPurchase.id());
         } else {
             PurchaseDTO purchaseDTO = purchaseService.getPurchase(purchaseId);
             Purchase purchase = purchaseMapper.toDomain(purchaseDTO);
-            purchase.addBook(book);
+            List<Book> books = purchaseService.getBooksFromPurchase(purchaseId);
+            books.add(book);
 
-            purchaseService.updatePurchase(purchase.getId(), purchaseMapper.toDTO(purchase));
+            purchaseService.updatePurchase(purchase.getId(), purchaseMapper.toDTO(purchase), books);
         }
 
         return "redirect:/basket";

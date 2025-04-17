@@ -65,6 +65,10 @@ public class UserService {
         }
     }
 
+    public User getDomainUser(String userName) {
+        return userRepository.findByUserName(userName).orElse(null);
+    }
+
     private UserDTO toDTO(User user){
         return userMapper.toDTO(user);
     }

@@ -1,8 +1,9 @@
 package com.example.demo.service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.NoSuchElementException;
-
+import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,8 @@ import com.example.demo.repository.PurchaseRepository;
 
 @Service
 public class PurchaseService {
+
+    private final UserRepository userRepository;
     @Autowired
     PurchaseRepository purchaseRepository;
 
@@ -23,7 +26,11 @@ public class PurchaseService {
     PurchaseMapper purchaseMapper;
 
     @Autowired 
-    UserMapper userMapper; 
+    UserMapper userMapper;
+
+    PurchaseService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    } 
 
     public Collection<PurchaseDTO> getPurchases() {
         return toDTOs(purchaseRepository.findAll());
@@ -47,6 +54,13 @@ public class PurchaseService {
         return toDTO(purchase);
     }
 
+    public PurchaseDTO createPurchase(PurchaseDTO purchaseDTO, List<Book> books) {
+        Purchase purchase = toDomain(purchaseDTO);
+        purchase.setBooks(books);
+        purchaseRepository.save(purchase);
+        return toDTO(purchase);
+    }
+
     public PurchaseDTO deletePurchase(int id) {
         Purchase purchase = purchaseRepository.findById(id).orElseThrow();
         purchaseRepository.deleteById(id);
@@ -64,9 +78,34 @@ public class PurchaseService {
         }
     }
 
-    public double purchaseTotalPrice(PurchaseDTO purchase) {
+    public PurchaseDTO updatePurchase(int id, PurchaseDTO purchaseDTO, List<Book> books) {
+        if (purchaseRepository.existsById(id)) {
+            Purchase updatePurchase = toDomain(purchaseDTO);
+            updatePurchase.setId(id);
+            updatePurchase.setBooks(books);
+            purchaseRepository.save(updatePurchase);
+            return toDTO(updatePurchase);
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
+    public PurchaseDTO updatePurchase(int id, PurchaseDTO purchaseDTO, List<Book> books, int userId) {
+        if (purchaseRepository.existsById(id)) {
+            Purchase updatePurchase = toDomain(purchaseDTO);
+            updatePurchase.setId(id);
+            updatePurchase.setBooks(books);
+            updatePurchase.setPurchaseUser(userRepository.findById(userId).orElseThrow());
+            purchaseRepository.save(updatePurchase);
+            return toDTO(updatePurchase);
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
+    public double purchaseTotalPrice(List<Book> books) {
         double totalPrice = 0;
-        for (Book book : toDomain(purchase).getBooks()) {
+        for (Book book : books) {
             totalPrice = totalPrice + book.getPrice();
         }
         return totalPrice;
@@ -82,6 +121,11 @@ public class PurchaseService {
             }
             purchaseRepository.save(purchase); 
         }
+    }
+
+    public List<Book> getBooksFromPurchase(int id) {
+        Purchase purchase = purchaseRepository.findById(id).orElseThrow();
+        return purchase.getBooks();
     }
     
 
