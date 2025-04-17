@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -108,23 +107,11 @@ public String addToBasket(HttpSession session, Model model, HttpServletRequest r
         BookDTO bookDTO = bookService.getBook(bookId);
         Book book = bookMapper.toDomain(bookDTO);
 
-        Principal principal = request.getUserPrincipal();
-        Integer userId;
-
-        if(principal == null) {
-            userId = null;
-        }
-        else {
-            String name = principal.getName();
-            UserDTO user = userService.getUser(name);
-            userId = user.id();
-        }
-
         if (purchaseId == null) {
             Purchase newPurchase = new Purchase();
             newPurchase.addBook(book);
 
-            PurchaseDTO savedPurchase = purchaseService.createPurchase(purchaseMapper.toDTO(newPurchase), userId);
+            PurchaseDTO savedPurchase = purchaseService.createPurchase(purchaseMapper.toDTO(newPurchase));
             session.setAttribute("purchaseId", savedPurchase.id());
         } else {
             PurchaseDTO purchaseDTO = purchaseService.getPurchase(purchaseId);
