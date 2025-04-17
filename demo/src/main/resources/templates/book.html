@@ -13,7 +13,8 @@
 
     <form action="/addToBasket" method="post">
       <input type="hidden" name="id" value="{{book.id}}" />
-      <input type="hidden" name="_csrf" value="{{token}}"/>
+      <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+
       <input type="submit" value="Añadir a la cesta" />
     </form>
 

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -78,6 +79,8 @@ public class BookController {
         if(user != null){
             model.addAttribute("admin", request.isUserInRole("ADMIN"));
         }
+        CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
+        model.addAttribute("_csrf", token);
 
         return "book";
 

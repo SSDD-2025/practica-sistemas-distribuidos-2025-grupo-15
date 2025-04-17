@@ -42,39 +42,43 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authenticationProvider(authenticationProvider());
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http.authenticationProvider(authenticationProvider());
 
-        http.csrf(csrf -> csrf.disable());
+    http.csrf(csrf -> csrf.ignoringRequestMatchers("/api/**")); // ✅ solo se desactiva en la API
+    http.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)); // ✅ sesiones para login web
 
-        http.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+    http.authorizeHttpRequests(auth -> auth
+        // PÚBLICO
+        .requestMatchers("/", "/login", "/css/**", "/book/image/**", "/book/**",
+                         "/basket", "/createAccount", "/addToBasket", "/api/auth/**").permitAll()
 
-        http.authorizeHttpRequests(auth -> auth
-                // PUBLIC
-                .requestMatchers("/", "/css/styles.css", "/book/image/**", "/book/**",
-                                 "/basket", "/createAccount", "/addToBasket", "/api/auth/**").permitAll()
+        // ADMIN
+        .requestMatchers("/newBook", "/editBook", "/users").hasRole("ADMIN")
 
-                // ADMIN
-                .requestMatchers("/newBook", "/editBook", "/users").hasRole("ADMIN")
+        // API REST PROTEGIDA
+        .requestMatchers("/api/**").authenticated()
 
-                // API protegida
-                .requestMatchers("/api/**").authenticated()
+        // DEMÁS
+        .anyRequest().authenticated()
+    );
 
-                // Todo lo demÃ¡s
-                .anyRequest().authenticated()
-        );
+    http.formLogin(form -> form
+        .loginPage("/login")
+        .failureUrl("/errorNoSesion")
+        .defaultSuccessUrl("/")
+        .permitAll()
+    );
 
-        http.formLogin(form -> form
-                .loginPage("/login")
-                .failureUrl("/errorNoSesion")
-                .defaultSuccessUrl("/")
-                .permitAll()
-        );
+    http.logout(logout -> logout
+        .logoutUrl("/logout")
+        .logoutSuccessUrl("/")
+        .permitAll()
+    );
 
-        http.logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/").permitAll());
+    http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+    return http.build();
+}
 
-        return http.build();
-    }
 }
