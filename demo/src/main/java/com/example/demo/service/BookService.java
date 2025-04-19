@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable; 
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.BookDTO;
@@ -75,17 +77,18 @@ public class BookService {
         return toDTO(book);
     }
 
-
+    // Obtiene un libro de dominio por ID
     public Book getDomainBook(int bookId) {
         return bookRepository.findById(bookId).orElseThrow();
     }
 
+    // Obtiene las reseñas de un libro por ID
     public List<Review> getBookReviews(int id) {
         Book book = bookRepository.findById(id).orElseThrow();
         return book.getBookReviews();
     }
-    
 
+    // Métodos auxiliares para convertir entre DTO y dominio
     private BookDTO toDTO(Book book){
         return bookMapper.toDTO(book);
     }
@@ -97,4 +100,12 @@ public class BookService {
     private Collection<BookDTO> toDTOs(Collection<Book> books){
         return bookMapper.toDTOs(books);
     }
+
+     //AJAXS  
+    // Método para obtener una página de libros
+    public Page<BookDTO> getBooksPage(Pageable pageable) {
+        return bookRepository.findAll(pageable).map(bookMapper::toDTO);
+    }
+
 }
+
