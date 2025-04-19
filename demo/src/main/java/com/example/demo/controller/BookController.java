@@ -90,10 +90,11 @@ public class BookController {
 
     @GetMapping("book/image/{id}")
     public ResponseEntity<Object> downloadImage(@PathVariable int id) throws SQLException {
+        Blob image = bookService.getDomainBook(id).getImageFile();
         BookDTO book = bookService.getBook(id);
 
-        if (book != null && book.imageFile() != null) {
-            Blob image = book.imageFile();
+        if (book != null && image != null) {
+            
             InputStreamResource file = new InputStreamResource(image.getBinaryStream());
 
             return ResponseEntity.ok()
@@ -170,12 +171,14 @@ public class BookController {
     public String saveEditedBook(@ModelAttribute BookDTO bookDTO,
             @RequestParam(value = "image", required = false) MultipartFile imageFile, Model model) throws IOException {
         BookDTO existingBook = bookService.getBook(bookDTO.id());
+        Book book = bookService.getDomainBook(bookDTO.id());
 
         if (imageFile != null && !imageFile.isEmpty()) {
-            bookMapper.toDomain(bookDTO).setImageFile(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
+            book.setImageFile(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
         } else {
-            bookMapper.toDomain(bookDTO).setImageFile(existingBook.imageFile());
+            book.setImageFile(existingBook.imageFile());
         }
+        bookDTO = bookMapper.toDTO(book);
         bookService.updateBook(bookDTO.id() ,bookDTO);
         model.addAttribute("success", "El libro ha sido actualizado correctamente.");
         model.addAttribute("books", bookService.getBooks());
