@@ -65,7 +65,7 @@ public class SecurityConfiguration {
 		http
 			.authorizeHttpRequests(authorize -> authorize
                     // PRIVATE ENDPOINTS
-                    .requestMatchers(HttpMethod.POST,"/api/books/").hasRole("USER")
+                    .requestMatchers(HttpMethod.POST,"/api/books/**").hasRole("USER")
                     .requestMatchers(HttpMethod.PUT,"/api/books/**").hasRole("USER")
                     .requestMatchers(HttpMethod.DELETE,"/api/books/**").hasRole("ADMIN")
 					.requestMatchers(HttpMethod.POST,"/api/users/").hasRole("USER")
@@ -86,6 +86,7 @@ public class SecurityConfiguration {
 
         // Disable CSRF protection (it is difficult to implement in REST APIs)
         http.csrf(csrf -> csrf.disable());
+		
 
         // Disable Basic Authentication
         http.httpBasic(httpBasic -> httpBasic.disable());
@@ -111,7 +112,7 @@ public class SecurityConfiguration {
 						.requestMatchers("/").permitAll()
 						.requestMatchers("/css/**").permitAll()
 						.requestMatchers("/images/**").permitAll() // Allow access to static resources
-						.requestMatchers("/book/**").permitAll()
+						.requestMatchers("/api/books/**").permitAll()
 						.requestMatchers("/error").permitAll()
 						.requestMatchers("/createAccount").permitAll()
 						.requestMatchers("/basket").permitAll()
