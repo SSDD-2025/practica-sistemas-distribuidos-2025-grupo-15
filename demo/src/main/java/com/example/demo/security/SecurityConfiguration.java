@@ -65,7 +65,7 @@ public class SecurityConfiguration {
 		http
 			.authorizeHttpRequests(authorize -> authorize
                     // PRIVATE ENDPOINTS
-                    .requestMatchers(HttpMethod.POST,"/api/books/**").hasRole("USER")
+                    .requestMatchers(HttpMethod.POST,"/api/books/").hasRole("USER")
                     .requestMatchers(HttpMethod.PUT,"/api/books/**").hasRole("USER")
                     .requestMatchers(HttpMethod.DELETE,"/api/books/**").hasRole("ADMIN")
 					.requestMatchers(HttpMethod.POST,"/api/users/").hasRole("USER")
@@ -112,7 +112,7 @@ public class SecurityConfiguration {
 						.requestMatchers("/").permitAll()
 						.requestMatchers("/css/**").permitAll()
 						.requestMatchers("/images/**").permitAll() // Allow access to static resources
-						.requestMatchers("/api/books/**").permitAll()
+						.requestMatchers("/book/**").permitAll()
 						.requestMatchers("/error").permitAll()
 						.requestMatchers("/createAccount").permitAll()
 						.requestMatchers("/basket").permitAll()
