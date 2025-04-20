@@ -86,6 +86,7 @@ public class SecurityConfiguration {
 
         // Disable CSRF protection (it is difficult to implement in REST APIs)
         http.csrf(csrf -> csrf.disable());
+		
 
         // Disable Basic Authentication
         http.httpBasic(httpBasic -> httpBasic.disable());
