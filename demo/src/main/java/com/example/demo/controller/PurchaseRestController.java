@@ -1,10 +1,14 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.PurchaseDTO;
+import com.example.demo.dto.PurchaseMapper;
+import com.example.demo.model.Purchase;
+import com.example.demo.repository.PurchaseRepository;
 import com.example.demo.service.PurchaseService;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,21 +24,25 @@ public class PurchaseRestController {
     @Autowired
     private PurchaseService purchaseService;
 
+    @Autowired
+    private PurchaseRepository purchaseRepository;
 
-    // Get all purchases
+    @Autowired
+    private PurchaseMapper purchaseMapper;
+
+
     @GetMapping
-    public Collection<PurchaseDTO> getPurchases() {
+    public Page<PurchaseDTO> getPurchases(Pageable pageable) {
 
-        return purchaseService.getPurchases();
+        return purchaseRepository.findAll(pageable).map(this::toDTO);
     }
 
-    // Get a specific purchase by ID
+ 
     @GetMapping("/{id}")
     public PurchaseDTO getPurchase(@PathVariable int id) {
        return purchaseService.getPurchase(id);
     }
 
-    // Create a new purchase
     @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<PurchaseDTO> createPurchase(@RequestBody PurchaseDTO purchaseDTO) {
@@ -43,24 +51,28 @@ public class PurchaseRestController {
         return ResponseEntity.created(location).body(purchaseDTO); 
     }
 
-    // Update an existing purchase
+   
     @PutMapping("/{id}")
     public PurchaseDTO updatePurchase(@PathVariable int id, @RequestBody PurchaseDTO updatedPurchaseDTO) {
         return purchaseService.updatePurchase(id, updatedPurchaseDTO);
     }
 
-    // Delete a purchase
+    
     @DeleteMapping("/{id}")
     public PurchaseDTO deletePurchase(@PathVariable int id) {
       return purchaseService.deletePurchase(id);
     }
 
-    // Get all purchases for a specific user
     @GetMapping("/user/purchase/{id}")
     public Collection<PurchaseDTO> getPurchasesByUser(@PathVariable int id) {
         
         return purchaseService.getPurchases();
     
+    }
+
+
+    private PurchaseDTO toDTO(Purchase purchase){
+        return purchaseMapper.toDTO(purchase);
     }
 
 }

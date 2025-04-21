@@ -1,13 +1,17 @@
 package com.example.demo.controller;
 
 import java.net.URI;
-import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.dto.UserDTO;
+import com.example.demo.dto.UserMapper;
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
@@ -18,39 +22,47 @@ public class UserRestController {
     @Autowired
     private UserService userService;
 
-    // Obtener todos los usuarios
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("/")
-    public Collection<UserDTO> getUsers() {
-      return userService.getUsers();
+    public Page<UserDTO> getUsers(Pageable pageable) {
+      return userRepository.findAll(pageable).map(this::toDTO);
     }
 
-    // Obtener un usuario por ID
     @GetMapping("/{id}")
     public UserDTO getUser(@PathVariable int id) {
        return userService.getUser(id);
     }
 
-    // Crear un nuevo usuario
     @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
-      // CAMBIAR NULL POR ALGO
-        userDTO = userService.createUser(userDTO, null);
+   
+        userDTO = userService.createUser(userDTO, userDTO.encodedPassword());
         URI location = fromCurrentRequest().path("/user/{id}").buildAndExpand(userDTO.id()).toUri();
         return ResponseEntity.created(location).body(userDTO); 
     }
 
-    // Actualizar un usuario por ID
+  
     @PutMapping("/{id}")
     public UserDTO updateUser(@PathVariable int id, @RequestBody UserDTO updatedUserDTO) {
-      // CAMBIAR NULL POR ALGO
-        return userService.updateUser(id, updatedUserDTO, null);
+  
+        return userService.updateUser(id, updatedUserDTO, updatedUserDTO.encodedPassword());
     }
 
-    // Eliminar un usuario por ID
+  
     @DeleteMapping("/{id}")
     public UserDTO deleteUser(@PathVariable int id) {
       return userService.deleteUser(id);
+    }
+
+    
+    private UserDTO toDTO(User user){
+        return userMapper.toDTO(user);
     }
 }
 

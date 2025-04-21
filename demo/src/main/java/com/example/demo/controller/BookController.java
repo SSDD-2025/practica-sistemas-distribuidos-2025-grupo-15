@@ -9,9 +9,6 @@ import java.util.NoSuchElementException;
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -129,15 +126,13 @@ public class BookController {
             return "newBook";
         }
 
-        // Mapea a dominio para insertar imagen
         Book book = bookMapper.toDomain(bookDTO);
 
         if (!imageFile.isEmpty()) {
             book.setImageFile(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
         }
 
-        // Guarda libro con imagen incluida
-        bookService.createBook(bookMapper.toDTO(book));  // Puedes usar directamente aquí o bookService.createBook(bookDTO)
+        bookService.createBook(bookMapper.toDTO(book));  
 
         model.addAttribute("success", "El libro ha sido añadido correctamente.");
         model.addAttribute("books", bookService.getBooks());
@@ -212,16 +207,5 @@ public class BookController {
         return "redirect:/";
     }
 
-
-    //AJAXS
-    // Método para la paginación
-    @GetMapping("/page")
-    public Page<BookDTO> getBooksPage(
-            @RequestParam(defaultValue = "0") int page, // Página actual
-            @RequestParam(defaultValue = "5") int size // Tamaño de la página
-    ) {
-        Pageable pageable = PageRequest.of(page, size); // Crea el objeto Pageable
-        return bookService.getBooksPage(pageable); // Llama al servicio para obtener los libros paginados
-    }
 }
 

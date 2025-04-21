@@ -3,18 +3,21 @@ package com.example.demo.controller;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.*;
-import java.util.Collection;
 import java.util.NoSuchElementException;
 import javax.sql.rowset.serial.SerialBlob;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dto.BookDTO;
 import com.example.demo.dto.BookMapper;
+import com.example.demo.model.Book;
+import com.example.demo.repository.BookRepository;
 import com.example.demo.service.BookService;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
@@ -22,6 +25,9 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 @RestController
 @RequestMapping("/api/books")
 public class BookRestController {
+
+    @Autowired
+    private BookRepository bookRepository;
 
     private static final String IMAGE_DIR = "src/main/resources/images/";
 
@@ -31,9 +37,10 @@ public class BookRestController {
     @Autowired
     private BookMapper bookMapper;
 
+
     @GetMapping("/")
-    public Collection<BookDTO> getBooks() {
-        return bookService.getBooks();
+    public Page<BookDTO> getBooks(Pageable pageable) {
+        return bookRepository.findAll(pageable).map(this::toDTO);
     }
 
     @GetMapping("/book/{id}")
@@ -102,5 +109,9 @@ public class BookRestController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_JPEG);
         return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+    }
+
+    private BookDTO toDTO(Book book){
+        return bookMapper.toDTO(book);
     }
 }

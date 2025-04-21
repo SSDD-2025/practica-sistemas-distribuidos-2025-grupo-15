@@ -81,16 +81,6 @@ public class ReviewController {
         if (bookId == null) {
             return "redirect:/home";
         }
-        /* 
-        BookDTO bookDTO = bookService.getBook(bookId);
-        Book book = bookMapper.toDomain(bookDTO);
-        User user = userMapper.toDomain(userDTO);
-        Review newReview = new Review(user, book, content);
-        book.addReview(newReview);
-
-        bookService.updateBook(bookId, bookDTO);
-        reviewService.createReview(reviewMapper.toDTO(newReview));
-        */
 
         List<Review> bookReviews = bookService.getBookReviews(bookId);
         User user = userService.getDomainUser(name);

@@ -14,13 +14,14 @@ import com.example.demo.service.ReviewService;
 import com.example.demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.Collection;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
@@ -51,10 +52,8 @@ public class ReviewRestController {
 
 
     @GetMapping("/")
-    public Collection<ReviewDTO> getAllReviews() {
-        return reviewRepository.findAll().stream()
-                .map(reviewMapper::toDTO)
-                .collect(Collectors.toList());
+    public Page<ReviewDTO> getAllReviews(Pageable pageable) {
+       return reviewRepository.findAll(pageable).map(this::toDTO);
     }
 
     @GetMapping("/user/{username}")
@@ -103,6 +102,10 @@ public class ReviewRestController {
 
         reviewService.deleteReview(reviewDTO.id());
         return ResponseEntity.noContent().build();
+    }
+
+    private ReviewDTO toDTO(Review review){
+        return reviewMapper.toDTO(review);
     }
 
 

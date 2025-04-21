@@ -19,7 +19,6 @@ import com.example.demo.dto.UserDTO;
 import com.example.demo.dto.UserMapper;
 import com.example.demo.model.Book;
 import com.example.demo.model.Purchase;
-import com.example.demo.model.User;
 import com.example.demo.service.BookService;
 import com.example.demo.service.PurchaseService;
 import com.example.demo.service.UserService;
@@ -107,7 +106,7 @@ public String addToBasket(HttpSession session, Model model, HttpServletRequest r
 
         if (bookId == null) {
             model.addAttribute("error", "No se encontró el ID del libro en la sesión.");
-            return "error"; // O tu vista de error personalizada
+            return "error"; 
         }
 
         BookDTO bookDTO = bookService.getBook(bookId);
@@ -131,8 +130,8 @@ public String addToBasket(HttpSession session, Model model, HttpServletRequest r
 
     } catch (Exception e) {
         model.addAttribute("error", "Error al añadir el libro a la cesta: " + e.getMessage());
-        e.printStackTrace(); // Puedes loguearlo también con un logger
-        return "error"; // Vista de error general
+        e.printStackTrace();
+        return "error";
     }
 }
 
