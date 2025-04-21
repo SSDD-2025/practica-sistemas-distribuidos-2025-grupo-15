@@ -30,47 +30,47 @@
 
 ## Navegación
 ### Pantalla de inicio
-![](Home.png)
+![](captures/Home.png)
 Desde esta pantalla se puede acceder a los libros de la librería, a la pantalla de inicio de sesión y registarse, a tu perfil y a tu cesta, además de poder añadir un libro a la página. 
 ### Pantalla de Crear cuenta
-![](Register.png)
+![](captures/Register.png)
 Desde esta pantalla podrás crear un nuevo usuario introducciendo tus datos.
 ### Pantalla de Inicio de sesión
-![](Login.png)
+![](captures/Login.png)
 Desde esta pantalla podrás iniciar sesión en la aplicación.
 ### Pantalla de un libro
-![](Book.png)
+![](captures/Book.png)
 En esta pantalla podrás ver la información y las reseñas del libro seleccionado, además podrás añadir una reseña, agregar el libro a tu cesta. Tambieén podrás editar y eliminar el libro. 
 ### Pantalla Añadir libro
-![](NewBook.png)
+![](captures/NewBook.png)
 Desde esta pantalla podrás crear y añadir un libro nuevo a la aplicación proporcionando la información necesaria sobre dicho libro. 
 ### Pantalla Editar libro 
-![](EditBook.png)
+![](captures/EditBook.png)
 En esta pantalla podrás editar la información sobre el libro seleccionado. 
 ### Pantalla nueva reseña
-![](newReview.png)
+![](captures/newReview.png)
 En esta pantalla podrás realizar una reseña sobre el libro que has seleccionado, la cual quedará guardada.
 ### Pantalla de la cesta
-![](basket.png)
+![](captures/basket.png)
 En esta pantalla podrás ver los libros que tienes en tu cesta, con el precio de cada uno y el precio total, además podrás comprar dichos libros o volver hacia la pantalla de inicio para seguir comprando. 
 ### Pantalla de perfil 
-![](Profile.png)
+![](captures/Profile.png)
 En esta pantalla podrás ver tu nombre de usuario, y acceder a tus pedidos anteriores y a las reseñas que has realizado, además tendrás la posibilidad de eliminar tu cuenta. 
 ### Pantalla de mis reseñas 
-![](myReviews.png)
+![](captures/myReviews.png)
 En esta pantalla podrás ver y eliminar tus reseñas. 
 ### Pantalla de mis pedidos 
-![](myPurchases.png)
+![](captures/myPurchases.png)
 En esta pantalla podrás ver y eliminar tus pedidos. 
 ### Diagrama de navegación 
-![](diagramaFlujo.png)
+![](captures/diagramaFlujo.png)
 ## Instrucciones de ejecución 
 ## Diagrama con las entidades de la base de datos 
-![](DIAGRAMA.png)
+![](captures/DIAGRAMA.png)
 ## Diagrama de clases y templates
-![](Diagrama2.png)
-![](Diagrama2Actualizado.png)
-## Participación de miembros
+![](captures/Diagrama2.png)
+![](captures/Diagrama2Actualizado.png)
+## Participación de miembros Parte 1 
 ### **Paula Fernández Pérez**
 Todo lo relacionado con la entidad User, es decir, la propia entidad User, UserController, UserRepository y UserService. En cuanto a los templates, la realización createAccount.html, login.html, profile.html, users.html, errorNoSessionAddReview.html, errorNoSessionBuy.html y errorNoSessionDeletebok.html. 
 * Principales commits: 
@@ -128,6 +128,35 @@ Algunos ejemplos son:
 * CSS: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/2068802d70c002ab4c36150ba1acfd47f4d230d7
 * SQL (la contraseña que sale en este commit cambia posteriormente): https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/8fbea468d24dc3a18d6e194b51623f12d3135334
 * Revisión en grupo: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/8fbea468d24dc3a18d6e194b51623f12d3135334
+
+## Participación de miembros Parte 2 
+### **Paula Fernández Pérez**
+* Principales commits: 
+    
+
+* Ficheros importantes: 
+    
+### **Lucía Galán Galán**
+Todo lo relacionado con 
+
+* Principales commits: 
+
+
+* Ficheros importantes: 
+
+### **Rubén Camacho Rodríguez**
+Todo lo relacionado con 
+
+* Principales commits:
+
+* Ficheros importantes:
+
+
+### Commits grupales
+Algunos de los commits se realizaban tras revisiones en grupo. Estos commits principalmente son el estilo (CSS), la base de datos (SQL) y otras revisiones que se hacían para corregir diferentes errores.
+
+Algunos ejemplos son:
+
 
 ## Instrucciones de ejecución
 1. Descargar el repositorio y descomprimirlo en una carpeta.
