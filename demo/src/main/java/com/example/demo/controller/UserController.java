@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @PostMapping("/createAccount")
-    public String createAccountProcess(@RequestParam String userName,  @RequestParam String password, Model model) {
+    public String createAccountProcess(@RequestParam String userName, @RequestParam String password, Model model) {
         if (userService.getUser(userName) != null) {
             model.addAttribute("errorMessage", "El nombre de usuario ya está registrado.");
             return "createAccount";
@@ -57,7 +57,6 @@ public class UserController {
         model.addAttribute("_csrf", token);
         return "login";
     }
-
 
     @PostMapping("/login")
     public String loginProcess(@RequestParam String username, @RequestParam String password,
@@ -119,9 +118,9 @@ public class UserController {
     }
 
     @PostMapping("/saveEditProfile")
-    public String saveEditedProfile(HttpServletRequest request, @RequestParam String userName, 
-                                    @RequestParam(required = false) String password, 
-                                    Model model) {
+    public String saveEditedProfile(HttpServletRequest request, @RequestParam String userName,
+            @RequestParam(required = false) String password,
+            Model model) {
         String currentUsername = request.getUserPrincipal().getName();
         UserDTO userDTO = userService.getUser(currentUsername);
         User user = userMapper.toDomain(userDTO);
@@ -131,13 +130,12 @@ public class UserController {
             if (!userDTO.userName().equals(userName)) {
                 if (userService.getUser(userName) != null) {
                     model.addAttribute("error", "El nombre de usuario ya está en uso.");
-                    model.addAttribute("userName", userDTO.userName()); 
+                    model.addAttribute("userName", userDTO.userName());
                     return "editProfile";
                 }
-                user.setUserName(userName); 
+                user.setUserName(userName);
             }
 
-           
             if (password != null && !password.isBlank()) {
                 encodedPassword = passwordEncoder.encode(password);
                 user.setEncodedPassword(encodedPassword);
@@ -148,6 +146,6 @@ public class UserController {
 
         }
 
-        return "redirect:/profile"; 
+        return "redirect:/profile";
     }
 }

@@ -39,14 +39,13 @@ public class PurchaseController {
     BookService bookService;
 
     @Autowired
-    PurchaseMapper purchaseMapper; 
+    PurchaseMapper purchaseMapper;
 
     @Autowired
-    UserMapper userMapper; 
+    UserMapper userMapper;
 
     @Autowired
     private BookMapper bookMapper;
-
 
     @GetMapping("/basket")
     public String basket(HttpSession session, Model model) {
@@ -54,7 +53,7 @@ public class PurchaseController {
 
         if (purchaseId != null) {
             List<Book> books = purchaseService.getBooksFromPurchase(purchaseId);
-            model.addAttribute("purchaseBooks", books); 
+            model.addAttribute("purchaseBooks", books);
             if (!books.isEmpty()) {
                 double purchaseTotalPrice = purchaseService.purchaseTotalPrice(books);
                 model.addAttribute("totalPrice", purchaseTotalPrice);
@@ -64,34 +63,33 @@ public class PurchaseController {
     }
 
     @PostMapping("/basket")
-public String basketProcess(HttpSession session, Model model, HttpServletRequest request) {
-    Principal principal = request.getUserPrincipal();
-    if (principal == null) {
-        return "redirect:/noLogged";
+    public String basketProcess(HttpSession session, Model model, HttpServletRequest request) {
+        Principal principal = request.getUserPrincipal();
+        if (principal == null) {
+            return "redirect:/noLogged";
+        }
+
+        String name = principal.getName();
+        UserDTO userDTO = userService.getUser(name);
+
+        if (userDTO == null) {
+            return "redirect:/noLogged";
+        }
+
+        Integer purchaseId = (Integer) session.getAttribute("purchaseId");
+        if (purchaseId != null) {
+            PurchaseDTO purchaseDTO = purchaseService.getPurchase(purchaseId);
+            Purchase purchase = purchaseMapper.toDomain(purchaseDTO);
+            purchase.setState("Pedido");
+            purchase.setDate(LocalDateTime.now());
+            List<Book> books = purchaseService.getBooksFromPurchase(purchaseId);
+            purchaseDTO = purchaseMapper.toDTO(purchase);
+            purchaseService.updatePurchase(purchaseDTO.id(), purchaseDTO, books, userDTO.id());
+            session.setAttribute("purchaseId", null);
+        }
+
+        return "redirect:/";
     }
-
-    String name = principal.getName();
-    UserDTO userDTO = userService.getUser(name);
-
-    if (userDTO == null) {
-        return "redirect:/noLogged";
-    }
-
-    Integer purchaseId = (Integer) session.getAttribute("purchaseId");
-    if (purchaseId != null) {
-        PurchaseDTO purchaseDTO = purchaseService.getPurchase(purchaseId);
-        Purchase purchase = purchaseMapper.toDomain(purchaseDTO);
-        purchase.setState("Pedido");
-        purchase.setDate(LocalDateTime.now());
-        List<Book> books = purchaseService.getBooksFromPurchase(purchaseId);
-        purchaseDTO = purchaseMapper.toDTO(purchase);
-        purchaseService.updatePurchase(purchaseDTO.id(), purchaseDTO, books, userDTO.id());
-        session.setAttribute("purchaseId", null);
-    }
-
-    return "redirect:/";
-}
-
 
     @GetMapping("/noLogged")
     public String getNoLogged() {
@@ -99,42 +97,42 @@ public String basketProcess(HttpSession session, Model model, HttpServletRequest
     }
 
     @PostMapping("/addToBasket")
-public String addToBasket(HttpSession session, Model model, HttpServletRequest request) {
-    try {
-        Integer purchaseId = (Integer) session.getAttribute("purchaseId");
-        Integer bookId = (Integer) session.getAttribute("bookId");
+    public String addToBasket(HttpSession session, Model model, HttpServletRequest request) {
+        try {
+            Integer purchaseId = (Integer) session.getAttribute("purchaseId");
+            Integer bookId = (Integer) session.getAttribute("bookId");
 
-        if (bookId == null) {
-            model.addAttribute("error", "No se encontró el ID del libro en la sesión.");
-            return "error"; 
+            if (bookId == null) {
+                model.addAttribute("error", "No se encontró el ID del libro en la sesión.");
+                return "error";
+            }
+
+            BookDTO bookDTO = bookService.getBook(bookId);
+            Book book = bookMapper.toDomain(bookDTO);
+
+            if (purchaseId == null) {
+                Purchase newPurchase = new Purchase();
+
+                PurchaseDTO savedPurchase = purchaseService.createPurchase(purchaseMapper.toDTO(newPurchase),
+                        List.of(book));
+                session.setAttribute("purchaseId", savedPurchase.id());
+            } else {
+                PurchaseDTO purchaseDTO = purchaseService.getPurchase(purchaseId);
+                Purchase purchase = purchaseMapper.toDomain(purchaseDTO);
+                List<Book> books = purchaseService.getBooksFromPurchase(purchaseId);
+                books.add(book);
+
+                purchaseService.updatePurchase(purchase.getId(), purchaseMapper.toDTO(purchase), books);
+            }
+
+            return "redirect:/basket";
+
+        } catch (Exception e) {
+            model.addAttribute("error", "Error al añadir el libro a la cesta: " + e.getMessage());
+            e.printStackTrace();
+            return "error";
         }
-
-        BookDTO bookDTO = bookService.getBook(bookId);
-        Book book = bookMapper.toDomain(bookDTO);
-
-        if (purchaseId == null) {
-            Purchase newPurchase = new Purchase();
-
-            PurchaseDTO savedPurchase = purchaseService.createPurchase(purchaseMapper.toDTO(newPurchase), List.of(book));
-            session.setAttribute("purchaseId", savedPurchase.id());
-        } else {
-            PurchaseDTO purchaseDTO = purchaseService.getPurchase(purchaseId);
-            Purchase purchase = purchaseMapper.toDomain(purchaseDTO);
-            List<Book> books = purchaseService.getBooksFromPurchase(purchaseId);
-            books.add(book);
-
-            purchaseService.updatePurchase(purchase.getId(), purchaseMapper.toDTO(purchase), books);
-        }
-
-        return "redirect:/basket";
-
-    } catch (Exception e) {
-        model.addAttribute("error", "Error al añadir el libro a la cesta: " + e.getMessage());
-        e.printStackTrace();
-        return "error";
     }
-}
-
 
     @GetMapping("/myPurchases")
     public String myPurchases(HttpServletRequest request, Model model) {
@@ -146,7 +144,7 @@ public String addToBasket(HttpSession session, Model model, HttpServletRequest r
                 model.addAttribute("purchases", purchases);
             }
         }
-        
+
         return "myPurchases";
     }
 

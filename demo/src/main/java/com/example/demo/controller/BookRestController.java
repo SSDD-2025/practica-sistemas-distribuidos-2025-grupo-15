@@ -37,7 +37,6 @@ public class BookRestController {
     @Autowired
     private BookMapper bookMapper;
 
-
     @GetMapping("/")
     public Page<BookDTO> getBooks(Pageable pageable) {
         return bookRepository.findAll(pageable).map(this::toDTO);
@@ -68,7 +67,7 @@ public class BookRestController {
 
     @DeleteMapping("/book/{id}")
     public BookDTO deleteBook(@PathVariable int id) {
-        BookDTO bookDTO = bookService.getBook(id); 
+        BookDTO bookDTO = bookService.getBook(id);
         if (bookDTO == null) {
             throw new NoSuchElementException();
         }
@@ -76,7 +75,8 @@ public class BookRestController {
     }
 
     @PostMapping("/{id}/image")
-    public ResponseEntity<String> uploadImage(@PathVariable int id, @RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<String> uploadImage(@PathVariable int id, @RequestParam("file") MultipartFile file)
+            throws IOException {
         BookDTO bookDTO = bookService.getBook(id);
         if (bookDTO == null) {
             return ResponseEntity.notFound().build();
@@ -87,7 +87,7 @@ public class BookRestController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error setting image blob.");
         }
-        
+
         bookService.createBook(bookDTO);
         return ResponseEntity.ok("Image uploaded successfully.");
     }
@@ -111,7 +111,7 @@ public class BookRestController {
         return new ResponseEntity<>(resource, headers, HttpStatus.OK);
     }
 
-    private BookDTO toDTO(Book book){
+    private BookDTO toDTO(Book book) {
         return bookMapper.toDTO(book);
     }
 }

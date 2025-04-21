@@ -25,18 +25,18 @@ public class PurchaseService {
     @Autowired
     PurchaseMapper purchaseMapper;
 
-    @Autowired 
+    @Autowired
     UserMapper userMapper;
 
     PurchaseService(UserRepository userRepository) {
         this.userRepository = userRepository;
-    } 
+    }
 
     public Collection<PurchaseDTO> getPurchases() {
         return toDTOs(purchaseRepository.findAll());
     }
 
-    public Purchase getDomainPurchase(PurchaseDTO purchaseDTO){
+    public Purchase getDomainPurchase(PurchaseDTO purchaseDTO) {
         return purchaseRepository.findById(purchaseDTO.id()).orElseThrow();
     }
 
@@ -113,13 +113,13 @@ public class PurchaseService {
 
     public void quitBookFromPurchases(Book book) {
         Collection<PurchaseDTO> allPurchases = this.getPurchases();
-    
+
         for (PurchaseDTO purchaseDTO : allPurchases) {
-            Purchase purchase = toDomain(purchaseDTO); 
+            Purchase purchase = toDomain(purchaseDTO);
             while (purchase.getBooks().contains(book)) {
                 purchase.getBooks().remove(book);
             }
-            purchaseRepository.save(purchase); 
+            purchaseRepository.save(purchase);
         }
     }
 
@@ -127,7 +127,6 @@ public class PurchaseService {
         Purchase purchase = purchaseRepository.findById(id).orElseThrow();
         return purchase.getBooks();
     }
-    
 
     private PurchaseDTO toDTO(Purchase purchase) {
         return purchaseMapper.toDTO(purchase);

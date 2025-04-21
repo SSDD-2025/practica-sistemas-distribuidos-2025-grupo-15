@@ -20,7 +20,6 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 @RequestMapping("/api/users")
 public class UserRestController {
 
-
     @Autowired
     private UserService userService;
 
@@ -33,46 +32,41 @@ public class UserRestController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-
     UserRestController(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/")
     public Page<UserDTO> getUsers(Pageable pageable) {
-      return userRepository.findAll(pageable).map(this::toDTO);
+        return userRepository.findAll(pageable).map(this::toDTO);
     }
 
     @GetMapping("/{id}")
     public UserDTO getUser(@PathVariable int id) {
-       return userService.getUser(id);
+        return userService.getUser(id);
     }
 
     @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
-      
+
         userDTO = userService.createUser(userDTO, passwordEncoder.encode(userDTO.encodedPassword()));
         URI location = fromCurrentRequest().path("/user/{id}").buildAndExpand(userDTO.id()).toUri();
-        return ResponseEntity.created(location).body(userDTO); 
+        return ResponseEntity.created(location).body(userDTO);
     }
 
-  
     @PutMapping("/{id}")
     public UserDTO updateUser(@PathVariable int id, @RequestBody UserDTO updatedUserDTO) {
-  
+
         return userService.updateUser(id, updatedUserDTO, passwordEncoder.encode(updatedUserDTO.encodedPassword()));
     }
 
-  
     @DeleteMapping("/{id}")
     public UserDTO deleteUser(@PathVariable int id) {
-      return userService.deleteUser(id);
+        return userService.deleteUser(id);
     }
 
-    
-    private UserDTO toDTO(User user){
+    private UserDTO toDTO(User user) {
         return userMapper.toDTO(user);
     }
 }
-

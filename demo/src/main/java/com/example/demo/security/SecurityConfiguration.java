@@ -55,44 +55,42 @@ public class SecurityConfiguration {
 	@Bean
 	@Order(1)
 	public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
-		
+
 		http.authenticationProvider(authenticationProvider());
-		
+
 		http
-			.securityMatcher("/api/**")
-			.exceptionHandling(handling -> handling.authenticationEntryPoint(unauthorizedHandlerJwt));
-		
+				.securityMatcher("/api/**")
+				.exceptionHandling(handling -> handling.authenticationEntryPoint(unauthorizedHandlerJwt));
+
 		http
-			.authorizeHttpRequests(authorize -> authorize
-                    // PRIVATE ENDPOINTS
-                    .requestMatchers(HttpMethod.POST,"/api/books/").hasRole("USER")
-                    .requestMatchers(HttpMethod.PUT,"/api/books/**").hasRole("USER")
-                    .requestMatchers(HttpMethod.DELETE,"/api/books/**").hasRole("ADMIN")
-					.requestMatchers(HttpMethod.POST,"/api/users/").hasRole("USER")
-                    .requestMatchers(HttpMethod.PUT,"/api/users/**").hasRole("USER")
-                    .requestMatchers(HttpMethod.DELETE,"/api/users/**").hasRole("ADMIN")
-					.requestMatchers(HttpMethod.POST,"/api/purchase/").hasRole("USER")
-                    .requestMatchers(HttpMethod.PUT,"/api/purchase/**").hasRole("USER")
-                    .requestMatchers(HttpMethod.DELETE,"/api/purchase/**").hasRole("ADMIN")
-					.requestMatchers(HttpMethod.POST,"/api/reviews/").hasRole("USER")
-                    .requestMatchers(HttpMethod.PUT,"/api/reviews/**").hasRole("USER")
-                    .requestMatchers(HttpMethod.DELETE,"/api/reviews/**").hasRole("ADMIN")
-					// PUBLIC ENDPOINTS
-					.anyRequest().permitAll()
-			);
-		
-        // Disable Form login Authentication
-        http.formLogin(formLogin -> formLogin.disable());
+				.authorizeHttpRequests(authorize -> authorize
+						// PRIVATE ENDPOINTS
+						.requestMatchers(HttpMethod.POST, "/api/books/").hasRole("USER")
+						.requestMatchers(HttpMethod.PUT, "/api/books/**").hasRole("USER")
+						.requestMatchers(HttpMethod.DELETE, "/api/books/**").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.POST, "/api/users/").hasRole("USER")
+						.requestMatchers(HttpMethod.PUT, "/api/users/**").hasRole("USER")
+						.requestMatchers(HttpMethod.DELETE, "/api/users/**").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.POST, "/api/purchase/").hasRole("USER")
+						.requestMatchers(HttpMethod.PUT, "/api/purchase/**").hasRole("USER")
+						.requestMatchers(HttpMethod.DELETE, "/api/purchase/**").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.POST, "/api/reviews/").hasRole("USER")
+						.requestMatchers(HttpMethod.PUT, "/api/reviews/**").hasRole("USER")
+						.requestMatchers(HttpMethod.DELETE, "/api/reviews/**").hasRole("ADMIN")
+						// PUBLIC ENDPOINTS
+						.anyRequest().permitAll());
 
-        // Disable CSRF protection (it is difficult to implement in REST APIs)
-        http.csrf(csrf -> csrf.disable());
-		
+		// Disable Form login Authentication
+		http.formLogin(formLogin -> formLogin.disable());
 
-        // Disable Basic Authentication
-        http.httpBasic(httpBasic -> httpBasic.disable());
+		// Disable CSRF protection (it is difficult to implement in REST APIs)
+		http.csrf(csrf -> csrf.disable());
 
-        // Stateless session
-        http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+		// Disable Basic Authentication
+		http.httpBasic(httpBasic -> httpBasic.disable());
+
+		// Stateless session
+		http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
 		// Add JWT Token filter
 		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
@@ -130,25 +128,22 @@ public class SecurityConfiguration {
 						.requestMatchers("/newReview").hasAnyRole("USER")
 						.requestMatchers("/myReviews").hasAnyRole("USER")
 						.requestMatchers("/deleteReview/**").hasAnyRole("USER")
-						
+
 						.requestMatchers("/saveEditProfile").hasAnyRole("USER")
 
 						// OpenAPI
 						.requestMatchers("/v3/api-docs*/**").permitAll()
 						.requestMatchers("/swagger-ui.html").permitAll()
-						.requestMatchers("/swagger-ui/**").permitAll()
-				)
+						.requestMatchers("/swagger-ui/**").permitAll())
 				.formLogin(formLogin -> formLogin
 						.loginPage("/login")
 						.failureUrl("/loginerror")
 						.defaultSuccessUrl("/")
-						.permitAll()
-				)
+						.permitAll())
 				.logout(logout -> logout
 						.logoutUrl("/logout")
 						.logoutSuccessUrl("/")
-						.permitAll()
-				);
+						.permitAll());
 
 		return http.build();
 	}

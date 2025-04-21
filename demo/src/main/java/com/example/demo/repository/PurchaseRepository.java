@@ -13,6 +13,8 @@ import com.example.demo.model.User;
 public interface PurchaseRepository extends JpaRepository<Purchase, Integer> {
 
     List<Purchase> findAllByPurchaseUser(User user);
+
     Page<Purchase> findByPurchaseUser_Id(int id, Pageable pageable);
+
     Optional<Purchase> findById(int id);
 }
