@@ -1,6 +1,5 @@
 package com.example.demo.security.jwt;
 
-
 public class AuthResponse {
 
     private Status status;

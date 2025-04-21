@@ -36,7 +36,7 @@ public class BookController {
 
     @Autowired
     private BookService bookService;
-    
+
     @Autowired
     private BookMapper bookMapper;
 
@@ -53,14 +53,14 @@ public class BookController {
     public String showBooks(Model model, HttpServletRequest request) {
         Principal req = request.getUserPrincipal();
         User user = null;
-        if (req != null){
+        if (req != null) {
             user = userMapper.toDomain(userService.getUser(req.getName()));
         }
         model.addAttribute("books", bookService.getBooks());
-        if(user != null){
+        if (user != null) {
             model.addAttribute("admin", request.isUserInRole("ADMIN"));
         }
-        
+
         return "home";
     }
 
@@ -68,15 +68,15 @@ public class BookController {
     public String showBook(@PathVariable int id, Model model, HttpSession session, HttpServletRequest request) {
         Principal req = request.getUserPrincipal();
         User user = null;
-        if (req != null){
+        if (req != null) {
             user = userMapper.toDomain(userService.getUser(req.getName()));
         }
-        
+
         BookDTO bookDTO = bookService.getBook(id);
         session.setAttribute("bookId", id);
         model.addAttribute("book", bookDTO);
         model.addAttribute("reviews", reviewService.getReviews(bookDTO));
-        if(user != null){
+        if (user != null) {
             model.addAttribute("admin", request.isUserInRole("ADMIN"));
         }
         CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
@@ -91,7 +91,7 @@ public class BookController {
         BookDTO book = bookService.getBook(id);
 
         if (book != null && image != null) {
-            
+
             InputStreamResource file = new InputStreamResource(image.getBinaryStream());
 
             return ResponseEntity.ok()
@@ -118,8 +118,8 @@ public class BookController {
 
     @PostMapping("/newBook")
     public String createBook(@ModelAttribute BookDTO bookDTO,
-                            @RequestParam("image") MultipartFile imageFile,
-                            Model model) throws IOException {
+            @RequestParam("image") MultipartFile imageFile,
+            Model model) throws IOException {
 
         if (bookService.getBookByISBN(bookDTO.ISBN()) != null) {
             model.addAttribute("error", "Error: El libro con ese ISBN ya existe.");
@@ -132,7 +132,7 @@ public class BookController {
             book.setImageFile(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
         }
 
-        bookService.createBook(bookMapper.toDTO(book));  
+        bookService.createBook(bookMapper.toDTO(book));
 
         model.addAttribute("success", "El libro ha sido añadido correctamente.");
         model.addAttribute("books", bookService.getBooks());
@@ -163,30 +163,29 @@ public class BookController {
     }
 
     @PostMapping("/saveEdit")
-public String saveEditedBook(@ModelAttribute BookDTO bookDTO,
-        @RequestParam(value = "image", required = false) MultipartFile imageFile, Model model) throws IOException {
+    public String saveEditedBook(@ModelAttribute BookDTO bookDTO,
+            @RequestParam(value = "image", required = false) MultipartFile imageFile, Model model) throws IOException {
 
-    Book book = bookService.getDomainBook(bookDTO.id());
+        Book book = bookService.getDomainBook(bookDTO.id());
 
-    book.setTitle(bookDTO.title());
-    book.setAuthor(bookDTO.author());
-    book.setPrice(bookDTO.price());
-    book.setSynopsis(bookDTO.synopsis());
+        book.setTitle(bookDTO.title());
+        book.setAuthor(bookDTO.author());
+        book.setPrice(bookDTO.price());
+        book.setSynopsis(bookDTO.synopsis());
 
-    if (imageFile != null && !imageFile.isEmpty()) {
-        book.setImageFile(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
+        if (imageFile != null && !imageFile.isEmpty()) {
+            book.setImageFile(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
+        }
+
+        bookService.updateBook(book.getId(), bookMapper.toDTO(book));
+
+        return "redirect:/";
     }
-
-    bookService.updateBook(book.getId(), bookMapper.toDTO(book));
-
-    return "redirect:/";
-}
-
 
     @PostMapping("/deleteBook")
     public String deleteBook(@RequestParam int id,
-                             HttpServletRequest request,
-                             RedirectAttributes redirectAttributes) {
+            HttpServletRequest request,
+            RedirectAttributes redirectAttributes) {
         System.out.println("Intentando eliminar libro con ID: " + id);
 
         String name = request.getUserPrincipal().getName();
@@ -211,4 +210,3 @@ public String saveEditedBook(@ModelAttribute BookDTO bookDTO,
     }
 
 }
-

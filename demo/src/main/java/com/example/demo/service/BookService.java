@@ -45,19 +45,19 @@ public class BookService {
     }
 
     public BookDTO createBook(BookDTO bookDTO) {
-        Book book = new Book(bookDTO.ISBN(), bookDTO.title(), bookDTO.author(), bookDTO.synopsis(), bookDTO.price(), bookDTO.imageFile());
+        Book book = new Book(bookDTO.ISBN(), bookDTO.title(), bookDTO.author(), bookDTO.synopsis(), bookDTO.price(),
+                bookDTO.imageFile());
         bookRepository.save(book);
         return toDTO(book);
     }
 
     public BookDTO updateBook(int id, BookDTO bookDTO) {
-        if (bookRepository.existsById(id)){
+        if (bookRepository.existsById(id)) {
             Book updateBook = toDomain(bookDTO);
             updateBook.setId(id);
             bookRepository.save(updateBook);
             return toDTO(updateBook);
-        }
-        else{
+        } else {
             throw new NoSuchElementException();
         }
     }
@@ -65,13 +65,13 @@ public class BookService {
     public BookDTO deleteBook(int id) {
         System.out.println("Buscando libro con ID: " + id);
         Book book = bookRepository.findById(id).orElse(null);
-    
+
         System.out.println("Quitando libro de compras");
         purchaseService.quitBookFromPurchases(book);
-    
+
         System.out.println("Eliminando libro del repositorio");
         bookRepository.deleteById(id);
-    
+
         return toDTO(book);
     }
 
@@ -84,16 +84,15 @@ public class BookService {
         return book.getBookReviews();
     }
 
-    private BookDTO toDTO(Book book){
+    private BookDTO toDTO(Book book) {
         return bookMapper.toDTO(book);
     }
 
-    private Book toDomain(BookDTO bookDTO){
+    private Book toDomain(BookDTO bookDTO) {
         return bookMapper.toDomain(bookDTO);
     }
 
-    private Collection<BookDTO> toDTOs(Collection<Book> books){
+    private Collection<BookDTO> toDTOs(Collection<Book> books) {
         return bookMapper.toDTOs(books);
     }
 }
-

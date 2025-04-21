@@ -1,11 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.BookDTO;
-import com.example.demo.dto.BookMapper;
 import com.example.demo.dto.ReviewDTO;
 import com.example.demo.dto.ReviewMapper;
 import com.example.demo.dto.UserDTO;
-import com.example.demo.dto.UserMapper;
 import com.example.demo.model.Book;
 import com.example.demo.model.Review;
 import com.example.demo.model.User;
@@ -45,16 +42,9 @@ public class ReviewRestController {
     @Autowired
     private ReviewMapper reviewMapper;
 
-    @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private BookMapper bookMapper;
-
-
     @GetMapping("/")
     public Page<ReviewDTO> getAllReviews(Pageable pageable) {
-       return reviewRepository.findAll(pageable).map(this::toDTO);
+        return reviewRepository.findAll(pageable).map(this::toDTO);
     }
 
     @GetMapping("/user/{username}")
@@ -77,20 +67,21 @@ public class ReviewRestController {
     }
 
     @PostMapping("/users/{username}/book/{id}")
-    public ResponseEntity<ReviewDTO> createReview(@PathVariable String username, @PathVariable int id, @RequestBody ReviewDTO reviewDTO) {
+    public ResponseEntity<ReviewDTO> createReview(@PathVariable String username, @PathVariable int id,
+            @RequestBody ReviewDTO reviewDTO) {
         Review review = reviewMapper.toDomain(reviewDTO);
         User user = userService.getDomainUser(username);
         Book book = bookService.getDomainBook(id);
-       
+
         if (user == null || book == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
         review = new Review(user, book, reviewDTO.content());
-        
+
         review = reviewRepository.save(review);
         ReviewDTO newReviewDTO = reviewMapper.toDTO(review);
-        
+
         URI location = fromCurrentRequest().path("/review/{id}").buildAndExpand(review.getId()).toUri();
         return ResponseEntity.created(location).body(newReviewDTO);
     }
@@ -106,9 +97,8 @@ public class ReviewRestController {
         return ResponseEntity.ok(reviewDTO);
     }
 
-    private ReviewDTO toDTO(Review review){
+    private ReviewDTO toDTO(Review review) {
         return reviewMapper.toDTO(review);
     }
-
 
 }

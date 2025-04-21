@@ -10,6 +10,8 @@ import java.util.Collection;
 @Mapper(componentModel = "spring")
 public interface PurchaseMapper {
     PurchaseDTO toDTO(Purchase purchase);
+
     List<PurchaseDTO> toDTOs(Collection<Purchase> purchases);
+
     Purchase toDomain(PurchaseDTO purchaseDTO);
 }

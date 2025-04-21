@@ -11,7 +11,6 @@ import com.example.demo.dto.BookMapper;
 import com.example.demo.dto.ReviewDTO;
 import com.example.demo.dto.ReviewMapper;
 import com.example.demo.dto.UserDTO;
-import com.example.demo.dto.UserMapper;
 import com.example.demo.model.Book;
 import com.example.demo.model.Review;
 import com.example.demo.model.User;
@@ -42,11 +41,7 @@ public class ReviewController {
     private BookMapper bookMapper;
 
     @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
     private ReviewMapper reviewMapper;
-
 
     @GetMapping("/newReview")
     public String newReview(HttpSession session, Model model, HttpServletRequest request) {
@@ -70,7 +65,8 @@ public class ReviewController {
     }
 
     @PostMapping("/newReview")
-    public String newReviewProcess(@RequestParam String content, HttpSession session, Model model, HttpServletRequest request) {
+    public String newReviewProcess(@RequestParam String content, HttpSession session, Model model,
+            HttpServletRequest request) {
         String name = request.getUserPrincipal().getName();
         UserDTO userDTO = userService.getUser(name);
         Integer bookId = (Integer) session.getAttribute("bookId");
@@ -97,11 +93,11 @@ public class ReviewController {
     public String myReviews(HttpServletRequest request, Model model) {
         String name = request.getUserPrincipal().getName();
         UserDTO userDTO = userService.getUser(name);
-        
+
         if (userDTO != null) {
             model.addAttribute("reviews", reviewService.getReviews(userDTO));
         }
-    
+
         return "myReviews";
     }
 

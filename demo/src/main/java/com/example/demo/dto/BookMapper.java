@@ -10,6 +10,8 @@ import java.util.Collection;
 @Mapper(componentModel = "spring")
 public interface BookMapper {
     BookDTO toDTO(Book book);
+
     List<BookDTO> toDTOs(Collection<Book> books);
+
     Book toDomain(BookDTO bookDTO);
 }

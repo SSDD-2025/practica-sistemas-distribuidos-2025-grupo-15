@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
-    
+
     private static final Logger log = LoggerFactory.getLogger(JwtRequestFilter.class);
 
     private final UserDetailsService userDetailsService;
@@ -32,24 +32,22 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-      throws ServletException, IOException {
+            throws ServletException, IOException {
 
         try {
             var claims = jwtTokenProvider.validateToken(request, true);
             var userDetails = userDetailsService.loadUserByUsername(claims.getSubject());
 
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
-                
+                    userDetails, null, userDetails.getAuthorities());
+
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (Exception ex) {
-            //log.error("Exception processing JWT Token: ", ex);
+            // log.error("Exception processing JWT Token: ", ex);
         }
 
         filterChain.doFilter(request, response);
-    }   
+    }
 
 }
-
-
