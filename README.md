@@ -69,6 +69,7 @@ En esta pantalla podrás ver y eliminar tus pedidos.
 ![](DIAGRAMA.png)
 ## Diagrama de clases y templates
 ![](Diagrama2.png)
+![](Diagrama2Actualizado.png)
 ## Participación de miembros
 ### **Paula Fernández Pérez**
 Todo lo relacionado con la entidad User, es decir, la propia entidad User, UserController, UserRepository y UserService. En cuanto a los templates, la realización createAccount.html, login.html, profile.html, users.html, errorNoSessionAddReview.html, errorNoSessionBuy.html y errorNoSessionDeletebok.html. 
