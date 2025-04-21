@@ -163,22 +163,25 @@ public class BookController {
     }
 
     @PostMapping("/saveEdit")
-    public String saveEditedBook(@ModelAttribute BookDTO bookDTO,
-            @RequestParam(value = "image", required = false) MultipartFile imageFile, Model model) throws IOException {
-        BookDTO existingBook = bookService.getBook(bookDTO.id());
-        Book book = bookService.getDomainBook(bookDTO.id());
+public String saveEditedBook(@ModelAttribute BookDTO bookDTO,
+        @RequestParam(value = "image", required = false) MultipartFile imageFile, Model model) throws IOException {
 
-        if (imageFile != null && !imageFile.isEmpty()) {
-            book.setImageFile(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
-        } else {
-            book.setImageFile(existingBook.imageFile());
-        }
-        bookDTO = bookMapper.toDTO(book);
-        bookService.updateBook(bookDTO.id() ,bookDTO);
-        model.addAttribute("success", "El libro ha sido actualizado correctamente.");
-        model.addAttribute("books", bookService.getBooks());
-        return "home";
+    Book book = bookService.getDomainBook(bookDTO.id());
+
+    book.setTitle(bookDTO.title());
+    book.setAuthor(bookDTO.author());
+    book.setPrice(bookDTO.price());
+    book.setSynopsis(bookDTO.synopsis());
+
+    if (imageFile != null && !imageFile.isEmpty()) {
+        book.setImageFile(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
     }
+
+    bookService.updateBook(book.getId(), bookMapper.toDTO(book));
+
+    return "redirect:/";
+}
+
 
     @PostMapping("/deleteBook")
     public String deleteBook(@RequestParam int id,
