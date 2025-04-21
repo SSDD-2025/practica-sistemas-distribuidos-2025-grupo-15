@@ -5,6 +5,7 @@ import com.example.demo.dto.PurchaseMapper;
 import com.example.demo.model.Purchase;
 import com.example.demo.repository.PurchaseRepository;
 import com.example.demo.service.PurchaseService;
+import com.example.demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,13 +26,16 @@ public class PurchaseRestController {
     private PurchaseService purchaseService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private PurchaseRepository purchaseRepository;
 
     @Autowired
     private PurchaseMapper purchaseMapper;
 
 
-    @GetMapping
+    @GetMapping("/")
     public Page<PurchaseDTO> getPurchases(Pageable pageable) {
 
         return purchaseRepository.findAll(pageable).map(this::toDTO);
@@ -63,10 +67,10 @@ public class PurchaseRestController {
       return purchaseService.deletePurchase(id);
     }
 
-    @GetMapping("/user/purchase/{id}")
-    public Collection<PurchaseDTO> getPurchasesByUser(@PathVariable int id) {
+    @GetMapping("/user/{id}")
+    public Page<PurchaseDTO> getPurchasesByUser(@PathVariable int id, Pageable pageable) {
         
-        return purchaseService.getPurchases();
+        return purchaseRepository.findByPurchaseUser_Id(id, pageable).map(this::toDTO);
     
     }
 

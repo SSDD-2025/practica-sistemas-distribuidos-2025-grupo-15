@@ -116,7 +116,7 @@ public class SecurityConfiguration {
 						.requestMatchers("/error").permitAll()
 						.requestMatchers("/createAccount").permitAll()
 						.requestMatchers("/basket").permitAll()
-
+						.requestMatchers("/addToBasket").permitAll()
 						// PRIVATE PAGES
 						.requestMatchers("/newBook").hasAnyRole("ADMIN")
 						.requestMatchers("/editBook").hasAnyRole("ADMIN")
@@ -130,7 +130,7 @@ public class SecurityConfiguration {
 						.requestMatchers("/newReview").hasAnyRole("USER")
 						.requestMatchers("/myReviews").hasAnyRole("USER")
 						.requestMatchers("/deleteReview/**").hasAnyRole("USER")
-						.requestMatchers("/addToBasket").hasAnyRole("USER")
+						
 						.requestMatchers("/saveEditProfile").hasAnyRole("USER")
 
 						// OpenAPI

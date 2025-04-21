@@ -56,7 +56,7 @@ public class BookRestController {
     @PostMapping("/")
     public ResponseEntity<BookDTO> createBook(@RequestBody BookDTO bookDTO) {
         bookService.createBook(bookDTO);
-
+        bookDTO = bookService.getBook(bookDTO.title());
         URI location = fromCurrentRequest().path("/book/{id}").buildAndExpand(bookDTO.id()).toUri();
         return ResponseEntity.created(location).body(bookDTO);
     }

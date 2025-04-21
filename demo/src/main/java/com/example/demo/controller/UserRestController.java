@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.dto.UserDTO;
@@ -19,6 +20,7 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 @RequestMapping("/api/users")
 public class UserRestController {
 
+
     @Autowired
     private UserService userService;
 
@@ -27,6 +29,14 @@ public class UserRestController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+
+    UserRestController(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @GetMapping("/")
     public Page<UserDTO> getUsers(Pageable pageable) {
@@ -41,8 +51,8 @@ public class UserRestController {
     @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
-   
-        userDTO = userService.createUser(userDTO, userDTO.encodedPassword());
+      
+        userDTO = userService.createUser(userDTO, passwordEncoder.encode(userDTO.encodedPassword()));
         URI location = fromCurrentRequest().path("/user/{id}").buildAndExpand(userDTO.id()).toUri();
         return ResponseEntity.created(location).body(userDTO); 
     }
@@ -51,7 +61,7 @@ public class UserRestController {
     @PutMapping("/{id}")
     public UserDTO updateUser(@PathVariable int id, @RequestBody UserDTO updatedUserDTO) {
   
-        return userService.updateUser(id, updatedUserDTO, updatedUserDTO.encodedPassword());
+        return userService.updateUser(id, updatedUserDTO, passwordEncoder.encode(updatedUserDTO.encodedPassword()));
     }
 
   

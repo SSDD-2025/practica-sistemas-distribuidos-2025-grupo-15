@@ -6,8 +6,9 @@ import com.example.demo.dto.ReviewDTO;
 import com.example.demo.dto.ReviewMapper;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.dto.UserMapper;
+import com.example.demo.model.Book;
 import com.example.demo.model.Review;
-
+import com.example.demo.model.User;
 import com.example.demo.repository.ReviewRepository;
 import com.example.demo.service.BookService;
 import com.example.demo.service.ReviewService;
@@ -75,33 +76,34 @@ public class ReviewRestController {
         }
     }
 
-    @PostMapping("/")
-    public ResponseEntity<ReviewDTO> createReview(@RequestBody ReviewDTO reviewDTO) {
+    @PostMapping("/users/{username}/book/{id}")
+    public ResponseEntity<ReviewDTO> createReview(@PathVariable String username, @PathVariable int id, @RequestBody ReviewDTO reviewDTO) {
         Review review = reviewMapper.toDomain(reviewDTO);
-        UserDTO userDTO = userService.getUser(review.getReviewUser().getUserName());
-        BookDTO bookDTO = bookService.getBook(review.getReviewBook().getId());
-
-        if (userDTO == null || bookDTO == null) {
+        User user = userService.getDomainUser(username);
+        Book book = bookService.getDomainBook(id);
+       
+        if (user == null || book == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-        review = new Review(userMapper.toDomain(userDTO), bookMapper.toDomain(bookDTO), reviewDTO.content());
+        review = new Review(user, book, reviewDTO.content());
+        
+        review = reviewRepository.save(review);
         ReviewDTO newReviewDTO = reviewMapper.toDTO(review);
-        reviewRepository.save(review);
-
+        
         URI location = fromCurrentRequest().path("/review/{id}").buildAndExpand(review.getId()).toUri();
         return ResponseEntity.created(location).body(newReviewDTO);
     }
 
     @DeleteMapping("/review/{id}")
-    public ResponseEntity<Void> deleteReview(@PathVariable int id) {
+    public ResponseEntity<ReviewDTO> deleteReview(@PathVariable int id) {
         ReviewDTO reviewDTO = reviewService.getReview(id);
         if (reviewDTO == null) {
             return ResponseEntity.notFound().build();
         }
 
         reviewService.deleteReview(reviewDTO.id());
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(reviewDTO);
     }
 
     private ReviewDTO toDTO(Review review){

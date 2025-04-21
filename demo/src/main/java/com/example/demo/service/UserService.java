@@ -19,6 +19,8 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
+    
+
     public Collection<UserDTO> getUsers() {
         return toDTOs(userRepository.findAll());
     }
@@ -40,9 +42,9 @@ public class UserService {
 
     public UserDTO updateUser(int id, UserDTO userDTO, String password) {
         if (userRepository.existsById(id)){
-            User updateUser = toDomain(userDTO);
-            updateUser.setId(id);
+            User updateUser = userRepository.findById(id).get();
             updateUser.setEncodedPassword(password);
+            updateUser.setUserName(userDTO.userName());
             userRepository.save(updateUser);
             return toDTO(updateUser);
         }

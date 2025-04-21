@@ -45,7 +45,7 @@ public class BookService {
     }
 
     public BookDTO createBook(BookDTO bookDTO) {
-        Book book = toDomain(bookDTO);
+        Book book = new Book(bookDTO.ISBN(), bookDTO.title(), bookDTO.author(), bookDTO.synopsis(), bookDTO.price(), bookDTO.imageFile());
         bookRepository.save(book);
         return toDTO(book);
     }
