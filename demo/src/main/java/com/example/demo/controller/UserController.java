@@ -66,7 +66,7 @@ public class UserController {
         if (userDTO == null) {
             model.addAttribute("errorMessage", "Usuario no encontrado");
             return "login";
-        } else if (!userDTO.encondedPassword().equals(password)) {
+        } else if (!userDTO.encodedPassword().equals(password)) {
             model.addAttribute("errorMessage", "Contraseña incorrecta");
             return "login";
         } else {
