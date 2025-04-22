@@ -65,10 +65,9 @@ public class SecurityConfiguration {
 		http
 				.authorizeHttpRequests(authorize -> authorize
 						// PRIVATE ENDPOINTS
-						.requestMatchers(HttpMethod.POST, "/api/books/").hasRole("USER")
-						.requestMatchers(HttpMethod.PUT, "/api/books/**").hasRole("USER")
+						.requestMatchers(HttpMethod.POST, "/api/books/").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.PUT, "/api/books/**").hasRole("ADMIN")
 						.requestMatchers(HttpMethod.DELETE, "/api/books/**").hasRole("ADMIN")
-						.requestMatchers(HttpMethod.POST, "/api/users/").hasRole("USER")
 						.requestMatchers(HttpMethod.PUT, "/api/users/**").hasRole("USER")
 						.requestMatchers(HttpMethod.DELETE, "/api/users/**").hasRole("ADMIN")
 						.requestMatchers(HttpMethod.POST, "/api/purchase/").hasRole("USER")
@@ -77,6 +76,7 @@ public class SecurityConfiguration {
 						.requestMatchers(HttpMethod.POST, "/api/reviews/").hasRole("USER")
 						.requestMatchers(HttpMethod.PUT, "/api/reviews/**").hasRole("USER")
 						.requestMatchers(HttpMethod.DELETE, "/api/reviews/**").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.GET, "/api/users/").hasRole("ADMIN")
 						// PUBLIC ENDPOINTS
 						.anyRequest().permitAll());
 
