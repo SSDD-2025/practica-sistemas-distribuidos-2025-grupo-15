@@ -33,6 +33,9 @@ public class UserService {
 
     public UserDTO createUser(UserDTO userDTO, String password) {
         User user = toDomain(userDTO);
+        if(user.getRoles().isEmpty()){
+            user.getRoles().add("USER");
+        }
         user.setEncodedPassword(password);
         userRepository.save(user);
         return toDTO(user);
