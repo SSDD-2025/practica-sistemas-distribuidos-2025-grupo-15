@@ -1,8 +1,6 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-
-import java.sql.Blob;
 import java.util.List;
 
 @Entity
@@ -17,9 +15,7 @@ public class Book {
     private String synopsis;
     private double price;
     private int ISBN;
-
-    @Lob
-    private Blob imageFile;
+    private String image; // nombre del archivo de imagen
 
     @OneToMany(mappedBy = "reviewBook", cascade = CascadeType.ALL)
     private List<Review> bookReviews;
@@ -27,14 +23,14 @@ public class Book {
     public Book() {
     }
 
-    public Book(int ISBN, String title, String author, String synopsis, double price, Blob imageFile) {
+    public Book(int ISBN, String title, String author, String synopsis, double price, String image) {
         super();
         this.ISBN = ISBN;
         this.title = title;
         this.author = author;
         this.synopsis = synopsis;
         this.price = price;
-        this.imageFile = imageFile;
+        this.image = image;
     }
 
     public int getISBN() {
@@ -89,19 +85,19 @@ public class Book {
         this.bookReviews.add(review);
     }
 
-    public Blob getImageFile() {
-        return imageFile;
-    }
-
-    public void setImageFile(Blob imageFile) {
-        this.imageFile = imageFile;
-    }
-
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

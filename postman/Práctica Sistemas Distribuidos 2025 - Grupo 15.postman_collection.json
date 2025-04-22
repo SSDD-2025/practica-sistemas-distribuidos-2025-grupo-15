@@ -11,6 +11,18 @@
 			"item": [
 				{
 					"name": "GET/api/books/",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -83,6 +95,41 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "ADIOS",
+									"type": "text"
+								},
+								{
+									"key": "author",
+									"value": "fdgCollins",
+									"type": "text"
+								},
+								{
+									"key": "synopsis",
+									"value": "jsyrjzaa",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "ISBN",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/lucia/Downloads/4.Spring REST_Code/spring_rest/rest_ejem12_images/src/main/resources/sampledata_images/moto.jpg"
+								}
+							]
+						},
 						"url": {
 							"raw": "{{base_url}}/api/books/",
 							"host": [
@@ -112,6 +159,41 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "ADIOS",
+									"type": "text"
+								},
+								{
+									"key": "author",
+									"value": "Lucia",
+									"type": "text"
+								},
+								{
+									"key": "synopsis",
+									"value": "hhhhh",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "55",
+									"type": "text"
+								},
+								{
+									"key": "ISBN",
+									"value": "9",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/lucia/Downloads/4.Spring REST_Code/spring_rest/rest_ejem12_images/src/main/resources/sampledata_images/coche.jpg"
+								}
+							]
+						},
 						"url": {
 							"raw": "{{base_url}}/api/books/book/{{id}}",
 							"host": [
@@ -173,45 +255,15 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/api/books/{{id}}/image",
+							"raw": "{{base_url}}/api/books/images/{{filename}}",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"api",
 								"books",
-								"{{id}}",
-								"image"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "POST /api/books/:id/image",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{base_url}}/api/books/{{id}}/image",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"books",
-								"{{id}}",
-								"image"
+								"images",
+								"{{filename}}"
 							]
 						}
 					},
@@ -266,6 +318,15 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"date\": \"2025-02-01T12:05:00\",\r\n    \"state\": \"E\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{base_url}}/api/purchases/",
 							"host": [
@@ -295,6 +356,15 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"date\": \"2025-02-01T12:05:00\",\r\n    \"state\": \"Ebghjgkjo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{base_url}}/api/purchases/{{id}}",
 							"host": [
@@ -312,7 +382,7 @@
 				{
 					"name": "DELETE /api/purchases/:id",
 					"request": {
-						"method": "PUT",
+						"method": "DELETE",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -354,7 +424,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/api/purchases/user/purchase/{{id}}",
+							"raw": "{{base_url}}/api/purchases/user/{{id}}",
 							"host": [
 								"{{base_url}}"
 							],
@@ -362,8 +432,37 @@
 								"api",
 								"purchases",
 								"user",
-								"purchase",
 								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/purchases/",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/purchases/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"purchases",
+								""
 							]
 						}
 					},
@@ -464,7 +563,7 @@
 					"response": []
 				},
 				{
-					"name": "POST /api/reviews/",
+					"name": "POST /api/reviews/users/:username/book/:id",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -478,15 +577,27 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"aaaaaaaaaaaa\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{base_url}}/api/reviews/",
+							"raw": "{{base_url}}/api/reviews/users/{{username}}/book/{{id}}",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"api",
 								"reviews",
-								""
+								"users",
+								"{{username}}",
+								"book",
+								"{{id}}"
 							]
 						}
 					},

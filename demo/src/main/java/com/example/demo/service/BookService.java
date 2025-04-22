@@ -15,6 +15,7 @@ import com.example.demo.repository.BookRepository;
 
 @Service
 public class BookService {
+
     @Autowired
     BookRepository bookRepository;
 
@@ -45,8 +46,14 @@ public class BookService {
     }
 
     public BookDTO createBook(BookDTO bookDTO) {
-        Book book = new Book(bookDTO.ISBN(), bookDTO.title(), bookDTO.author(), bookDTO.synopsis(), bookDTO.price(),
-                bookDTO.imageFile());
+        Book book = new Book(
+            bookDTO.ISBN(),
+            bookDTO.title(),
+            bookDTO.author(),
+            bookDTO.synopsis(),
+            bookDTO.price(),
+            bookDTO.image()
+        );
         bookRepository.save(book);
         return toDTO(book);
     }
