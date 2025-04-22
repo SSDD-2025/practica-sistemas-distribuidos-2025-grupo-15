@@ -23,7 +23,7 @@
 
 ## Permisos de los usuarios
 * **Usuario anónimo:** podrá ver los libros del catálogo, las reseñas de estos libros y añadir libros al carrito sin la posibilidad de realizar la compra o escribir reseñas.
-* **Usuario registrado:** podrá realizar pedidos de libros y escribir reseña sobre los libros.
+* **Usuario registrado:** podrá realizar pedidos de libros, escribir reseña sobre los libros y editar su perfil. 
 * **Usuario administrador:** tendrá control total sobre la aplicació, pudiendo añadir, editar y eliminar libros.
 ## Imágenes
 * **Libros:** portada del libro.
@@ -131,32 +131,60 @@ Algunos ejemplos son:
 
 ## Participación de miembros Parte 2 
 ### **Paula Fernández Pérez**
-* Principales commits: 
-    
-
-* Ficheros importantes: 
-    
-### **Lucía Galán Galán**
-Todo lo relacionado con 
-
-* Principales commits: 
-
-
-* Ficheros importantes: 
-
-### **Rubén Camacho Rodríguez**
-Todo lo relacionado con 
-
 * Principales commits:
+- UserRestController: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/b418d65991e97a42d2316fa2f47ba28947ed7b87
+- PurchaseRestController: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/229a61a1388a169620abd7ed5dd61c4fb5fbf762
+- Security classes and AuthController: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/5cbaa0d8a8db6207e58542f395bc99186068aecc
+- Jwt + Security Web + Rest: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/468f0aa4221792aede72729204189616acc0da08
+- pagination: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/26c162040f771bff754e46cfb201e365259aa765
 
 * Ficheros importantes:
+- UserRestController: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/controller/UserRestController.java
+- PurchaseRestController: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/controller/PurchaseRestController.java
+- UserDTO: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/dto/UserDTO.java
+- JwtTokenProvider: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/security/jwt/JwtTokenProvider.java
+- JwtRequestFilter: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/security/jwt/JwtRequestFilter.java
+    
+### **Lucía Galán Galán** 
+
+* Principales commits: 
+- BookRestController: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/30a2dfbafaa210c06ecbe8db8aac3133289f0774
+- ReviewDTO + ReviewRestController: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/840afef41453a5d3c04297be8ad6050dd4afa501
+- Postman.json: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/0fe91da0bb8fb43ad0dd703dc077a1428826bde1
+- Controller Fix: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/a7c3c294d4430d0883d32a52fa9eab79c055db3d
+- Book Image Update: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/d354bb0e86ccbdaa8a5b6f7179589e0c5497f7b8
+
+
+* Ficheros importantes: 
+- BookRestController: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/controller/BookRestController.java
+- BookDTO: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/dto/BookDTO.java
+- ReviewDTO: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/dto/ReviewDTO.java
+- Archivo Postman: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/postman/Pr%C3%A1ctica%20Sistemas%20Distribuidos%202025%20-%20Grupo%2015.postman_collection.json
+- ReviewRestController: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/controller/ReviewRestController.java
+
+
+### **Rubén Camacho Rodríguez**
+* Principales commits:
+- SecurityConfiguration: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/2c0da97f62378f4c45353c7736bea4932957d70f
+- URLsPermissions: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/d2f20e74c0623d112205bbb9c52a1383bc5f88fa
+- CSRF added: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/c25cc79eb6d70724f36a3173a4b215e97d69744d
+- Mappers: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/97edead123fc0d37bf4d6f57a5b06ed77f151417
+- DTOs changes: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/971668e89e1b26bce8c89e7faa4b81657aa4bf8e
+
+* Ficheros importantes:
+- CSRFHandlerConfiguration: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/security/CSRFHandlerConfiguration.java
+- SecurityConfiguration: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/security/SecurityConfiguration.java
+- PurchaseDTO: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/dto/PurchaseDTO.java
+- ReviewDTO: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/dto/PurchaseDTO.java
+- ReviewMapper: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/blob/main/demo/src/main/java/com/example/demo/dto/ReviewMapper.java
 
 
 ### Commits grupales
-Algunos de los commits se realizaban tras revisiones en grupo. Estos commits principalmente son el estilo (CSS), la base de datos (SQL) y otras revisiones que se hacían para corregir diferentes errores.
+Algunos de los commits se realizaban en grupo para corregir errores del código. 
 
 Algunos ejemplos son:
-
+- Images Update (Web+REST) + Postman Update: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/ace54b4550f803b4b4e8532c47c1a5d24ebad039
+- UpdateBook controller fix: https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-15/commit/dda71979fd7c3d8a8135ed6a244d7105cb869e79
 
 ## Instrucciones de ejecución
 1. Descargar el repositorio y descomprimirlo en una carpeta.
