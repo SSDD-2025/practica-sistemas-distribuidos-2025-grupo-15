@@ -45,6 +45,10 @@ public class DatabaseInitializer {
     @PostConstruct
     public void init() throws IOException {
 
+        purchaseRepository.deleteAll();
+        reviewRepository.deleteAll();
+        bookRepository.deleteAll();
+        userRepository.deleteAll();
         // Copiar imágenes al directorio de subida
         String filename1 = copyImageToUploads("images/Harry_Potter_img.jpg");
         String filename2 = copyImageToUploads("images/Los_Juegos_Del_Hambre_1.jpg");
