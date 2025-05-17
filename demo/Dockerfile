@@ -7,7 +7,7 @@ COPY pom.xml /demo/
 # Descarga las dependencias del proyecto
 RUN mvn dependency:go-offline
 # Copia el código del proyecto
-COPY /src /demo/src
+COPY src /demo/src
 # Compila proyecto y descarga librerías
 RUN mvn -B package -DskipTests
 # Imagen base para el contenedor de la aplicación
