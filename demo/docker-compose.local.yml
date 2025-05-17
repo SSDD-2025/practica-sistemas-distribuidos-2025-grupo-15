@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    #volumes:
+    #  - .:/project
+    ports:
+      - 8443:8443
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/bookshop
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: grupo15SQL
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      - mysql
+    restart: on-failure
+
+  mysql:
+    image: mysql:9.2
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: grupo15SQL
+      MYSQL_DATABASE: bookshop
+    ports:
+      - 3306:3306
