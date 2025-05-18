@@ -2,9 +2,7 @@ version: '3.8'
 
 services:
   app:
-    build: .
-    #volumes:
-    #  - .:/project
+    image: rubencamach0/bookhive:1.0.0
     ports:
       - 8443:8443
     environment:
@@ -12,6 +10,7 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: grupo15SQL
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
     depends_on:
       - mysql
     restart: on-failure
@@ -24,8 +23,6 @@ services:
       MYSQL_DATABASE: bookshop
     ports:
       - 3306:3306
-    volumes:
-      - mysql-data:/var/lib/mysql
 
 volumes:
   mysql-data:
