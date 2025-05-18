@@ -203,3 +203,62 @@ Algunos ejemplos son:
 * Extensions VS:
     - Spring Boot Extension Pack
     - Maven for Java
+
+## Práctica 3
+### Construcción y publicación de la imagen Docker
+La imagen Docker se construye con un Dockerfile multi-stage ubicado en la carpeta /docker, siguiendo buenas prácticas para aplicaciones Java, se utiliza una etapa de construcción basada en Maven y la etapa final contiene solo la aplicación compilada y sus dependencias, minimizando el tamaño.
+
+* Crear imagen Docker:
+ ./demo/docker/createImage.sh
+
+Esto compilará el proyecto usando Maven dentro de Docker y generará la imagen con la etiqueta demo:1.0.0.
+
+* Publicar imagen en DockerHub:
+./demo/docker/publishImage.sh
+
+La imagen se publica con el nombre: docker.io/rubencamach0/bookhive:1.0.0
+
+* Crear imagen con Buildpacks: 
+en caso de usar Buildpacks, compilamos la aplicación con:
+
+mvn spring-boot:build-image -DskipTests
+
+### Docker Compose
+* Ejecución en entorno local:
+docker compose -f docker/docker-compose.local.yml up --build
+
+Este archivo construye la imagen localmente y levanta la aplicación y la base de datos MySQL (usando la imagen oficial mysql:9.2).
+
+*  Ejecución en entorno de producción:
+docker compose -f docker/docker-compose.prod.yml up -d
+
+Este archivo utiliza la imagen ya publicada en DockerHub y arranca la aplicación configurada en el puerto 8443 con HTTPS.
+
+### Despliegue en máquinas virtuales
+
+Para desplegar en las máquinas proporcionadas por la universidad tenemos que: 
+* Subir la imagen a DockerHub (publishImage.sh) 
+* Acceder por SSH a sidiXX-2 y ejecutar el siguiente comando para levantar la base de datos:
+
+docker run -d --name mysql-server \
+  -e MYSQL_ROOT_PASSWORD=grupo15SQL \
+  -e MYSQL_DATABASE=bookshop \
+  -v mysql-data:/var/lib/mysql \
+  -p 3306:3306 \
+  mysql:9.2
+
+* Asegurarse de que la base de datos está activa y accesible desde sidi15-1
+* Acceder a sidi15-1 y ejecutar :
+
+docker run -d --name bookhive \
+  -p 8443:8443 \
+  -e SPRING_DATASOURCE_URL=jdbc:mysql://192.168.110.246:3306/bookshop \
+  -e SPRING_DATASOURCE_USERNAME=root \
+  -e SPRING_DATASOURCE_PASSWORD=grupo15SQL \
+  rubencamach0/bookhive:1.0.0
+
+####  URL del despliegue:
+https://193.147.60.55:8443/
+
+
+
